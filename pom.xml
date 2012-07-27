@@ -12,7 +12,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <vandy.snapshot.url>http://ammo.isis.vanderbilt.edu:8081/nexus/content/repositories/vanderbilt-snapshot/</vandy.snapshot.url>
 
     <!-- ammogen properties -->
-    <ammogen.version>1.5.15-SNAPSHOT</ammogen.version>
+    <ammogen.version>1.6.0-SNAPSHOT</ammogen.version>
+    <ammolib.version>1.6.0-SNAPSHOT</ammolib.version>
     <ammogen.template.file>template/ammo_content_provider.stg</ammogen.template.file>
     <ammogen.contract.file>contract/incident.xml</ammogen.contract.file>
     <ammogen.schema.lib>edu.vu.isis:dashlib:jar</ammogen.schema.lib>
@@ -23,7 +24,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <groupId>edu.vu.isis</groupId>
   <artifactId>dash-parent</artifactId>
   <packaging>pom</packaging>
-  <version><!--@VERSION-->1.5.15-SNAPSHOT<!--VERSION@--></version>
+  <!-- TEMPLATE:BEGIN-->
+  <version>1.6.0-SNAPSHOT</version>
+  <!-- TEMPLATE:END -->
   <name>dash parent project</name>
 
   <modules>
@@ -47,8 +50,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <dependency>
         <groupId>edu.vu.isis</groupId>
         <artifactId>ammolib</artifactId>
-        <version>1.5.14</version>
-        <type>jar</type>
+        <version>${ammolib.version}</version>
+        <type>apklib</type>
         <scope>compile</scope>
       </dependency>
 
@@ -147,7 +150,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
           <artifactId>android-maven-plugin</artifactId>
           <version>3.0.0</version>
         </plugin> 
-        
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
         <plugin>
 	      <groupId>org.eclipse.m2e</groupId>
 	      <artifactId>lifecycle-mapping</artifactId>

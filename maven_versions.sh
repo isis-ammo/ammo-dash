@@ -14,9 +14,9 @@ then
 # to update the manifest information.
  
   while read POM_FILE; do
-    #Replacing versions for the four POMs - only replaces between the TEMPLATE:BEGIN and TEMPLATE:END strings
-    sed -i ${POM_FILE}  -e '/<!--@VERSION-->.*<!--VERSION@-->/{
-            s/<!--@VERSION-->.*<!--VERSION@-->/<!--@VERSION-->'$newversion'<!--VERSION@-->/
+    #Replacing versions for the dash POMs - only replaces between the TEMPLATE:BEGIN and TEMPLATE:END strings
+    sed -i ${POM_FILE} -e '/<!-- TEMPLATE:BEGIN/,/<!-- TEMPLATE:END -->/{
+            s/<version>.*<\/version>/<version>'$newversion'<\/version>/
             }'
   done <<HERE
 pom.xml
@@ -34,7 +34,7 @@ Documentation in Perl's Plain Old Documentation (POD) format. Requires perl-doc 
 
 =head1 NAME
 
-maven_versions.sh -- Updates maven POM files for AMMO project build.
+maven_versions.sh -- Updates maven POM files for Dash project build.
 
 =head1 SYNOPSIS
 
