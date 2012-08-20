@@ -56,7 +56,10 @@ public class IncidentProvider extends IncidentProviderBase {
 			// super(context, IncidentSchema.DATABASE_VERSION);
 			
 			// Cause a memory based content provider to be used
-			super(context, (String) null, (SQLiteDatabase.CursorFactory) null, IncidentSchema.DATABASE_VERSION);
+			// super(context, (String) null, (SQLiteDatabase.CursorFactory) null, IncidentSchema.DATABASE_VERSION);
+			// Use a file based content provider
+			super(context, IncidentSchema.DATABASE_NAME, 
+                              (SQLiteDatabase.CursorFactory) null, IncidentSchema.DATABASE_VERSION);
 		}
 	}
 
