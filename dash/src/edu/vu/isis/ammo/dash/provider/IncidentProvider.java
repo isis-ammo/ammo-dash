@@ -60,6 +60,8 @@ public class IncidentProvider extends IncidentProviderBase {
 			// Use a file based content provider
 			super(context, IncidentSchema.DATABASE_NAME, 
                               (SQLiteDatabase.CursorFactory) null, IncidentSchema.DATABASE_VERSION);
+			logger.info("making a database {} {}", 
+                              IncidentSchema.DATABASE_NAME, IncidentSchema.DATABASE_VERSION);
 		}
 	}
 
@@ -108,7 +110,7 @@ public class IncidentProvider extends IncidentProviderBase {
 
 	@Override
 	public boolean createDatabaseHelper() {
-		this.openHelper = new IncidentProviderBase.IncidentDatabaseHelper(getContext(), null, null, IncidentSchema.DATABASE_VERSION) {
+		this.openHelper = new IncidentDatabaseHelper(getContext()) {
 			@Override
 			protected void preloadTables(SQLiteDatabase db) {
 				IncidentProvider.this.unzipAndPopulateCategories(db);

@@ -102,7 +102,6 @@ public abstract class DashAbstractActivity extends Activity {
 		setContentView(getContentViewResourceId());
 		WorkflowLogger.log("DashAbstractActivity - onCreate");
 		logger.info("we think we're getting this one...DashAbstractActivity - onCreate");
-		//Log.i("DashWorkflow", "DashAbstractActivity - onCreate");
 		
 		// Test code: make a query on the contacts app for the users unit.
 		openForEdit = getIntent().getBooleanExtra(OPEN_FOR_EDIT_EXTRA, true);
