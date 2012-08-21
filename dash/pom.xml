@@ -67,14 +67,25 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     </dependency>
 
     <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback</artifactId>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
+      <groupId>com.github.tony19</groupId>
+      <artifactId>logback-android-core</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.tony19</groupId>
+      <artifactId>logback-android-classic</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>edu.vanderbilt.isis</groupId>
+      <artifactId>lauilib</artifactId>
       <scope>compile</scope>
     </dependency>
 

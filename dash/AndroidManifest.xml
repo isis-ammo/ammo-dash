@@ -119,6 +119,10 @@
             android:name="edu.vu.isis.ammo.dash.provider.IncidentProvider"
             android:authorities="edu.vu.isis.ammo.dash.provider.incidentprovider" >
         </provider>
+
+        <provider
+            android:name="edu.vu.isis.logger.lib.LauiContentProvider"
+            android:authorities="edu.vu.isis.ammo.dash.LauiContentProvider" />
     </application>
 
     <uses-sdk android:minSdkVersion="8" />

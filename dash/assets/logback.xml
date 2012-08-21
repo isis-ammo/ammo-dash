@@ -5,8 +5,10 @@
  -->
 <configuration>
 
+  <newRule pattern="configuration/appender" actionClass="edu.vu.isis.logger.lib.AppenderStoreAction"/>
+
   <appender name="LOGCAT" class="ch.qos.logback.classic.android.LogcatAppender">
-    <checkLoggable>true</checkLoggable>
+    <checkLoggable>false</checkLoggable>
     <tagEncoder>
        <pattern>dash:%logger{22}</pattern>
     </tagEncoder>
@@ -15,7 +17,9 @@
     </encoder>
   </appender>
 
-  <root level="TRACE">
+  <logger name="class.IncidentProvider" level="TRACE"/>
+
+  <root level="WARN">
     <appender-ref ref="LOGCAT" />
   </root>
 </configuration>
