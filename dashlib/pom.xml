@@ -11,7 +11,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <groupId>edu.vu.isis</groupId>
     <artifactId>dash-parent</artifactId>
     <!-- TEMPLATE:BEGIN-->
-    <version>1.6.0-SNAPSHOT</version>
+    <version>1.6.1</version>
     <!-- TEMPLATE:END -->
   </parent>
 

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+    <!-- version code template -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.vu.isis.ammo.dash"
-    android:versionName="@string/ammo_version_name" >
-
-    <!-- the version code is set via the 'version.code' variable in the ant script -->
+    android:versionName="@string/ammo_version_name" 
+    android:versionCode="1610"><!--end-->
+    <!-- template end -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
