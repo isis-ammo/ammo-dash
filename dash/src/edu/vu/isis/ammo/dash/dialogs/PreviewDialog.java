@@ -7,7 +7,7 @@ The US government has the right to use, modify, reproduce, release,
 perform, display, or disclose computer software or computer software 
 documentation in whole or in part, in any manner and for any 
 purpose whatsoever, and to have or authorize others to do so.
-*/
+ */
 package edu.vu.isis.ammo.dash.dialogs;
 
 import java.io.File;
@@ -47,42 +47,43 @@ import edu.vu.isis.ammo.dash.Util;
 /**
  * Subclass of AlertDialog used for displaying a preview of media files.
  * 
- * The alert dialog has a container widget within it that is the root view 
- * used for displaying media. Based on the type of media being displayed, the
- * layout of the container widget may appear different.
+ * The alert dialog has a container widget within it that is the root view used
+ * for displaying media. Based on the type of media being displayed, the layout
+ * of the container widget may appear different.
  * 
- * Audio previews have a progress bar and a play/pause button. Image previews 
+ * Audio previews have a progress bar and a play/pause button. Image previews
  * display the image (scaled).
+ * 
  * @author demetri
- *
+ * 
  */
-public class PreviewDialog extends AlertDialog implements OnClickListener{
+public class PreviewDialog extends AlertDialog implements OnClickListener {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	private static final Logger logger = LoggerFactory.getLogger("class.PreviewDialog");
-	
+	private static final Logger logger = LoggerFactory
+			.getLogger("class.PreviewDialog");
+
 	/** View tags */
 	private static final int DONE_BUTTON_TAG = 1;
 	private static final int MEDIA_WRAPPER_TAG = 2;
 	private static final int CONTROL_WRAPPER_TAG = 3;
-	
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	private Context context;
-	
+
 	private LinearLayout mediaWrapper, controlWrapper;
 	private Button btnDone;
 	private String data;
 	private int dataType;
-	
+
 	/** Audio */
 	private MediaPlayer mp;
-	private Timer progressTimer; 
-	
-	
+	private Timer progressTimer;
+
 	// ===========================================================
 	// Lifecycle
 	// ===========================================================
@@ -92,50 +93,51 @@ public class PreviewDialog extends AlertDialog implements OnClickListener{
 	public PreviewDialog(Context aContext) {
 		super(aContext);
 		context = aContext;
-		setView(LayoutInflater.from(context).inflate(R.layout.preview_media_dialog, null));
+		setView(LayoutInflater.from(context).inflate(
+				R.layout.preview_media_dialog, null));
 	}
-	
-	@Override 
+
+	@Override
 	public void onStart() {
 		super.onStart();
 		this.loadMedia();
 	}
 
-	@Override 
+	@Override
 	protected void onStop() {
 		if (mp != null) {
 			mp.stop();
 		}
-		
+
 		if (progressTimer != null) {
 			progressTimer.cancel();
 		}
-		
+
 		super.onStop();
 	}
-
 
 	// ===========================================================
 	// UI Setup
 	// ===========================================================
-	@Override 
+	@Override
 	public void setView(View v) {
 		super.setView(v);
-		
-		mediaWrapper = (LinearLayout)v.findViewById(R.id.previewMediaWrapper);
+
+		mediaWrapper = (LinearLayout) v.findViewById(R.id.previewMediaWrapper);
 		mediaWrapper.setTag(MEDIA_WRAPPER_TAG);
-		
-		controlWrapper = (LinearLayout)v.findViewById(R.id.previewMediaControls);
+
+		controlWrapper = (LinearLayout) v
+				.findViewById(R.id.previewMediaControls);
 		controlWrapper.setTag(CONTROL_WRAPPER_TAG);
-		
-		btnDone = (Button)v.findViewById(R.id.previewMediaDoneButton);
+
+		btnDone = (Button) v.findViewById(R.id.previewMediaDoneButton);
 		btnDone.setTag(DONE_BUTTON_TAG);
 		btnDone.setOnClickListener(this);
-		
+
 		setTitle("Media Preview");
 		setIcon(R.drawable.app_icon);
 	}
-	
+
 	// ===========================================================
 	// Media Loading
 	// ===========================================================
@@ -143,16 +145,17 @@ public class PreviewDialog extends AlertDialog implements OnClickListener{
 		data = dataPath;
 		dataType = aDataType;
 	}
-	
+
 	private void loadMedia() {
+		logger.trace("Data URI for PreviewDialog: {}", data);
 		mediaWrapper.removeAllViews();
-		
-		if(data == null) {
+
+		if (data == null) {
 			logger.error("loadMedia:  Please call setDataAndDataType in onPrepareDialog");
 			Util.makeToast(context, "Could not load media");
 			return;
 		}
-		
+
 		switch (dataType) {
 		case Dash.TEXT_TYPE:
 			loadTextPreview();
@@ -160,36 +163,38 @@ public class PreviewDialog extends AlertDialog implements OnClickListener{
 		case Dash.AUDIO_TYPE:
 			loadAudioPreview();
 			break;
-			
+
 		case Dash.IMAGE_TYPE:
 			loadImagePreview();
 			break;
 		case Dash.VIDEO_TYPE:
 			loadVideoPreview();
 			break;
-			default:
-				Toast.makeText(context, "Error loading preview", Toast.LENGTH_LONG).show();
-				cancel();
+		default:
+			Toast.makeText(context, "Error loading preview", Toast.LENGTH_LONG)
+					.show();
+			cancel();
 		}
 	}
-
 
 	// Play the audio file.
 	private void loadAudioPreview() {
 		LayoutInflater inflater = this.getLayoutInflater();
 		inflater.inflate(R.layout.dash_audio_preview_controls, mediaWrapper);
-		
+
 		try {
-			
+
 			mp = new MediaPlayer();
 			mp.setDataSource(data);
 			mp.prepare();
 
 			// Setup Seekbar used for audio file navigation.
-			final SeekBar seekbar = (SeekBar)mediaWrapper.findViewById(R.id.dash_audio_preview_controls_seek_bar);
+			final SeekBar seekbar = (SeekBar) mediaWrapper
+					.findViewById(R.id.dash_audio_preview_controls_seek_bar);
 			seekbar.setMax(mp.getDuration());
-			
-			final ImageButton playBtn = (ImageButton)mediaWrapper.findViewById(R.id.dash_audio_preview_controls_play);
+
+			final ImageButton playBtn = (ImageButton) mediaWrapper
+					.findViewById(R.id.dash_audio_preview_controls_play);
 			playBtn.setOnClickListener(new android.view.View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -201,7 +206,7 @@ public class PreviewDialog extends AlertDialog implements OnClickListener{
 						mp.seekTo(seekbar.getProgress());
 						mp.start();
 						playBtn.setImageResource(R.drawable.dash_audio_pause_selector);
-						
+
 						progressTimer = new Timer();
 						progressTimer.scheduleAtFixedRate(new TimerTask() {
 							@Override
@@ -212,7 +217,7 @@ public class PreviewDialog extends AlertDialog implements OnClickListener{
 					}
 				}
 			});
-			
+
 			mp.setOnCompletionListener(new OnCompletionListener() {
 				@Override
 				public void onCompletion(MediaPlayer mp) {
@@ -221,16 +226,18 @@ public class PreviewDialog extends AlertDialog implements OnClickListener{
 					progressTimer.cancel();
 				}
 			});
-			
+
 			seekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 				@Override
-				public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) {
+				public void onProgressChanged(SeekBar bar, int progress,
+						boolean fromUser) {
 					if (fromUser) {
 						if (mp.isPlaying()) {
 							mp.seekTo(progress);
 						}
 					}
 				}
+
 				@Override
 				public void onStartTrackingTouch(SeekBar arg0) {
 				}
@@ -239,8 +246,7 @@ public class PreviewDialog extends AlertDialog implements OnClickListener{
 				public void onStopTrackingTouch(SeekBar seekBar) {
 				}
 			});
-			
-						
+
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -268,10 +274,10 @@ public class PreviewDialog extends AlertDialog implements OnClickListener{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		String s = new String(buffer);
 		tv.setText(s);
-		
+
 		// Build the view.
 		sv.addView(tv);
 		mediaWrapper.addView(sv);
@@ -283,21 +289,24 @@ public class PreviewDialog extends AlertDialog implements OnClickListener{
 		iv.setImageURI(Uri.parse(data));
 		mediaWrapper.addView(iv);
 	}
-	
+
 	private void loadVideoPreview() {
 		VideoView vv = new VideoView(context);
 		
-		LinearLayout ll = (LinearLayout) findViewById(R.id.rootLayoutElement);
-		LayoutParams lp = new LayoutParams(110, 110);
-		vv.setLayoutParams(lp);
-		vv.setVideoURI(Uri.parse(data));
-		
+		LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		MediaController mc = new MediaController(context);
+		
+		vv.setLayoutParams(lp);
+		vv.setVideoPath(data);
 		vv.setMediaController(mc);
+		
+		mc.setVisibility(View.GONE);
+		
+		LinearLayout ll = (LinearLayout) findViewById(R.id.previewMediaWrapper);
+		ll.removeAllViews();
 		ll.addView(vv);
-		//mediaWrapper.addView(vv);
 		
-		
+		vv.start();
 	}
 
 	// ===========================================================
@@ -305,13 +314,13 @@ public class PreviewDialog extends AlertDialog implements OnClickListener{
 	// ===========================================================
 	@Override
 	public void onClick(View v) {
-		switch((Integer)v.getTag()) {
+		switch ((Integer) v.getTag()) {
 		case DONE_BUTTON_TAG:
 			this.cancel();
 			break;
-			default:
-				// do nothing.
+		default:
+			// do nothing.
 		}
-	}	
+	}
 
 }

@@ -84,7 +84,7 @@ public class AnnounceReceiver extends BroadcastReceiver {
 			this.ad.provider(EventTableSchema.CONTENT_URI).topic(EventTableSchema.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
 			this.ad.provider(MediaTableSchema.CONTENT_URI).topic(MediaTableSchema.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
 		} catch (RemoteException ex) {
-			logger.error("could not connect to ammo {}", ex.getStackTrace());
+			logger.error("could not connect to ammo", ex);
 		}
 	}
 

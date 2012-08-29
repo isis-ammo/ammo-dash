@@ -1,27 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="wrap_content"
-	android:orientation="vertical" android:layout_gravity="center"
-	android:id="@+id/rootLayoutElement">
+    android:id="@+id/rootLayoutElement"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical" >
 
-	<LinearLayout android:id="@+id/previewMediaWrapper"
-		android:layout_height="wrap_content" android:layout_width="fill_parent"
-		android:orientation="horizontal"
-		android:paddingTop="3dip" android:paddingBottom="3dip"
-		android:layout_marginTop="3dip"
-		android:layout_gravity="center" android:gravity="center">
-		
+    <LinearLayout
+        android:id="@+id/previewMediaWrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="3dip"
+        android:layout_weight="100"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="3dip"
+        android:paddingTop="3dip" >
     </LinearLayout>
-		<!-- Preview Controls -->
-		<LinearLayout android:id="@+id/previewMediaControls"
-			android:layout_height="wrap_content" android:layout_width="fill_parent"
-			android:orientation="horizontal" android:background="#CCCCCC"
-			android:paddingTop="3dip" android:layout_marginTop="3dip"
-			android:layout_gravity="center">
+    <!-- Preview Controls -->
 
-			<Button android:id="@+id/previewMediaDoneButton"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:text="Done" android:layout_weight="1" />
+    <LinearLayout
+        android:id="@+id/previewMediaControls"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="3dip"
+        android:background="#CCCCCC"
+        android:orientation="horizontal"
+        android:paddingTop="3dip" >
 
-	</LinearLayout>
+        <Button
+            android:id="@+id/previewMediaDoneButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Done" />
+    </LinearLayout>
+
 </LinearLayout>

@@ -36,6 +36,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 import edu.vu.isis.ammo.dash.Dash;
+import edu.vu.isis.ammo.dash.DashAbstractActivity;
 import edu.vu.isis.ammo.dash.IDash;
 import edu.vu.isis.ammo.dash.R;
 import edu.vu.isis.ammo.dash.Util;
@@ -251,18 +252,13 @@ public class DashPreview extends ListActivity {
 			return true;
 		}
 		if (dataType.equals(MediaTableSchema.TEXT_DATA_TYPE)) {
-			previewIntDataType = Dash.TEXT_TYPE;
+			previewIntDataType = DashAbstractActivity.TEXT_TYPE;
 		} else if (dataType.equals(MediaTableSchema.AUDIO_DATA_TYPE)) {
-			previewIntDataType = Dash.AUDIO_TYPE;
+			previewIntDataType = DashAbstractActivity.AUDIO_TYPE;
 		} else if (dataType.equals(MediaTableSchema.IMAGE_DATA_TYPE)) {
-			previewIntDataType = Dash.IMAGE_TYPE;
+			previewIntDataType = DashAbstractActivity.IMAGE_TYPE;
 		} else if (dataType.equals(MediaTableSchema.VIDEO_DATA_TYPE)) {
-			// Since video isn't using the alert dialog for previews, we'll
-			// launch the intent here along with the video uri.
-			Intent videoPreviewIntent = new Intent(IDash.VIDEO_PREVIEW_INTENT);
-			videoPreviewIntent.putExtra(Dash.FILE_URI, previewDataPath);
-			this.startActivity(videoPreviewIntent);
-			return true;
+			previewIntDataType = DashAbstractActivity.VIDEO_TYPE;
 		} else if (dataType.equals(MediaTableSchema.TEMPLATE_DATA_TYPE)) {
 			// Get the string from data path.
 			File file = new File(previewDataPath);

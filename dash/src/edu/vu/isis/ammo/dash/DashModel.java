@@ -120,7 +120,7 @@ public class DashModel {
 		return photoUri;
 	}
 
-	public void setPhotoUri(Uri photoUri) {
+	public void setImageUri(Uri photoUri) {
 		this.photoUri = photoUri;
 	}
 

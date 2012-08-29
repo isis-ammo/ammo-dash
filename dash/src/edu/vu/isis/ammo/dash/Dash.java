@@ -187,6 +187,12 @@ public class Dash extends DashAbstractActivity {
 	}
 	
 	@Override
+	protected void clearAll() {
+		super.clearAll();
+		descriptionText.setText("");
+	}
+	
+	@Override
 	protected void toModel() {
 		super.toModel();
 		model.setDescription(descriptionText.getText().toString());
