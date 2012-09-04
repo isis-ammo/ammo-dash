@@ -30,8 +30,8 @@
 	<drawline/>
 
 	<header id="numOfPatients" label="Number of patients"/>
-	<text id="litter" label="A - Litter" type="number"/>
-	<text id="ambulatory" label="B - Ambulatory" type="number"/>
+	<text id="ambulatory" label="L - Litter" type="number"/>
+	<text id="litter" label="A - Ambulatory" type="number"/>
 	
 	<drawline/>
 
