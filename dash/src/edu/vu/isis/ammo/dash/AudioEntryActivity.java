@@ -37,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import edu.vu.isis.ammo.dash.dialogs.IDialogHelper;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
+import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.MediaTableSchemaBase;
 
 /**
  * Activity that is launched when a user wants to add an audio clip to a report. This activity
@@ -267,10 +268,10 @@ public class AudioEntryActivity extends Activity implements OnClickListener, OnI
 		// Store the fileUri in the content provider.
 		ContentResolver cr = getContentResolver();
 		ContentValues cv = new ContentValues();
-		cv.put(MediaTableSchema.EVENT_ID, eventId);
-		cv.put(MediaTableSchema.DATA_TYPE, MediaTableSchema.AUDIO_DATA_TYPE);
-		cv.put(MediaTableSchema.DATA, currentFileRecording.getAbsolutePath());
-		mediaUri = cr.insert(MediaTableSchema.CONTENT_URI, cv);
+		cv.put(MediaTableSchemaBase.EVENT_ID, eventId);
+		cv.put(MediaTableSchemaBase.DATA_TYPE, MediaTableSchema.AUDIO_DATA_TYPE);
+		cv.put(MediaTableSchemaBase.DATA, currentFileRecording.getAbsolutePath());
+		mediaUri = cr.insert(MediaTableSchemaBase.CONTENT_URI, cv);
 		logger.debug( "Inserted " + currentFileRecording.getAbsolutePath() + " into " + mediaUri.toString());
 		WorkflowLogger.log("AudioEntryActivity - inserted audio with uri: " + mediaUri);
 		Toast.makeText(this, "Audio recording saved!", Toast.LENGTH_SHORT).show();

@@ -22,6 +22,7 @@ import android.location.Location;
 import android.widget.TableLayout;
 import android.widget.Toast;
 import edu.vu.isis.ammo.dash.Dash;
+import edu.vu.isis.ammo.dash.DashAbstractActivity;
 import edu.vu.isis.ammo.dash.Util;
 import edu.vu.isis.ammo.dash.WorkflowLogger;
 import edu.vu.isis.ammo.dash.template.model.Record;
@@ -64,7 +65,7 @@ public class TemplateView extends TableLayout {
 	// =============================
 	public boolean loadTemplate(String templateFilename, Location location) {
 		AmmoTemplateManagerActivity.checkFiles(activity);
-		File templateFile = new File(Dash.TEMPLATE_DIR, templateFilename);
+		File templateFile = new File(DashAbstractActivity.TEMPLATE_DIR, templateFilename);
 		WorkflowLogger.log("TemplateView - loading template with name: " + templateFile);
 		StringBuilder templateDisplayNameHolder = new StringBuilder();
 		guiFields = AmmoParser.parseXMLForFileIntoView(activity, templateFile, this, templateDisplayNameHolder, location);
@@ -157,7 +158,7 @@ public class TemplateView extends TableLayout {
 			//if the child activity was canceled, ignore.
 			return;
 		}
-		if(requestCode != Dash.MAP_TYPE) {
+		if(requestCode != DashAbstractActivity.MAP_TYPE) {
 			//wasn't for me
 			return;
 		}

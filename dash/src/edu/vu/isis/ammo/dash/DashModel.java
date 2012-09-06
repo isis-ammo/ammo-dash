@@ -17,6 +17,7 @@ import android.location.Location;
 import android.net.Uri;
 import edu.vu.isis.ammo.dash.preferences.ContactsUtil;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.EventTableSchema;
+import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.EventTableSchemaBase;
 
 /**
  * Model object used as a wrapper for all data associated with a Dash report.
@@ -54,49 +55,49 @@ public class DashModel {
 	}
 	
 	public String getId() {
-		return model.getAsString(EventTableSchema.UUID);
+		return model.getAsString(EventTableSchemaBase.UUID);
 	}
 	
 	public void setId(String id) {
-		model.put(EventTableSchema.UUID, id);
+		model.put(EventTableSchemaBase.UUID, id);
 	}
 	
 	public String getOriginator() {
-		return model.getAsString(EventTableSchema.ORIGINATOR);
+		return model.getAsString(EventTableSchemaBase.ORIGINATOR);
 	}
 	
 	public void setOriginator(String originator) {
-		model.put(EventTableSchema.ORIGINATOR, originator);
+		model.put(EventTableSchemaBase.ORIGINATOR, originator);
 	}
 	
 	public String getDescription() {
-		return model.getAsString(EventTableSchema.DESCRIPTION);
+		return model.getAsString(EventTableSchemaBase.DESCRIPTION);
 	}
 
 	public void setDescription(String description) {
-		model.put(EventTableSchema.DESCRIPTION, description);
+		model.put(EventTableSchemaBase.DESCRIPTION, description);
 	}
 	
 	public Long getTime() {
-		return model.getAsLong(EventTableSchema.MODIFIED_DATE);
+		return model.getAsLong(EventTableSchemaBase.MODIFIED_DATE);
 	}
 	
 	public void setTime(Long time) {
-		model.put(EventTableSchema.CREATED_DATE, time);
-		model.put(EventTableSchema.MODIFIED_DATE, time);
+		model.put(EventTableSchemaBase.CREATED_DATE, time);
+		model.put(EventTableSchemaBase.MODIFIED_DATE, time);
 	}
 	
 	public Location getLocation() {
-		if(model.containsKey(EventTableSchema.LATITUDE) && model.containsKey(EventTableSchema.LONGITUDE)) {
-			return Util.buildLocation(model.getAsDouble(EventTableSchema.LATITUDE), model.getAsDouble(EventTableSchema.LONGITUDE));
+		if(model.containsKey(EventTableSchemaBase.LATITUDE) && model.containsKey(EventTableSchemaBase.LONGITUDE)) {
+			return Util.buildLocation(model.getAsDouble(EventTableSchemaBase.LATITUDE), model.getAsDouble(EventTableSchemaBase.LONGITUDE));
 		}
 		return null;
 	}
 	
 	public void setLocation(Location location) {
 		if(location != null) {
-			model.put(EventTableSchema.LATITUDE, location.getLatitude());
-			model.put(EventTableSchema.LONGITUDE, location.getLongitude());
+			model.put(EventTableSchemaBase.LATITUDE, location.getLatitude());
+			model.put(EventTableSchemaBase.LONGITUDE, location.getLongitude());
 		}
 	}
 	
@@ -145,18 +146,18 @@ public class DashModel {
 	//
 
 	private void setAdditionalFields() {
-		model.put(EventTableSchema.UNIT, ContactsUtil.getUnit(context));
-		model.put(EventTableSchema.STATUS, EventTableSchema.STATUS_SENT);
+		model.put(EventTableSchemaBase.UNIT, ContactsUtil.getUnit(context));
+		model.put(EventTableSchemaBase.STATUS, EventTableSchema.STATUS_SENT);
 		
 		//For a "dash", these are intentionally blank
-		model.put(EventTableSchema.CATEGORY_ID, "");
-		model.put(EventTableSchema.DEST_GROUP_TYPE, "");
-		model.put(EventTableSchema.DEST_GROUP_NAME, "");
-		model.put(EventTableSchema.TITLE, "");
-		model.put(EventTableSchema.DISPLAY_NAME, "<no title>");
+		model.put(EventTableSchemaBase.CATEGORY_ID, "");
+		model.put(EventTableSchemaBase.DEST_GROUP_TYPE, "");
+		model.put(EventTableSchemaBase.DEST_GROUP_NAME, "");
+		model.put(EventTableSchemaBase.TITLE, "");
+		model.put(EventTableSchemaBase.DISPLAY_NAME, "<no title>");
 		
-		model.put(EventTableSchema.MEDIA_COUNT, Util.getMediaCount(currentMediaUri, templateData));
-		model.put(EventTableSchema.SIZE, Util.getSize(BASE_DASH_SIZE, context, currentMediaUri, templateData)/1000.);
+		model.put(EventTableSchemaBase.MEDIA_COUNT, Util.getMediaCount(currentMediaUri, templateData));
+		model.put(EventTableSchemaBase.SIZE, Util.getSize(BASE_DASH_SIZE, context, currentMediaUri, templateData)/1000.);
 	}
 
 }

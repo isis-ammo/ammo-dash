@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import edu.vu.isis.ammo.dash.Dash;
+import edu.vu.isis.ammo.dash.DashAbstractActivity;
 import edu.vu.isis.ammo.dash.R;
 import edu.vu.isis.ammo.dash.Util;
 import edu.vu.isis.ammo.dash.WorkflowLogger;
@@ -136,14 +137,18 @@ public class LocationView implements GuiField {
 	}
 	
 	private LocationListener onLocationChange = new LocationListener() {
+		@Override
 		public void onLocationChanged(Location location) {
 			setLocationFromGPS(location);
 		}
 
+		@Override
 		public void onProviderDisabled(String provider) {}
 
+		@Override
 		public void onProviderEnabled(String provider) {}
 
+		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {}
 	};
 
@@ -207,7 +212,7 @@ public class LocationView implements GuiField {
 		
 		try {
 			WorkflowLogger.log("LocationView - starting MapPicker activity");
-			activity.startActivityForResult(intent, Dash.MAP_TYPE);
+			activity.startActivityForResult(intent, DashAbstractActivity.MAP_TYPE);
 		}
 		catch(ActivityNotFoundException e) {
 			logger.error("::launchMapPickerActivity: no " + MAP_PICKER_ACTIVITY + " activity found.", e);

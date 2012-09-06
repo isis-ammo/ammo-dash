@@ -35,15 +35,15 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
-import edu.vu.isis.ammo.dash.Dash;
 import edu.vu.isis.ammo.dash.DashAbstractActivity;
-import edu.vu.isis.ammo.dash.IDash;
 import edu.vu.isis.ammo.dash.R;
 import edu.vu.isis.ammo.dash.Util;
 import edu.vu.isis.ammo.dash.WorkflowLogger;
 import edu.vu.isis.ammo.dash.dialogs.PreviewDialog;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.EventTableSchema;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
+import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.EventTableSchemaBase;
+import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.MediaTableSchemaBase;
 import edu.vu.isis.ammo.dash.template.AmmoTemplateManagerActivity;
 
 /**
@@ -142,13 +142,13 @@ public class DashPreview extends ListActivity {
 	protected void purgeAllDashes() {
 		ContentResolver cr = this.getContentResolver();
 		// Remove events first.
-		int numEventsDeleted = cr.delete(EventTableSchema.CONTENT_URI, null, null);
+		int numEventsDeleted = cr.delete(EventTableSchemaBase.CONTENT_URI, null, null);
 
 		// Remove media referenced in the table.
-		String[] mediaProjection = { MediaTableSchema.DATA };
-		Cursor mediaCursor = cr.query(MediaTableSchema.CONTENT_URI, mediaProjection, null, null, null);
+		String[] mediaProjection = { MediaTableSchemaBase.DATA };
+		Cursor mediaCursor = cr.query(MediaTableSchemaBase.CONTENT_URI, mediaProjection, null, null, null);
 		while (mediaCursor.moveToNext()) {
-			String filePath = mediaCursor.getString(mediaCursor.getColumnIndex(MediaTableSchema.DATA));
+			String filePath = mediaCursor.getString(mediaCursor.getColumnIndex(MediaTableSchemaBase.DATA));
 			File file = new File(filePath);
 			boolean didDeleteSuccessfully = file.delete();
 			if (!didDeleteSuccessfully) {
@@ -157,7 +157,7 @@ public class DashPreview extends ListActivity {
 		}
 
 		// Remove the media table contents itself.
-		int numMediaRowsDeleted = cr.delete(MediaTableSchema.CONTENT_URI, null, null);
+		int numMediaRowsDeleted = cr.delete(MediaTableSchemaBase.CONTENT_URI, null, null);
 		
 		// Notify the user the delete has occurred and refresh the table.
 		Toast.makeText(this, "Removed " + numEventsDeleted + " events and " + numMediaRowsDeleted + " media items.", Toast.LENGTH_LONG).show();
@@ -207,8 +207,8 @@ public class DashPreview extends ListActivity {
 		}
 
 		if (hasMedia && hasTemplate) {
-			menu.add(ContextMenu.NONE, MENU_CONTEXT_PREVIEW_MEDIA, MENU_CONTEXT_PREVIEW_MEDIA, R.string.menu_preview_media);
-			menu.add(ContextMenu.NONE, MENU_CONTEXT_PREVIEW_TEMPLATE, MENU_CONTEXT_PREVIEW_TEMPLATE, R.string.menu_preview_template);
+			menu.add(Menu.NONE, MENU_CONTEXT_PREVIEW_MEDIA, MENU_CONTEXT_PREVIEW_MEDIA, R.string.menu_preview_media);
+			menu.add(Menu.NONE, MENU_CONTEXT_PREVIEW_TEMPLATE, MENU_CONTEXT_PREVIEW_TEMPLATE, R.string.menu_preview_template);
 		} else if (hasMedia) {
 			preview(lastSelectedRowPos, false);
 		} else if (hasTemplate) {
@@ -290,7 +290,7 @@ public class DashPreview extends ListActivity {
 			WorkflowLogger.log("DashPreview - previewing data with type: " + dataType + " at path: " + previewDataPath);
 			Intent i = new Intent(this, AmmoTemplateManagerActivity.class);
 			i.putExtra(AmmoTemplateManagerActivity.JSON_DATA_EXTRA, jsonData);
-			i.putExtra(AmmoTemplateManagerActivity.OPEN_FOR_EDIT_EXTRA, false);
+			i.putExtra(DashAbstractActivity.OPEN_FOR_EDIT_EXTRA, false);
 			this.startActivity(i);
 			return true;
 		}
@@ -300,9 +300,9 @@ public class DashPreview extends ListActivity {
 	}
 
 	private void setupListView() {
-		String selection = EventTableSchema.STATUS + " != " + EventTableSchema.STATUS_DRAFT;
-		String sortOrder = EventTableSchema.CREATED_DATE + " DESC";
-		mCursor = this.managedQuery(EventTableSchema.CONTENT_URI, null, selection, null, sortOrder);
+		String selection = EventTableSchemaBase.STATUS + " != " + EventTableSchema.STATUS_DRAFT;
+		String sortOrder = EventTableSchemaBase.CREATED_DATE + " DESC";
+		mCursor = this.managedQuery(EventTableSchemaBase.CONTENT_URI, null, selection, null, sortOrder);
 
 		if (mCursor.getCount() == 0) {
 			logger.debug("::setupListView - no items in postalSchema cursor on init query");

@@ -11,11 +11,18 @@ purpose whatsoever, and to have or authorize others to do so.
 package edu.vu.isis.ammo.dash;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
+import android.media.ExifInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,6 +56,8 @@ public class Dash extends DashAbstractActivity {
 	//TSI // private boolean recording;
 	/* end: For IBM transcription */
 	//TSI // private TextView transcribeText;
+	
+	private static final Logger logger = LoggerFactory.getLogger("class.Dash");
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +83,7 @@ public class Dash extends DashAbstractActivity {
 		return R.layout.dash;
 	}
 	
+	@Override
 	protected void setupView() {
 		super.setupView();
 		WorkflowLogger.log("Dash - setting up freeform Dash");
@@ -226,6 +236,29 @@ public class Dash extends DashAbstractActivity {
 		if(!locationView.processMapPoint(data)) {
 			//see the log file for more information.
 			Util.makeToast(this, "Error processing the result.");
+		}
+	}
+	
+	@Override
+	/* package */ void parseExifData(String filename) {
+		if (!(filename.endsWith("jpg") || filename.endsWith("jpeg"))) {
+			// For now, to be safe, we only process jpeg files
+			logger.debug(
+					"Skipped Exif parsing on file {} because it isn't a jpg file",
+					filename);
+			return;
+		}
+
+		try {
+			ExifInterface ei = new ExifInterface(filename);
+			float[] latlong = new float[2];
+			ei.getLatLong(latlong);
+			Location camLocation = new Location(LocationManager.GPS_PROVIDER);
+			camLocation.setLatitude(latlong[0]);
+			camLocation.setLongitude(latlong[1]);
+			locationView.setLocation(camLocation);
+		} catch (IOException e) {
+			logger.warn("Could not process exif data from file: {}", filename);
 		}
 	}
 	

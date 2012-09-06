@@ -230,7 +230,7 @@ public class AmmoTemplateManagerActivity extends DashAbstractActivity {
 		for (String s : templates) {
 			try {
 				InputStream source = context.getAssets().open("templates/" + s);
-				File destination = new File(Dash.TEMPLATE_DIR, s);
+				File destination = new File(DashAbstractActivity.TEMPLATE_DIR, s);
 
 				// We always want to copy to the sdcard so any changes to the
 				// templates in assets get pushed to the sdcard.
@@ -322,7 +322,7 @@ public class AmmoTemplateManagerActivity extends DashAbstractActivity {
 	}
 
 	private static String[] getTemplateFilesDoNotCheck() {
-		return Dash.TEMPLATE_DIR.list(new FilenameFilter() {
+		return DashAbstractActivity.TEMPLATE_DIR.list(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String filename) {
 				return filename.toLowerCase().endsWith(".xml");

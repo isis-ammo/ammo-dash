@@ -132,7 +132,7 @@ public class IncidentProvider extends IncidentProviderBase {
 	public boolean unzipAndPopulateCategories(SQLiteDatabase db) {
 		try {
 			// If the folder exists, blow it away and recreate it.
-			IncidentProvider.clearBlobCache("tigr", "png");
+			IncidentProviderBase.clearBlobCache("tigr", "png");
 
 			// Read our zip folder and write the contents to the sd card.
 			// File format is as follows...
@@ -219,12 +219,12 @@ public class IncidentProvider extends IncidentProviderBase {
 			}
 		}
 
-		values.put(CategoryTableSchema.MAIN_CATEGORY, mainCategory);
-		values.put(CategoryTableSchema.SUB_CATEGORY, subCategory);
-		values.put(CategoryTableSchema.ICON_TYPE, iconType);
-		values.put(CategoryTableSchema.TIGR_ID, tigrId);
+		values.put(CategoryTableSchemaBase.MAIN_CATEGORY, mainCategory);
+		values.put(CategoryTableSchemaBase.SUB_CATEGORY, subCategory);
+		values.put(CategoryTableSchemaBase.ICON_TYPE, iconType);
+		values.put(CategoryTableSchemaBase.TIGR_ID, tigrId);
 		// Uri uri = Uri.fromFile(encoded);
-		values.put(CategoryTableSchema.ICON, CategoryTableSchema.ICON);
+		values.put(CategoryTableSchemaBase.ICON, CategoryTableSchemaBase.ICON);
 
 		return values;
 	}

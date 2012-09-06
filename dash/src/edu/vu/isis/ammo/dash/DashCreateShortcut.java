@@ -41,6 +41,7 @@ public class DashCreateShortcut extends ListActivity {
 		setListAdapter();
 
 		getListView().setOnItemClickListener(new OnItemClickListener() {
+			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				
@@ -71,8 +72,8 @@ public class DashCreateShortcut extends ListActivity {
 	}
 
 	private void setListAdapter() {
-		ShortcutRow cameraRow = new ShortcutRow(this, R.drawable.camera_button2, "Take pictures", "Camera", setupIntent(Dash.IMAGE_TYPE));
-		ShortcutRow audioRow = new ShortcutRow(this, R.drawable.audio_button2, "Record audio", "Audio", setupIntent(Dash.AUDIO_TYPE));
+		ShortcutRow cameraRow = new ShortcutRow(this, R.drawable.camera_button2, "Take pictures", "Camera", setupIntent(DashAbstractActivity.IMAGE_TYPE));
+		ShortcutRow audioRow = new ShortcutRow(this, R.drawable.audio_button2, "Record audio", "Audio", setupIntent(DashAbstractActivity.AUDIO_TYPE));
 		templateRow = new ShortcutRow(this, R.drawable.template_button2, "Fill in templates", "Template", setupCreateTemplateShortcut());
 
 		setListAdapter(new SimpleAdapter(this, Arrays.asList(cameraRow, audioRow, templateRow),
@@ -80,7 +81,7 @@ public class DashCreateShortcut extends ListActivity {
 	}
 
 	private Intent setupIntent(int dashMode) {
-		return new Intent(this, Dash.class).putExtra(Dash.MODE, dashMode);
+		return new Intent(this, Dash.class).putExtra(DashAbstractActivity.MODE, dashMode);
 	}
 	
 	private Intent setupCreateTemplateShortcut() {

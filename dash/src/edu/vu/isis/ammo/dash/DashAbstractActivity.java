@@ -45,6 +45,7 @@ import edu.vu.isis.ammo.dash.preferences.DashPreferences;
 import edu.vu.isis.ammo.dash.preview.DashPreview;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.EventTableSchema;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
+import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.EventTableSchemaBase;
 
 /**
  * Based on discussion with Mari March 2011.
@@ -55,7 +56,7 @@ import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
  */
 public abstract class DashAbstractActivity extends Activity {
 	private static final Logger logger = LoggerFactory
-			.getLogger("class.AbstractActivity");
+			.getLogger("class.DashAbstractActivity");
 	private String id;
 	protected DashModel model;
 
@@ -287,6 +288,7 @@ public abstract class DashAbstractActivity extends Activity {
 					WorkflowLogger
 							.log("DashAbstractActivity - received fileUri from Traq camera: "
 									+ fileUri.toString());
+					parseExifData(traqFilepath);
 				}
 
 			}
@@ -331,6 +333,17 @@ public abstract class DashAbstractActivity extends Activity {
 			// see the log file for more information.
 			Util.makeToast(this, "Error processing the result.");
 		}
+	}
+
+	/**
+	 * Parses the Exif data from a picture taken by the Traq camera.
+	 * Specifically, we care about the geolocation data.
+	 * 
+	 * @param filename
+	 *            -- the filename of the picture to process
+	 */
+	/* package */ void parseExifData(String filename) {
+		// This is meant to be implemented by subclasses if needed
 	}
 
 	@Override
@@ -470,7 +483,7 @@ public abstract class DashAbstractActivity extends Activity {
 		toModel();
 		final ContentResolver resolver = getContentResolver();
 
-		final Uri incidentUri = resolver.insert(EventTableSchema.CONTENT_URI,
+		final Uri incidentUri = resolver.insert(EventTableSchemaBase.CONTENT_URI,
 				model.getContentValues());
 		WorkflowLogger
 				.log("DashAbstractActivity - inserted Dash event into EventTable with Uri: "

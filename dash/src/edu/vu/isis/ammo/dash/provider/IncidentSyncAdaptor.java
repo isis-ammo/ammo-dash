@@ -44,6 +44,8 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.BaseColumns;
+import android.provider.SyncStateContract.Columns;
 import android.provider.SyncStateContract.Constants;
 
 import com.google.gson.Gson;
@@ -98,10 +100,10 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 
 		HashMap<String, String> columns;
 		mediaProjectionKey = new String[1];
-		mediaProjectionKey[0] = MediaTableSchemaBase._ID;
+		mediaProjectionKey[0] = BaseColumns._ID;
 
 		columns = new HashMap<String, String>();
-		columns.put(MediaTableSchemaBase._ID, MediaTableSchemaBase._ID);
+		columns.put(BaseColumns._ID, BaseColumns._ID);
 		columns.put(MediaTableSchemaBase.EVENT_ID, "\""+MediaTableSchemaBase.EVENT_ID+"\""); 
 		columns.put(MediaTableSchemaBase.DATA_TYPE, "\""+MediaTableSchemaBase.DATA_TYPE+"\"");
 		columns.put(MediaTableSchemaBase.DATA, "\""+MediaTableSchemaBase.DATA+"\""); 
@@ -113,10 +115,10 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 		mediaProjectionMap = columns;
 
 		eventProjectionKey = new String[1];
-		eventProjectionKey[0] = EventTableSchemaBase._ID;
+		eventProjectionKey[0] = BaseColumns._ID;
 
 		columns = new HashMap<String, String>();
-		columns.put(EventTableSchemaBase._ID, EventTableSchemaBase._ID);
+		columns.put(BaseColumns._ID, BaseColumns._ID);
 		columns.put(EventTableSchemaBase.UUID, "\""+EventTableSchemaBase.UUID+"\""); 
 		columns.put(EventTableSchemaBase.MEDIA_COUNT, "\""+EventTableSchemaBase.MEDIA_COUNT+"\""); 
 		columns.put(EventTableSchemaBase.ORIGINATOR, "\""+EventTableSchemaBase.ORIGINATOR+"\""); 
@@ -141,10 +143,10 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 		eventProjectionMap = columns;
 
 		categoryProjectionKey = new String[1];
-		categoryProjectionKey[0] = CategoryTableSchemaBase._ID;
+		categoryProjectionKey[0] = BaseColumns._ID;
 
 		columns = new HashMap<String, String>();
-		columns.put(CategoryTableSchemaBase._ID, CategoryTableSchemaBase._ID);
+		columns.put(BaseColumns._ID, BaseColumns._ID);
 		columns.put(CategoryTableSchemaBase.MAIN_CATEGORY, "\""+CategoryTableSchemaBase.MAIN_CATEGORY+"\""); 
 		columns.put(CategoryTableSchemaBase.SUB_CATEGORY, "\""+CategoryTableSchemaBase.SUB_CATEGORY+"\""); 
 		columns.put(CategoryTableSchemaBase.TIGR_ID, "\""+CategoryTableSchemaBase.TIGR_ID+"\""); 
@@ -163,7 +165,7 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 		try {
 			// use the account manager to request the credentials
 			final String  authtoken = accountManager
-					.blockingGetAuthToken(account, Constants.ACCOUNT_TYPE, true);         
+					.blockingGetAuthToken(account, Columns.ACCOUNT_TYPE, true);         
 
 			// update the last synced date.
 			this.lastUpdate = new Date();
@@ -764,7 +766,7 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 				FileInputStream fileStream = new FileInputStream(dataFile);
 				int ret = 0;   
 				for (int position = 0; (ret > -1 && dataSize > position); position += ret) {
-					ret = fileStream.read(buffData, position, (int)(dataSize - position));
+					ret = fileStream.read(buffData, position, dataSize - position);
 				}
 				fileStream.close();
 
@@ -927,7 +929,7 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 				FileInputStream fileStream = new FileInputStream(dataFile);
 				int ret = 0;   
 				for (int position = 0; (ret > -1 && dataSize > position); position += ret) {
-					ret = fileStream.read(buffData, position, (int)(dataSize - position));
+					ret = fileStream.read(buffData, position, dataSize - position);
 				}
 				fileStream.close();
 
@@ -970,6 +972,7 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 
 	class mediaDeserializer implements IMyWriter {
 
+		@Override
 		public long meta(StringBuilder sb) {
 			String json = sb.toString();
 			Gson gson = new Gson();
@@ -1058,6 +1061,7 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 
 	class eventDeserializer implements IMyWriter {
 
+		@Override
 		public long meta(StringBuilder sb) {
 			String json = sb.toString();
 			Gson gson = new Gson();
@@ -1146,6 +1150,7 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 
 	class categoryDeserializer implements IMyWriter {
 
+		@Override
 		public long meta(StringBuilder sb) {
 			String json = sb.toString();
 			Gson gson = new Gson();

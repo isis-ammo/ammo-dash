@@ -29,6 +29,8 @@ import edu.vu.isis.ammo.dash.Util;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.EventTableSchema;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
+import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.EventTableSchemaBase;
+import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.MediaTableSchemaBase;
 
 /**
  * Not multithreaded. For non-concurrent use.
@@ -70,11 +72,11 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
 	// Move the cursor to the position passed and return that row's data type.
 	// If position is -1, move the cursor to the current focused position.
 	public String getDataTypeForEventId(int pos, boolean template) {
-		return getMediaString(pos, IncidentSchema.MediaTableSchema.DATA_TYPE, getTemplateSelection(template));
+		return getMediaString(pos, MediaTableSchemaBase.DATA_TYPE, getTemplateSelection(template));
 	}
 
 	public String getDataForEventId(int pos, boolean template) {
-		return getMediaString(pos, IncidentSchema.MediaTableSchema.DATA, getTemplateSelection(template));
+		return getMediaString(pos, MediaTableSchemaBase.DATA, getTemplateSelection(template));
 	}
 
 	private String getMediaString(int pos, String columnName, String selection) {
@@ -82,14 +84,14 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
 		eventCursor.moveToPosition(pos);
 
 		// Determine what type of data is at that position.
-		String uuid = eventCursor.getString(eventCursor.getColumnIndex(EventTableSchema.UUID));
+		String uuid = eventCursor.getString(eventCursor.getColumnIndex(EventTableSchemaBase.UUID));
 
 		if (selection == null) {
 			selection = "TRUE";
 		}
-		selection += " AND " + MediaTableSchema.EVENT_ID + "=?";
+		selection += " AND " + MediaTableSchemaBase.EVENT_ID + "=?";
 
-		Cursor c = mContext.getContentResolver().query(MediaTableSchema.CONTENT_URI, null, selection, new String[] { uuid }, null);
+		Cursor c = mContext.getContentResolver().query(MediaTableSchemaBase.CONTENT_URI, null, selection, new String[] { uuid }, null);
 		// If cursor isn't valid, quit right here.
 		if (c == null) {
 			return null;
@@ -110,7 +112,7 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
 
 	private static String getTemplateSelection(boolean template) {
 		String operation = template ? "=" : "!=";
-		return MediaTableSchema.DATA_TYPE + operation + "'" + MediaTableSchema.TEMPLATE_DATA_TYPE + "'";
+		return MediaTableSchemaBase.DATA_TYPE + operation + "'" + MediaTableSchema.TEMPLATE_DATA_TYPE + "'";
 	}
 
 	// ===========================================================
@@ -159,7 +161,7 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
 	 * @param eventCursor
 	 */
 	public void bindCommentToView(View v, Context context, Cursor eventCursor) {
-		String comment = eventCursor.getString(eventCursor.getColumnIndex(EventTableSchema.DESCRIPTION));
+		String comment = eventCursor.getString(eventCursor.getColumnIndex(EventTableSchemaBase.DESCRIPTION));
 		TextView tvDesc = (TextView) (v.findViewById(R.id.report_browser_cell_report_comment));
 		tvDesc.setText(comment);
 	}
@@ -172,7 +174,7 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
 	 * @param eventCursor
 	 */
 	public void bindAuthorToView(View v, Context context, Cursor eventCursor) {
-		String author = eventCursor.getString(eventCursor.getColumnIndex(EventTableSchema.ORIGINATOR));
+		String author = eventCursor.getString(eventCursor.getColumnIndex(EventTableSchemaBase.ORIGINATOR));
 		TextView tvAuthor = (TextView) (v.findViewById(R.id.report_browser_cell_report_author));
 		tvAuthor.setText(author);
 	}
@@ -187,7 +189,7 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
 	public void bindReportIconToView(View v, Context context, Cursor eventCursor) {
 		// Get a cursor to the local event table from the distributor cursor.
 		ContentResolver cr = context.getContentResolver();
-		int mediaCount = eventCursor.getInt(eventCursor.getColumnIndex(EventTableSchema.MEDIA_COUNT));
+		int mediaCount = eventCursor.getInt(eventCursor.getColumnIndex(EventTableSchemaBase.MEDIA_COUNT));
 		ImageView iv = (ImageView) v.findViewById(R.id.report_browser_cell_media_icon);
 		if (mediaCount == 0) {
 			// Set the ImageView to empty each time. I think the ListView does
@@ -199,9 +201,9 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
 			iv.setImageResource(R.drawable.button_missing);
 		}
 
-		String incidentUUID = eventCursor.getString(eventCursor.getColumnIndex(EventTableSchema.UUID));
-		String mediaSelection = MediaTableSchema.EVENT_ID + "='" + incidentUUID + "'";
-		Cursor mediaCursor = cr.query(MediaTableSchema.CONTENT_URI, null, mediaSelection, null, null);
+		String incidentUUID = eventCursor.getString(eventCursor.getColumnIndex(EventTableSchemaBase.UUID));
+		String mediaSelection = MediaTableSchemaBase.EVENT_ID + "='" + incidentUUID + "'";
+		Cursor mediaCursor = cr.query(MediaTableSchemaBase.CONTENT_URI, null, mediaSelection, null, null);
 
 		// If the media for this event hasn't been received (i.e. We have a
 		// media count, but there's not media in the table)
@@ -215,8 +217,8 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
 			// Dashes only contain a single media item so we don't need to
 			// iterate over the cursor.
 			mediaCursor.moveToFirst();
-			String dataType = mediaCursor.getString(mediaCursor.getColumnIndex(MediaTableSchema.DATA_TYPE));
-			String filePath = mediaCursor.getString(mediaCursor.getColumnIndex(MediaTableSchema.DATA));
+			String dataType = mediaCursor.getString(mediaCursor.getColumnIndex(MediaTableSchemaBase.DATA_TYPE));
+			String filePath = mediaCursor.getString(mediaCursor.getColumnIndex(MediaTableSchemaBase.DATA));
 			boolean mediaExists = new File(filePath).exists();
 
 			// Set the icon. If the media file isn't on the SD card, display a
@@ -241,7 +243,7 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
 
 		// Get the created date from the cursor and format it for display in the
 		// cell.
-		long createdDate = eventCursor.getLong(eventCursor.getColumnIndex(EventTableSchema.CREATED_DATE));
+		long createdDate = eventCursor.getLong(eventCursor.getColumnIndex(EventTableSchemaBase.CREATED_DATE));
 		tv.setText(Util.formatTime(createdDate));
 	}
 
@@ -259,8 +261,8 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
 		LinearLayout ll = (LinearLayout) v.findViewById(R.id.report_browser_cell_location_container);
 
 		if (isMGRSCoordinateType) {
-			double lat = eventCursor.getDouble(eventCursor.getColumnIndex(EventTableSchema.LATITUDE));
-			double lon = eventCursor.getDouble(eventCursor.getColumnIndex(EventTableSchema.LONGITUDE));
+			double lat = eventCursor.getDouble(eventCursor.getColumnIndex(EventTableSchemaBase.LATITUDE));
+			double lon = eventCursor.getDouble(eventCursor.getColumnIndex(EventTableSchemaBase.LONGITUDE));
 			ltvMGRS.setFormattedTextFromLocation(Util.buildLocation(lat, lon));
 
 			if (ltvLat != null && ltvLon != null) {

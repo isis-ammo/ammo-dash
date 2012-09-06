@@ -31,6 +31,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
+import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.MediaTableSchemaBase;
 import edu.vu.isis.ammo.dash.template.AmmoTemplateManagerActivity;
 
 /**
@@ -55,7 +56,7 @@ public class MediaActivityManager {
 		try {
 			return Uri.fromFile(File.createTempFile(
 					String.valueOf(System.currentTimeMillis()) + "-", ".jpg",
-					Dash.IMAGE_DIR));
+					DashAbstractActivity.IMAGE_DIR));
 		} catch (IOException e) {
 			logger.error("::createPhotoUri", e);
 			return null;
@@ -81,7 +82,7 @@ public class MediaActivityManager {
 				.putExtra(AmmoTemplateManagerActivity.TEMPLATE_EXTRA, template)
 				.putExtra(AmmoTemplateManagerActivity.JSON_DATA_EXTRA,
 						templateData)
-				.putExtra(AmmoTemplateManagerActivity.OPEN_FOR_EDIT_EXTRA, true)
+				.putExtra(DashAbstractActivity.OPEN_FOR_EDIT_EXTRA, true)
 				.putExtra(AmmoTemplateManagerActivity.LOCATION_EXTRA, location);
 	}
 
@@ -136,10 +137,10 @@ public class MediaActivityManager {
 	public static Uri storeInContentProvider(String id, String dataType,
 			String filePath, ContentResolver resolver) {
 		ContentValues cv = new ContentValues();
-		cv.put(MediaTableSchema.EVENT_ID, id);
-		cv.put(MediaTableSchema.DATA_TYPE, dataType);
-		cv.put(MediaTableSchema.DATA, filePath);
-		Uri uri = resolver.insert(MediaTableSchema.CONTENT_URI, cv);
+		cv.put(MediaTableSchemaBase.EVENT_ID, id);
+		cv.put(MediaTableSchemaBase.DATA_TYPE, dataType);
+		cv.put(MediaTableSchemaBase.DATA, filePath);
+		Uri uri = resolver.insert(MediaTableSchemaBase.CONTENT_URI, cv);
 		logger.debug("Camera activity returned. Inserted " + filePath
 				+ " into " + uri.toString());
 
@@ -154,17 +155,17 @@ public class MediaActivityManager {
 				logger.error("::writeBitmapToSDCard - no external storage");
 				return null;
 			}
-			if (!Dash.CAMERA_DIR.exists()) {
-				boolean success = Dash.CAMERA_DIR.mkdirs();
+			if (!DashAbstractActivity.CAMERA_DIR.exists()) {
+				boolean success = DashAbstractActivity.CAMERA_DIR.mkdirs();
 				if (!success) {
 					logger.error("::writeBitmapToSDCard - error creating directories");
 					return null;
 				}
 			}
 
-			File file = new File(Dash.CAMERA_DIR, filename + ".jpg");
+			File file = new File(DashAbstractActivity.CAMERA_DIR, filename + ".jpg");
 			outStream = new FileOutputStream(file);
-			bitmap.compress(CompressFormat.JPEG, Dash.JPEG_QUALITY, outStream);
+			bitmap.compress(CompressFormat.JPEG, DashAbstractActivity.JPEG_QUALITY, outStream);
 
 			return file.getAbsolutePath();
 
@@ -200,7 +201,7 @@ public class MediaActivityManager {
 			String id, String templateData) {
 		// Store the text file in the sdcard and create a media entry.
 		try {
-			File dir = new File(Dash.TEMPLATE_DIR.getCanonicalPath());
+			File dir = new File(DashAbstractActivity.TEMPLATE_DIR.getCanonicalPath());
 			String filename = String.valueOf(System.currentTimeMillis());
 			File currentFile = new File(dir, filename + "_template.txt");
 			FileOutputStream fos = new FileOutputStream(currentFile);
@@ -209,11 +210,11 @@ public class MediaActivityManager {
 
 			// Insert media entry.
 			ContentValues cv = new ContentValues();
-			cv.put(MediaTableSchema.EVENT_ID, id);
-			cv.put(MediaTableSchema.DATA_TYPE,
+			cv.put(MediaTableSchemaBase.EVENT_ID, id);
+			cv.put(MediaTableSchemaBase.DATA_TYPE,
 					MediaTableSchema.TEMPLATE_DATA_TYPE);
-			cv.put(MediaTableSchema.DATA, currentFile.getCanonicalPath());
-			Uri uri = contentResolver.insert(MediaTableSchema.CONTENT_URI, cv);
+			cv.put(MediaTableSchemaBase.DATA, currentFile.getCanonicalPath());
+			Uri uri = contentResolver.insert(MediaTableSchemaBase.CONTENT_URI, cv);
 			logger.debug("Inserted " + currentFile.getCanonicalPath()
 					+ " into " + uri.toString());
 			return uri;
@@ -227,7 +228,7 @@ public class MediaActivityManager {
 	public static String getPath(ContentResolver contentResolver, Uri mediaUri) {
 		try {
 			Cursor cursor = contentResolver.query(mediaUri,
-					new String[] { MediaTableSchema.DATA }, null, null, null);
+					new String[] { MediaTableSchemaBase.DATA }, null, null, null);
 			if (cursor.getCount() != 1) {
 				logger.error("::getPath - media not found");
 				return null;

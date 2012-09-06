@@ -31,6 +31,7 @@ public class DashCreateTemplateShortcut extends ListActivity {
 		setListAdapter();
 
 		getListView().setOnItemClickListener(new OnItemClickListener() {
+			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				
@@ -61,6 +62,6 @@ public class DashCreateTemplateShortcut extends ListActivity {
 	private Intent setupIntent(String template) {
 		return new Intent(this, AmmoTemplateManagerActivity.class)
 				.putExtra(AmmoTemplateManagerActivity.TEMPLATE_EXTRA, template)
-				.putExtra(AmmoTemplateManagerActivity.OPEN_FOR_EDIT_EXTRA, true);
+				.putExtra(DashAbstractActivity.OPEN_FOR_EDIT_EXTRA, true);
 	}
 }

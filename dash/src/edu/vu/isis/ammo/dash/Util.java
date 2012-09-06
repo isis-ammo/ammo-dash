@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.widget.Toast;
 import edu.vu.isis.ammo.dash.preferences.DashPreferences;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
+import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.MediaTableSchemaBase;
 import edu.vu.isis.ammo.util.CoordinateConversion;
 
 /**
@@ -91,18 +92,18 @@ public class Util {
 			throw new IOException("SD Card is not mounted.  It is " + state + ".");
 		}
 
-		if (! createPath(Dash.CAMERA_DIR)) 
-			throw new IOException("error with camera directory :"+ Dash.CAMERA_DIR);
-		if (! createPath(Dash.IMAGE_DIR)) 
-			throw new IOException("error with image directory :"+ Dash.IMAGE_DIR);
-		if (! createPath(Dash.AUDIO_DIR)) 
-			throw new IOException("error with audio directory :"+ Dash.AUDIO_DIR);
-		if (! createPath(Dash.TEXT_DIR))
-			throw new IOException("error with text directory :"+ Dash.TEXT_DIR);
-		if (! createPath(Dash.VIDEO_DIR)) 
-			throw new IOException("error with video directory :"+ Dash.VIDEO_DIR);
-		if (! createPath(Dash.TEMPLATE_DIR)) 
-			throw new IOException("error with template directory :"+ Dash.TEMPLATE_DIR);
+		if (! createPath(DashAbstractActivity.CAMERA_DIR)) 
+			throw new IOException("error with camera directory :"+ DashAbstractActivity.CAMERA_DIR);
+		if (! createPath(DashAbstractActivity.IMAGE_DIR)) 
+			throw new IOException("error with image directory :"+ DashAbstractActivity.IMAGE_DIR);
+		if (! createPath(DashAbstractActivity.AUDIO_DIR)) 
+			throw new IOException("error with audio directory :"+ DashAbstractActivity.AUDIO_DIR);
+		if (! createPath(DashAbstractActivity.TEXT_DIR))
+			throw new IOException("error with text directory :"+ DashAbstractActivity.TEXT_DIR);
+		if (! createPath(DashAbstractActivity.VIDEO_DIR)) 
+			throw new IOException("error with video directory :"+ DashAbstractActivity.VIDEO_DIR);
+		if (! createPath(DashAbstractActivity.TEMPLATE_DIR)) 
+			throw new IOException("error with template directory :"+ DashAbstractActivity.TEMPLATE_DIR);
 	}
 
 	private static boolean createPath(File directory) {
@@ -168,7 +169,7 @@ public class Util {
 		if(uri == null) {
 			return 0;
 		}
-		String filePath = getString(contentResolver, uri, MediaTableSchema.DATA);
+		String filePath = getString(contentResolver, uri, MediaTableSchemaBase.DATA);
 		if(filePath == null) {
 			return 0;
 		}

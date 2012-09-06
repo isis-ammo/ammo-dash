@@ -41,6 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import edu.vu.isis.ammo.dash.Dash;
+import edu.vu.isis.ammo.dash.DashAbstractActivity;
 import edu.vu.isis.ammo.dash.R;
 import edu.vu.isis.ammo.dash.Util;
 
@@ -157,17 +158,17 @@ public class PreviewDialog extends AlertDialog implements OnClickListener {
 		}
 
 		switch (dataType) {
-		case Dash.TEXT_TYPE:
+		case DashAbstractActivity.TEXT_TYPE:
 			loadTextPreview();
 			break;
-		case Dash.AUDIO_TYPE:
+		case DashAbstractActivity.AUDIO_TYPE:
 			loadAudioPreview();
 			break;
 
-		case Dash.IMAGE_TYPE:
+		case DashAbstractActivity.IMAGE_TYPE:
 			loadImagePreview();
 			break;
-		case Dash.VIDEO_TYPE:
+		case DashAbstractActivity.VIDEO_TYPE:
 			loadVideoPreview();
 			break;
 		default:

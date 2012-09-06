@@ -21,6 +21,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
+import android.provider.BaseColumns;
 import edu.vu.isis.ammo.INetPrefKeys;
 import edu.vu.isis.ammo.IntentNames;
 import edu.vu.isis.ammo.api.AmmoPreference;
@@ -32,6 +33,8 @@ import edu.vu.isis.ammo.dash.preferences.DashPreferences;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.EventTableSchema;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
 import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase;
+import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.EventTableSchemaBase;
+import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.MediaTableSchemaBase;
 
 /**
  * Does this obviate the need for
@@ -79,10 +82,10 @@ public class AnnounceReceiver extends BroadcastReceiver {
 		WorkflowLogger.log("Announce Receiver - making Dash subscriptions");
 
 		try {
-			this.ad.provider(EventTableSchema.CONTENT_URI).topic(EventTableSchema.CONTENT_TOPIC).subscribe();
-			this.ad.provider(MediaTableSchema.CONTENT_URI).topic(MediaTableSchema.CONTENT_TOPIC).subscribe();
-			this.ad.provider(EventTableSchema.CONTENT_URI).topic(EventTableSchema.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
-			this.ad.provider(MediaTableSchema.CONTENT_URI).topic(MediaTableSchema.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
+			this.ad.provider(EventTableSchemaBase.CONTENT_URI).topic(EventTableSchemaBase.CONTENT_TOPIC).subscribe();
+			this.ad.provider(MediaTableSchemaBase.CONTENT_URI).topic(MediaTableSchemaBase.CONTENT_TOPIC).subscribe();
+			this.ad.provider(EventTableSchemaBase.CONTENT_URI).topic(EventTableSchemaBase.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
+			this.ad.provider(MediaTableSchemaBase.CONTENT_URI).topic(MediaTableSchemaBase.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
 		} catch (RemoteException ex) {
 			logger.error("could not connect to ammo", ex);
 		}
@@ -90,8 +93,8 @@ public class AnnounceReceiver extends BroadcastReceiver {
 
 	public void pullRecentReports(Context context) {
 		WorkflowLogger.log("Announce Receiver - pulling recent reports");
-		this.pullIncidentContent(context, EventTableSchema.CONTENT_URI, EventTableSchema.CONTENT_TOPIC, EventTableSchema._ID, EventTableSchema._RECEIVED_DATE);
-		this.pullIncidentContent(context, MediaTableSchema.CONTENT_URI, MediaTableSchema.CONTENT_TOPIC, MediaTableSchema._ID, MediaTableSchema._RECEIVED_DATE);
+		this.pullIncidentContent(context, EventTableSchemaBase.CONTENT_URI, EventTableSchemaBase.CONTENT_TOPIC, BaseColumns._ID, EventTableSchemaBase._RECEIVED_DATE);
+		this.pullIncidentContent(context, MediaTableSchemaBase.CONTENT_URI, MediaTableSchemaBase.CONTENT_TOPIC, BaseColumns._ID, MediaTableSchemaBase._RECEIVED_DATE);
 	}
 
 	/**
