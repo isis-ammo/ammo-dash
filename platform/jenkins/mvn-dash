@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export ANDROID_HOME=$(which android | sed "s/\/tools\/android//")
+
 set -e
 source ./platform/jenkins/environ.sh
 
