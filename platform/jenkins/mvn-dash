@@ -3,29 +3,5 @@
 set -e
 source ./platform/jenkins/environ.sh
 
-DEST_DIR=/isis/builds
-TESTDEST=${DEST_DIR}/test_build/regapps
-
-export ANDROID_HOME=$(which android | sed "s/\/tools\/android//")
-export ANDROID_PLATFORM=${ANDROID_HOME}/platforms/android-8
-
-RELEASE_TAG=$(get_release_tag)
-VERSION_FULL=$(get_version_full)
-BRANCH=$(get_version_branch)
-
-find . -name 'local.properties' -execdir rm 'local.properties' \;
-# replace/write the local.properties files.
-# they are placed wherever ant.properties files are found.
-
-echo "Setting the ANT local.properties files"
-while read dirpath; do
-  cat <<LOCAL > ${dirpath}/local.properties 
-sdk.dir=${ANDROID_HOME}
-LOCAL
-  BUILD_PROP=${dirpath}/build.properties
-  [ -f ${BUILD_PROP} ] || touch ${BUILD_PROP}
-done <<PATHS
-$(find . -name 'ant.properties' -printf '%h\n')
-PATHS
 
 mvn -Pjenkins install
