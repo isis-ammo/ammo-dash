@@ -114,10 +114,19 @@ public class AnnounceReceiver extends BroadcastReceiver {
 	private void pullIncidentContent(Context context, Uri contentUri, String contentTopic, String idField, String receivedDateField) {
 		final ContentResolver cr = context.getContentResolver();
 		final String[] projection = { idField, receivedDateField };
-		final String selection = new StringBuilder().append('"').append(IncidentSchemaBase.EventTableSchemaBase._DISPOSITION).append('"').append("=").append('\'').append(IncidentSchemaBase.Disposition.REMOTE).append('\'').toString();
+		final String selection = 
+		    new StringBuilder().
+		            append('"').
+		            append(IncidentSchemaBase.EventTableSchemaBase._DISPOSITION).
+		            append('"').
+		            append(" LIKE ").
+		            append('\'').
+		            append(IncidentSchemaBase.Disposition.REMOTE).
+		            append('%').
+		            append('\'').toString();
 		final String order = receivedDateField + " DESC";
 		final Cursor cur = cr.query(contentUri, projection, selection, null, order);
-
+    
 		// Negative value indicates relative time.
 		final long relativeTime;
 		// If the query failed or the there are no items in the database, set
