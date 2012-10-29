@@ -6,4 +6,4 @@ set -e
 source ./platform/jenkins/environ.sh
 
 
-mvn -Pjenkins install
+mvn -Pjenkins -U install
