@@ -12,6 +12,7 @@ package edu.vu.isis.ammo.dash;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -27,7 +28,6 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.widget.Toast;
 import edu.vu.isis.ammo.dash.preferences.DashPreferences;
-import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
 import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.MediaTableSchemaBase;
 import edu.vu.isis.ammo.util.CoordinateConversion;
 
@@ -45,7 +45,19 @@ public class Util {
 	private Util() {}
 	
 	public static String toMGRSString(Location location) {
-		return location==null ? "" : new CoordinateConversion().latLon2MGRUTM(location.getLatitude(), location.getLongitude());
+		// 10/29/12: (TA-4377)
+		// Round coordinates to 4 decimal places to make the String displayed
+		// on the device the same as what is displayed on BLOX 
+		
+		if(location == null) return "";
+		
+		BigDecimal lat = new BigDecimal(location.getLatitude());
+		lat = lat.setScale(4, BigDecimal.ROUND_HALF_UP);
+		
+		BigDecimal lon = new BigDecimal(location.getLongitude());
+		lon = lon.setScale(4, BigDecimal.ROUND_HALF_UP);
+		
+		return new CoordinateConversion().latLon2MGRUTM(lat.doubleValue(), lon.doubleValue());
 	}
 	
 	public static Location toLocation(String mgrs) {

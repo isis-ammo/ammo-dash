@@ -17,8 +17,6 @@
     </encoder>
   </appender>
 
-  <logger name="class.IncidentProvider" level="TRACE"/>
-
   <root level="WARN">
     <appender-ref ref="LOGCAT" />
   </root>

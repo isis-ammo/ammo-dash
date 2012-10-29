@@ -10,6 +10,11 @@ purpose whatsoever, and to have or authorize others to do so.
 */
 package edu.vu.isis.ammo.dash;
 
+import java.math.BigDecimal;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -36,6 +41,7 @@ public class DashModel {
 	
 	
 	private static final long BASE_DASH_SIZE = 20;
+	private static final Logger logger = LoggerFactory.getLogger("class.DashModel");
 	
 
 	public DashModel(Context context) {
@@ -96,8 +102,20 @@ public class DashModel {
 	
 	public void setLocation(Location location) {
 		if(location != null) {
-			model.put(EventTableSchemaBase.LATITUDE, location.getLatitude());
-			model.put(EventTableSchemaBase.LONGITUDE, location.getLongitude());
+			// 10/29/12: (TA-4377)
+			// Round coordinates to 4 decimal places to make the data displayed
+			// on the device the same as what is displayed on BLOX
+			
+			BigDecimal lat = new BigDecimal(location.getLatitude());
+			lat = lat.setScale(4, BigDecimal.ROUND_HALF_UP);
+			
+			BigDecimal lon = new BigDecimal(location.getLongitude());
+			lon = lon.setScale(4, BigDecimal.ROUND_HALF_UP);
+			
+			logger.info("Rounded lat and lon to {},{}", lat.toPlainString(), lon.toPlainString());
+			
+			model.put(EventTableSchemaBase.LATITUDE, lat.doubleValue());
+			model.put(EventTableSchemaBase.LONGITUDE, lon.doubleValue());
 		}
 	}
 	
