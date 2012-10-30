@@ -5,14 +5,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 
   <modelVersion>4.0.0</modelVersion>
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <ammogen.type>schema</ammogen.type>
   </properties>
   <parent>
     <groupId>edu.vu.isis</groupId>
     <artifactId>dash-parent</artifactId>
-    <!-- TEMPLATE:BEGIN-->
-    <version>1.6.1</version>
-    <!-- TEMPLATE:END -->
+    <version>1.7.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>dashlib</artifactId>
@@ -31,7 +30,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
         <updatePolicy>always</updatePolicy>
         <checksumPolicy>warn</checksumPolicy>
       </snapshots>
-      <id>nexus-vanderbilt</id>
+      <id>vanderbilt-release-repository</id>
       <url>${vandy.release.url}</url>
       <name>Dash release</name>
       <layout>default</layout>
@@ -48,7 +47,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
         <updatePolicy>never</updatePolicy>
         <checksumPolicy>fail</checksumPolicy>
       </snapshots>
-      <id>nexus-snapshot</id>
+      <id>vanderbilt-snapshot-repository</id>
       <url>${vandy.snapshot.url}</url>
       <name>Dash snapshot</name>
       <layout>default</layout>
