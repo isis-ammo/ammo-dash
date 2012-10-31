@@ -5,6 +5,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 
   <modelVersion>4.0.0</modelVersion>
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     <build>${basedir}/build</build>
     <dist>${basedir}/dist</dist>
 
@@ -12,7 +14,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <vandy.snapshot.url>http://ammo.isis.vanderbilt.edu:8081/nexus/content/repositories/vanderbilt-snapshot/</vandy.snapshot.url>
 
     <!-- ammogen properties -->
-    <ammogen.version>1.6.3.2</ammogen.version>
+    <ammogen.version>1.7.0-SNAPSHOT</ammogen.version>
     <ammolib.version>1.6.3.2</ammolib.version>
     <ammogen.template.file>template/ammo_content_provider.stg</ammogen.template.file>
     <ammogen.contract.file>contract/incident.xml</ammogen.contract.file>
@@ -24,9 +26,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <groupId>edu.vu.isis</groupId>
   <artifactId>dash-parent</artifactId>
   <packaging>pom</packaging>
-  <!-- TEMPLATE:BEGIN-->
-  <version>1.6.1</version>
-  <!-- TEMPLATE:END -->
+  <version>1.7.0-SNAPSHOT</version>
   <name>dash parent project</name>
 
   <modules>
@@ -36,11 +36,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 
   <distributionManagement>
     <repository>
-      <id>nexus-vanderbilt</id>
+      <id>vanderbilt-release-repository</id>
       <url>${vandy.release.url}</url>
     </repository>
     <snapshotRepository>
-      <id>nexus-vanderbilt</id>
+      <id>vanderbilt-snapshot-repository</id>
       <url>${vandy.snapshot.url}</url>
     </snapshotRepository>
   </distributionManagement>
@@ -168,7 +168,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
         <plugin>
 	      <groupId>org.eclipse.m2e</groupId>
 	      <artifactId>lifecycle-mapping</artifactId>
-	      <version>1.0.0</version>
+              <version>1.0.0</version>
 	      <configuration>
 	        <lifecycleMappingMetadata>
 	          <pluginExecutions>
