@@ -103,14 +103,14 @@ public class DashModel {
 	public void setLocation(Location location) {
 		if(location != null) {
 			// 10/29/12: (TA-4377)
-			// Round coordinates to 4 decimal places to make the data displayed
+			// Round coordinates to 6 decimal places to make the data displayed
 			// on the device the same as what is displayed on BLOX
 			
 			BigDecimal lat = new BigDecimal(location.getLatitude());
-			lat = lat.setScale(4, BigDecimal.ROUND_HALF_UP);
+			lat = lat.setScale(6, BigDecimal.ROUND_HALF_UP);
 			
 			BigDecimal lon = new BigDecimal(location.getLongitude());
-			lon = lon.setScale(4, BigDecimal.ROUND_HALF_UP);
+			lon = lon.setScale(6, BigDecimal.ROUND_HALF_UP);
 			
 			logger.info("Rounded lat and lon to {},{}", lat.toPlainString(), lon.toPlainString());
 			
