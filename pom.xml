@@ -13,11 +13,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <vandy.release.url>http://ammo.isis.vanderbilt.edu:8081/nexus/content/repositories/Vanderbilt/</vandy.release.url>
     <vandy.snapshot.url>http://ammo.isis.vanderbilt.edu:8081/nexus/content/repositories/vanderbilt-snapshot/</vandy.snapshot.url>
 
-    <!-- ammogen properties -->
-    <ammogen.version>1.7.0-SNAPSHOT</ammogen.version>
-    <ammolib.version>1.6.3.2</ammolib.version>
-    <ammogen.schema.lib>edu.vu.isis:dashlib:jar</ammogen.schema.lib>
-    <ammogen.repo.url>http://ammo.isis.vanderbilt.edu:8081/nexus/content/repositories/Vanderbilt</ammogen.repo.url>
   </properties>
 
   <groupId>edu.vu.isis</groupId>
@@ -53,7 +48,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <dependency>
         <groupId>edu.vu.isis</groupId>
         <artifactId>ammolib</artifactId>
-        <version>${ammolib.version}</version>
+        <version>1.7.0-SNAPSHOT</version>
         <type>apklib</type>
         <scope>compile</scope>
       </dependency>
@@ -61,7 +56,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <dependency>
         <groupId>com.google.code.gson</groupId>
         <artifactId>gson</artifactId>
-        <version>1.6</version>
+        <version>2.2.2</version>
         <scope>compile</scope>
         <type>jar</type>
       </dependency>
@@ -76,19 +71,19 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.6.4</version>
+        <version>1.7.2</version>
         <scope>compile</scope>
       </dependency>
 
       <dependency>
         <groupId>com.github.tony19</groupId>
         <artifactId>logback-android-core</artifactId>
-        <version>1.0.6-2</version>
+        <version>1.0.7-1</version>
       </dependency>
       <dependency>
         <groupId>com.github.tony19</groupId>
         <artifactId>logback-android-classic</artifactId>
-        <version>1.0.6-2</version>
+        <version>1.0.7-1</version>
       </dependency>
 
       <dependency>
@@ -116,20 +111,26 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
           <version>1.6</version>
-	        <dependencies>
-	          <dependency>
-	            <groupId>ant-contrib</groupId>
-	            <artifactId>ant-contrib</artifactId>
-	            <version>1.0b3</version>
-	            <exclusions>
-	              <exclusion>
-	                <groupId>ant</groupId>
-	                <artifactId>ant</artifactId>
-	              </exclusion>
-	            </exclusions>
-	          </dependency>
-	        </dependencies>
+          <dependencies>
+            <dependency>
+              <groupId>ant-contrib</groupId>
+              <artifactId>ant-contrib</artifactId>
+              <version>1.0b3</version>
+              <exclusions>
+                <exclusion>
+                  <groupId>ant</groupId>
+                  <artifactId>ant</artifactId>
+                </exclusion>
+              </exclusions>
+            </dependency>
+          </dependencies>
         </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        </plugin> 
 
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -154,73 +155,73 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
           <version>2.4</version>
         </plugin>
         <plugin>
-	      <groupId>org.eclipse.m2e</groupId>
-	      <artifactId>lifecycle-mapping</artifactId>
+        <groupId>org.eclipse.m2e</groupId>
+        <artifactId>lifecycle-mapping</artifactId>
               <version>1.0.0</version>
-	      <configuration>
-	        <lifecycleMappingMetadata>
-	          <pluginExecutions>
-	            
-	            <pluginExecution>
-	              <pluginExecutionFilter>
-	                <groupId>org.apache.maven.plugins</groupId>
-        			<artifactId>maven-antrun-plugin</artifactId>
-	                <versionRange>[1.0.0,)</versionRange>
-	                <goals>
-	                  <goal>run</goal>
-	                </goals>
-	              </pluginExecutionFilter>
-	              <action>
-	                <ignore />
-	              </action>
-	            </pluginExecution>
-	            
-	            <pluginExecution>
-	              <pluginExecutionFilter>
-	                <groupId>org.codehaus.mojo</groupId>
-        			<artifactId>build-helper-maven-plugin</artifactId>
-	                <versionRange>[1.0.0,)</versionRange>
-	                <goals>
-	                  <goal>add-source</goal>
-	                </goals>
-	              </pluginExecutionFilter>
-	              <action>
-	                <ignore />
-	              </action>
-	            </pluginExecution>
-	              
-         		<pluginExecution>
-	              <pluginExecutionFilter>
-	                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-        			<artifactId>android-maven-plugin</artifactId>
-	                <versionRange>[1.0.0,)</versionRange>
-	                <goals>
-	                  <goal>generate-sources</goal>
-	                  <goal>proguard</goal>
-	                </goals>
-	              </pluginExecutionFilter>
-	              <action>
-	                <ignore />
-	              </action>
-	            </pluginExecution>
-	            
-        		<pluginExecution>
-	              <pluginExecutionFilter>
-	                 <groupId>org.codehaus.mojo</groupId>
-	        		<artifactId>properties-maven-plugin</artifactId>
-	                <versionRange>[1.0-alpha-2,)</versionRange>
-	                <goals>
-	                  <goal>read-project-properties</goal>
-	                </goals>
-	              </pluginExecutionFilter>
-	              <action>
-	                <ignore />
-	              </action>
-	            </pluginExecution>
-	          </pluginExecutions>
-	        </lifecycleMappingMetadata>
-	      </configuration>
-	    </plugin>  
+        <configuration>
+          <lifecycleMappingMetadata>
+            <pluginExecutions>
+              
+              <pluginExecution>
+                <pluginExecutionFilter>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-antrun-plugin</artifactId>
+                  <versionRange>[1.0.0,)</versionRange>
+                  <goals>
+                    <goal>run</goal>
+                  </goals>
+                </pluginExecutionFilter>
+                <action>
+                  <ignore />
+                </action>
+              </pluginExecution>
+              
+              <pluginExecution>
+                <pluginExecutionFilter>
+                  <groupId>org.codehaus.mojo</groupId>
+                  <artifactId>build-helper-maven-plugin</artifactId>
+                  <versionRange>[1.0.0,)</versionRange>
+                  <goals>
+                    <goal>add-source</goal>
+                  </goals>
+                </pluginExecutionFilter>
+                <action>
+                  <ignore />
+                </action>
+              </pluginExecution>
+                
+             <pluginExecution>
+                <pluginExecutionFilter>
+                  <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                  <artifactId>android-maven-plugin</artifactId>
+                  <versionRange>[1.0.0,)</versionRange>
+                  <goals>
+                    <goal>generate-sources</goal>
+                    <goal>proguard</goal>
+                  </goals>
+                </pluginExecutionFilter>
+                <action>
+                  <ignore />
+                </action>
+              </pluginExecution>
+              
+            <pluginExecution>
+                <pluginExecutionFilter>
+                  <groupId>org.codehaus.mojo</groupId>
+                  <artifactId>properties-maven-plugin</artifactId>
+                  <versionRange>[1.0-alpha-2,)</versionRange>
+                  <goals>
+                    <goal>read-project-properties</goal>
+                  </goals>
+                </pluginExecutionFilter>
+                <action>
+                  <ignore />
+                </action>
+              </pluginExecution>
+            </pluginExecutions>
+          </lifecycleMappingMetadata>
+        </configuration>
+      </plugin>  
               
       </plugins>
     </pluginManagement>
