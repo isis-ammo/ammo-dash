@@ -102,7 +102,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <dependency>
       <groupId>edu.vu.isis</groupId>
       <artifactId>ammolib</artifactId>
-      <type>apklib</type>
+      <type>jar</type>
       <scope>compile</scope>
     </dependency>
   </dependencies>
@@ -148,7 +148,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <argument>schema=false</argument>
             <argument>provider=true</argument>
             <argument>contract=${basedir}/../contract/incident.xml</argument>
-            <argument>output=${basedir}/target/generator/ammogen</argument>
+            <argument>output=${basedir}/target/generated-sources/ammogen</argument>
           </arguments>
         </configuration>
         <dependencies>
@@ -172,7 +172,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             </goals>
             <configuration>
               <sources>
-                <source>${basedir}/target/generator/ammogen</source>
+                <source>${basedir}/target/generated-sources/ammogen</source>
               </sources>
             </configuration>
           </execution>

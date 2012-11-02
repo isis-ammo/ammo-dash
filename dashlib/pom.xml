@@ -77,7 +77,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <dependency>
       <groupId>edu.vu.isis</groupId>
       <artifactId>ammolib</artifactId>
-      <type>apklib</type>
+      <type>jar</type>
       <scope>compile</scope>
     </dependency>
   </dependencies>
