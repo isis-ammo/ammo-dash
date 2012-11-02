@@ -124,7 +124,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                 <argument>mkdir=true</argument>
                 <argument>schema=true</argument>
                 <argument>provider=false</argument>
-                <argument>contract=${basedir}/src/main/resources/contract/incident.xml</argument>
+                <argument>contract=${basedir}/../contract/incident.xml</argument>
                 <argument>output=${basedir}/target/generated-sources/ammogen</argument>
               </arguments>
             </configuration>
@@ -167,7 +167,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <configuration>
               <artifacts>
                 <artifact>
-                  <file>src/main/resources/contract/incident.xml</file>
+                  <file>${basedir}/../contract/incident.xml</file>
                   <type>xml</type>
                   <classifier>contract</classifier>
                 </artifact>
