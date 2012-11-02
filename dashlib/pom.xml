@@ -3,20 +3,20 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <ammogen.type>schema</ammogen.type>
-  </properties>
   <parent>
     <groupId>edu.vu.isis</groupId>
     <artifactId>dash-parent</artifactId>
     <version>1.7.0-SNAPSHOT</version>
   </parent>
 
+  <modelVersion>4.0.0</modelVersion>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
   <artifactId>dashlib</artifactId>
   <packaging>jar</packaging>
-  <name>dashlib</name>
+  <name>dash support library</name>
 
   <repositories>
     <repository>
@@ -76,19 +76,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 
     <dependency>
       <groupId>edu.vu.isis</groupId>
-      <artifactId>ammogen</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>edu.vu.isis</groupId>
-      <artifactId>ammogen</artifactId>
-      <scope>runtime</scope>
-      <type>xml</type>
-      <classifier>maven-targets</classifier>
-    </dependency>
-
-    <dependency>
-      <groupId>edu.vu.isis</groupId>
       <artifactId>ammolib</artifactId>
       <type>apklib</type>
       <scope>compile</scope>
@@ -112,32 +99,53 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
         <executions>
           <execution>
-            <id>generate-contract</id>
+            <id>generate-schema</id>
             <phase>generate-sources</phase>
-            <configuration>
-              <target>
-                <ant antfile="${edu.vu.isis:ammogen:xml:maven-targets}"
-                inheritAll="true" inheritRefs="true">
-                  <target name="generate-schema" />
-                </ant>
-              </target>
-            </configuration>
             <goals>
-              <goal>run</goal>
+              <goal>java</goal>
             </goals>
+            <configuration>
+              <includeProjectDependencies>false</includeProjectDependencies>
+              <includePluginDependencies>true</includePluginDependencies>
+              <executableDependency>
+                <groupId>edu.vu.isis</groupId>
+                <artifactId>ammogen</artifactId>
+              </executableDependency>
+
+              <mainClass>edu.vu.isis.ammo.generator.AmmoGenerator</mainClass>
+              <arguments>
+                <argument>template=content-provider-schema</argument>
+                <argument>skeleton=false</argument>
+                <argument>mkdir=true</argument>
+                <argument>schema=true</argument>
+                <argument>provider=false</argument>
+                <argument>contract=${basedir}/src/main/resources/contract/incident.xml</argument>
+                <argument>output=${basedir}/target/generated-sources/ammogen</argument>
+              </arguments>
+            </configuration>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <groupId>edu.vu.isis</groupId>
+            <artifactId>ammogen</artifactId>
+            <version>1.7.0-SNAPSHOT</version>
+          </dependency>
+        </dependencies>
       </plugin>
 
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.7</version>
         <executions>
           <execution>
+<!-- include the source files from ammo gen -->
             <id>add-source</id>
             <phase>generate-sources</phase>
             <goals>
@@ -145,19 +153,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             </goals>
             <configuration>
               <sources>
-                <source>${ammogen.output.dir}</source>
+                <source>${basedir}/target/generated-sources/ammogen</source>
               </sources>
             </configuration>
           </execution>
-        </executions>
-      </plugin>
-      <plugin>
-<!-- include the data contract in the build products -->
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.7</version>
-        <executions>
           <execution>
+<!-- include the data contract in the build products -->
             <id>attach-artifacts</id>
             <phase>package</phase>
             <goals>
