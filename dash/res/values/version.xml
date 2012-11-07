@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-   <string name="ammo_version">1.6.4-SNAPSHOT</string><!--end1-->
-   <integer name="ammo_version_code">1640</integer><!--end2-->
-   <string name="ammo_version_name">1.6.4-SNAPSHOT</string><!--end3-->
-</resources>
