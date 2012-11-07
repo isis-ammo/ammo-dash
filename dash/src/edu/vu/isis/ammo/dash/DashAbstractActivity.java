@@ -43,7 +43,6 @@ import edu.vu.isis.ammo.api.AmmoRequest;
 import edu.vu.isis.ammo.dash.dialogs.PreviewDialog;
 import edu.vu.isis.ammo.dash.preferences.DashPreferences;
 import edu.vu.isis.ammo.dash.preview.DashPreview;
-import edu.vu.isis.ammo.dash.provider.IncidentSchema.EventTableSchema;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
 import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.EventTableSchemaBase;
 
@@ -115,6 +114,7 @@ public abstract class DashAbstractActivity extends Activity {
 		setContentView(getContentViewResourceId());
 		WorkflowLogger.log("DashAbstractActivity - onCreate");
 		logger.info("we think we're getting this one...DashAbstractActivity - onCreate");
+		
 		// Log.i("DashWorkflow", "DashAbstractActivity - onCreate");
 
 		// Test code: make a query on the contacts app for the users unit.

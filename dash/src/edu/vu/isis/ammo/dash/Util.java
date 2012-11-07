@@ -46,16 +46,16 @@ public class Util {
 	
 	public static String toMGRSString(Location location) {
 		// 10/29/12: (TA-4377)
-		// Round coordinates to 6 decimal places to make the String displayed
+		// Round coordinates to 4 decimal places to make the String displayed
 		// on the device the same as what is displayed on BLOX 
 		
 		if(location == null) return "";
 		
 		BigDecimal lat = new BigDecimal(location.getLatitude());
-		lat = lat.setScale(6, BigDecimal.ROUND_HALF_UP);
+		lat = lat.setScale(4, BigDecimal.ROUND_HALF_UP);
 		
 		BigDecimal lon = new BigDecimal(location.getLongitude());
-		lon = lon.setScale(6, BigDecimal.ROUND_HALF_UP);
+		lon = lon.setScale(4, BigDecimal.ROUND_HALF_UP);
 		
 		return new CoordinateConversion().latLon2MGRUTM(lat.doubleValue(), lon.doubleValue());
 	}
