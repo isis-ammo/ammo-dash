@@ -1,142 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <!-- version code template -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.vu.isis.ammo.dash"
-    android:versionName="@string/ammo_version_name" 
-    android:versionCode="1640"><!--end-->
-    <!-- template end -->
-    <uses-permission android:name="android.permission.INTERNET" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="164" android:versionName="1.6.4" package="edu.vu.isis.ammo.dash">
 
-    <application
-        android:debuggable="true"
-        android:icon="@drawable/app_icon"
-        android:label="@string/app_name"
-        android:theme="@android:style/Theme.NoTitleBar" >
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application android:debuggable="true" android:icon="@drawable/app_icon" android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar">
 
         <!-- Activities -->
-        <activity android:name=".AboutActivity" />
-        <activity
-            android:name=".Dash"
-            android:label="Dash"
-            android:theme="@android:style/Theme.Black" >
+        <activity android:name=".AboutActivity"/>
+        <activity android:label="Dash" android:name=".Dash" android:theme="@android:style/Theme.Black">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".VideoPreviewActivity"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar" >
+        <activity android:name=".VideoPreviewActivity" android:screenOrientation="landscape" android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
-                <action android:name="edu.vu.isis.ammo.dash.videopreviewactivity.LAUNCH" />
+                <action android:name="edu.vu.isis.ammo.dash.videopreviewactivity.LAUNCH"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".preferences.DashPreferences" >
+        <activity android:name=".preferences.DashPreferences">
             <intent-filter>
-                <action android:name="edu.vu.isis.ammo.dash.preferences.DashPreferences.LAUNCH" />
+                <action android:name="edu.vu.isis.ammo.dash.preferences.DashPreferences.LAUNCH"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".SubscriptionViewer" >
+        <activity android:name=".SubscriptionViewer">
             <intent-filter>
-                <action android:name="edu.vu.isis.ammo.dash.SubscriptionViewer.LAUNCH" />
+                <action android:name="edu.vu.isis.ammo.dash.SubscriptionViewer.LAUNCH"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".AudioEntryActivity"
-            android:label="Audio Recorder"
-            android:theme="@android:style/Theme.Dialog" />
-        <activity
-            android:name=".DashCreateShortcut"
-            android:label="Dash Shortcut"
-            android:theme="@android:style/Theme.Black" >
+        <activity android:label="Audio Recorder" android:name=".AudioEntryActivity" android:theme="@android:style/Theme.Dialog"/>
+        <activity android:label="Dash Shortcut" android:name=".DashCreateShortcut" android:theme="@android:style/Theme.Black">
             <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+                <action android:name="android.intent.action.CREATE_SHORTCUT"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".DashCreateTemplateShortcut"
-            android:icon="@drawable/template_button2"
-            android:label="Dash Shortcut"
-            android:theme="@android:style/Theme.Black" />
-        <activity
-            android:name=".preview.DashPreview"
-            android:screenOrientation="portrait" >
+        <activity android:icon="@drawable/template_button2" android:label="Dash Shortcut" android:name=".DashCreateTemplateShortcut" android:theme="@android:style/Theme.Black"/>
+        <activity android:name=".preview.DashPreview" android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="edu.vu.isis.ammo.dash.preview.DashPreview.LAUNCH" />
+                <action android:name="edu.vu.isis.ammo.dash.preview.DashPreview.LAUNCH"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".template.AmmoTemplateManagerActivity"
-            android:label="Dash Template"
-            android:screenOrientation="portrait"
-            android:taskAffinity="edu.vu.isis.ammo.dash.template" >
+        <activity android:label="Dash Template" android:name=".template.AmmoTemplateManagerActivity" android:screenOrientation="portrait" android:taskAffinity="edu.vu.isis.ammo.dash.template">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="edu.vu.isis.ammo.dash.template.AmmoTemplateManager.LAUNCH" />
+                <action android:name="edu.vu.isis.ammo.dash.template.AmmoTemplateManager.LAUNCH"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <!-- Receivers -->
-        <receiver
-            android:name=".AnnounceReceiver"
-            android:enabled="true" >
+        <receiver android:enabled="true" android:name=".AnnounceReceiver">
             <intent-filter>
-                <action android:name="AMMO_LOGIN" />
+                <action android:name="AMMO_LOGIN"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="AMMO_CONNECTED" />
+                <action android:name="AMMO_CONNECTED"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="AMMO_READY" />
+                <action android:name="AMMO_READY"/>
 
-                <category android:name="AMMO_RESET_CATEGORY" />
+                <category android:name="AMMO_RESET_CATEGORY"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="AMMO_READY" />
+                <action android:name="AMMO_READY"/>
 
-                <category android:name="package\:edu.vu.isis.ammo.dash" />
+                <category android:name="package\:edu.vu.isis.ammo.dash"/>
             </intent-filter>
         </receiver>
 
         <!-- Providers -->
-        <provider
-            android:name="edu.vu.isis.ammo.dash.provider.IncidentProvider"
-            android:authorities="edu.vu.isis.ammo.dash.provider.incidentprovider" >
+        <provider android:authorities="edu.vu.isis.ammo.dash.provider.incidentprovider" android:name="edu.vu.isis.ammo.dash.provider.IncidentProvider">
         </provider>
 
-        <provider
-            android:name="edu.vu.isis.logger.lib.LauiContentProvider"
-            android:authorities="edu.vu.isis.ammo.dash.LauiContentProvider" />
+        <provider android:authorities="edu.vu.isis.ammo.dash.LauiContentProvider" android:name="edu.vu.isis.logger.lib.LauiContentProvider"/>
     </application>
 
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="8"/>
 
-    <uses-permission android:name="edu.vu.isis.ammo.permission.MAKE_REQUEST" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
-    <uses-permission android:name="android.permission.CONTROL_LOCATION_UPDATES" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.RECORD_VIDEO" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="edu.vu.isis.ammo.permission.MAKE_REQUEST"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
+    <uses-permission android:name="android.permission.CONTROL_LOCATION_UPDATES"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_VIDEO"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
 </manifest>
