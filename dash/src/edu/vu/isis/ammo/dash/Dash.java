@@ -42,7 +42,7 @@ public class Dash extends DashAbstractActivity {
 	private EditText descriptionText;
 	private EditText timeText;
 	private LocationView locationView;
-	
+	private boolean manualLocation = false;
 
 	
 	//TSI // private View trascribeContainer;
@@ -200,6 +200,7 @@ public class Dash extends DashAbstractActivity {
 	protected void clearAll() {
 		super.clearAll();
 		descriptionText.setText("");
+		manualLocation = false;
 	}
 	
 	@Override
@@ -233,7 +234,12 @@ public class Dash extends DashAbstractActivity {
 			return;
 		}
 		
-		if(!locationView.processMapPoint(data)) {
+		if(locationView.processMapPoint(data)) {
+			// If the user picked a point on the map, then the location should
+			// not be overwritten by other sources (for example, when a picture
+			// is taken by the Traq camera)
+			manualLocation = true;
+		} else {
 			//see the log file for more information.
 			Util.makeToast(this, "Error processing the result.");
 		}
@@ -257,7 +263,12 @@ public class Dash extends DashAbstractActivity {
 			camLocation = new Location(LocationManager.GPS_PROVIDER);
 			camLocation.setLatitude(latlong[0]);
 			camLocation.setLongitude(latlong[1]);
-			locationView.setLocation(camLocation);
+			
+			// Don't update the location view if the user manually picked
+			// a point on the map
+			if(!manualLocation) {
+				locationView.setLocation(camLocation);
+			}
 		} catch (IOException e) {
 			logger.warn("Could not process exif data from file: {}", filename);
 		}
