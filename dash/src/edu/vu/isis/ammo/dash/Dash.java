@@ -240,26 +240,28 @@ public class Dash extends DashAbstractActivity {
 	}
 	
 	@Override
-	/* package */ void parseExifData(String filename) {
+	/* package */ Location parseExifData(String filename) {
 		if (!(filename.endsWith("jpg") || filename.endsWith("jpeg"))) {
 			// For now, to be safe, we only process jpeg files
 			logger.debug(
 					"Skipped Exif parsing on file {} because it isn't a jpg file",
 					filename);
-			return;
+			return null;
 		}
 
+		Location camLocation = null;
 		try {
 			ExifInterface ei = new ExifInterface(filename);
 			float[] latlong = new float[2];
 			ei.getLatLong(latlong);
-			Location camLocation = new Location(LocationManager.GPS_PROVIDER);
+			camLocation = new Location(LocationManager.GPS_PROVIDER);
 			camLocation.setLatitude(latlong[0]);
 			camLocation.setLongitude(latlong[1]);
 			locationView.setLocation(camLocation);
 		} catch (IOException e) {
 			logger.warn("Could not process exif data from file: {}", filename);
 		}
+		return camLocation;
 	}
 	
 	/**
