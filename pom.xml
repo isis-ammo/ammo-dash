@@ -196,6 +196,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                   <versionRange>[1.0.0,)</versionRange>
                   <goals>
                     <goal>add-source</goal>
+                    <goal>parse-version</goal>
                   </goals>
                 </pluginExecutionFilter>
                 <action>

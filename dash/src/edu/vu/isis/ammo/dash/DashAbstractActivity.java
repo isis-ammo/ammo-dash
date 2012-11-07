@@ -24,6 +24,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
@@ -306,7 +307,7 @@ public abstract class DashAbstractActivity extends Activity {
 				model.setThumbnail(MediaActivityManager.getThumbnail(fileUri));
 				model.setCurrentMediaType(IMAGE_TYPE);
 				model.setCurrentMediaUri(MediaActivityManager.processPicture(
-						getContentResolver(), id, model.getThumbnail()));
+						getContentResolver(), id, model.getThumbnail(), traqFilepath));
 			}
 
 			if (model.getCurrentMediaUri() == null) {
@@ -340,9 +341,12 @@ public abstract class DashAbstractActivity extends Activity {
 	 * Specifically, we care about the geolocation data.
 	 * 
 	 * @param filename
-	 *            -- the filename of the picture to process
+	 *            the filename of the picture to process
+	 * @return a Location representing the lat/lon where the picture was taken,
+	 *          or null if no lat/lon is available.
 	 */
-	/* package */ void parseExifData(String filename) {
+	Location parseExifData(String filename) {
+		return null;
 		// This is meant to be implemented by subclasses if needed
 	}
 

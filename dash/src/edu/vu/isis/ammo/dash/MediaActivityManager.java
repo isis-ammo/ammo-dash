@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -45,6 +47,17 @@ import edu.vu.isis.ammo.dash.template.AmmoTemplateManagerActivity;
 public class MediaActivityManager {
 
 	private static final int THUMBNAIL_HEIGHT = 480;
+	public static final String[] EXIF_TAGS = { ExifInterface.TAG_DATETIME,
+			ExifInterface.TAG_FLASH, ExifInterface.TAG_FOCAL_LENGTH,
+			ExifInterface.TAG_GPS_DATESTAMP, ExifInterface.TAG_GPS_LATITUDE,
+			ExifInterface.TAG_GPS_LATITUDE_REF,
+			ExifInterface.TAG_GPS_LONGITUDE,
+			ExifInterface.TAG_GPS_LONGITUDE_REF,
+			ExifInterface.TAG_GPS_PROCESSING_METHOD,
+			ExifInterface.TAG_GPS_TIMESTAMP, ExifInterface.TAG_IMAGE_LENGTH,
+			ExifInterface.TAG_IMAGE_WIDTH, ExifInterface.TAG_MAKE,
+			ExifInterface.TAG_MODEL, ExifInterface.TAG_ORIENTATION,
+			ExifInterface.TAG_WHITE_BALANCE };
 
 	private MediaActivityManager() {
 	}
@@ -116,7 +129,7 @@ public class MediaActivityManager {
 	 * @return true on success, false on failure.
 	 */
 	public static Uri processPicture(ContentResolver contentResolver,
-			String id, Bitmap thumbnail) {
+			String id, Bitmap thumbnail, String origFilepath) {
 		if (thumbnail == null) {
 			logger.error("::processPicture - thumbnail null");
 			return null;
@@ -124,7 +137,7 @@ public class MediaActivityManager {
 
 		// Write the thumbnail to the sd card and store the URI in our CP.
 		String filePath = writeBitmapToSDCard(thumbnail,
-				String.valueOf(System.currentTimeMillis()));
+				String.valueOf(System.currentTimeMillis()), origFilepath);
 		if (filePath == null) {
 			return null;
 		}
@@ -141,14 +154,21 @@ public class MediaActivityManager {
 		cv.put(MediaTableSchemaBase.DATA_TYPE, dataType);
 		cv.put(MediaTableSchemaBase.DATA, filePath);
 		Uri uri = resolver.insert(MediaTableSchemaBase.CONTENT_URI, cv);
-		logger.debug("Camera activity returned. Inserted " + filePath
-				+ " into " + uri.toString());
+		logger.debug("Camera activity returned. Inserted {} into {}", filePath,
+				uri.toString());
 
 		return uri;
 	}
 
-	private static String writeBitmapToSDCard(Bitmap bitmap, String filename) {
+	private static String writeBitmapToSDCard(Bitmap bitmap, String filename,
+			String origFilepath) {
 		FileOutputStream outStream = null;
+		File file = null;
+		// First, the bitmap is compressed and written to the output stream.
+		// Then, if origFilepath is not null, an ExifInterface is used to
+		// copy the Exif data to the compressed jpeg file.
+
+		// Make the file and save a compressed bitmap to it
 		try {
 			String exStoreState = Environment.getExternalStorageState();
 			if (!exStoreState.equals(Environment.MEDIA_MOUNTED)) {
@@ -163,14 +183,13 @@ public class MediaActivityManager {
 				}
 			}
 
-			File file = new File(DashAbstractActivity.CAMERA_DIR, filename + ".jpg");
+			file = new File(DashAbstractActivity.CAMERA_DIR, filename + ".jpg");
 			outStream = new FileOutputStream(file);
-			bitmap.compress(CompressFormat.JPEG, DashAbstractActivity.JPEG_QUALITY, outStream);
-
-			return file.getAbsolutePath();
+			bitmap.compress(CompressFormat.JPEG,
+					DashAbstractActivity.JPEG_QUALITY, outStream);
 
 		} catch (FileNotFoundException e) {
-			logger.error("::writeBitmapToSDCard -", e);
+			logger.error("", e);
 			return null;
 		} finally {
 			try {
@@ -178,9 +197,34 @@ public class MediaActivityManager {
 					outStream.close();
 				}
 			} catch (IOException e) {
-				logger.error("::writeBitmapToSDCard -", e);
-				e.printStackTrace();
+				logger.error("", e);
 			}
+		}
+
+		// Copy the Exif data
+		if (origFilepath != null) {
+			try {
+				ExifInterface inEi = new ExifInterface(origFilepath);
+				ExifInterface outEi = new ExifInterface(file.getAbsolutePath());
+
+				for (int i = 0; i < EXIF_TAGS.length; i++) {
+					copyAttribute(inEi, outEi, EXIF_TAGS[i]);
+				}
+
+				outEi.saveAttributes();
+			} catch (IOException e) {
+				logger.error("", e);
+			}
+		}
+
+		return file.getAbsolutePath();
+	}
+
+	private static void copyAttribute(ExifInterface inEi, ExifInterface outEi,
+			String tag) {
+		String att = inEi.getAttribute(tag);
+		if (att != null) {
+			outEi.setAttribute(tag, att);
 		}
 	}
 
@@ -201,7 +245,8 @@ public class MediaActivityManager {
 			String id, String templateData) {
 		// Store the text file in the sdcard and create a media entry.
 		try {
-			File dir = new File(DashAbstractActivity.TEMPLATE_DIR.getCanonicalPath());
+			File dir = new File(
+					DashAbstractActivity.TEMPLATE_DIR.getCanonicalPath());
 			String filename = String.valueOf(System.currentTimeMillis());
 			File currentFile = new File(dir, filename + "_template.txt");
 			FileOutputStream fos = new FileOutputStream(currentFile);
@@ -214,7 +259,8 @@ public class MediaActivityManager {
 			cv.put(MediaTableSchemaBase.DATA_TYPE,
 					MediaTableSchema.TEMPLATE_DATA_TYPE);
 			cv.put(MediaTableSchemaBase.DATA, currentFile.getCanonicalPath());
-			Uri uri = contentResolver.insert(MediaTableSchemaBase.CONTENT_URI, cv);
+			Uri uri = contentResolver.insert(MediaTableSchemaBase.CONTENT_URI,
+					cv);
 			logger.debug("Inserted " + currentFile.getCanonicalPath()
 					+ " into " + uri.toString());
 			return uri;
@@ -228,7 +274,8 @@ public class MediaActivityManager {
 	public static String getPath(ContentResolver contentResolver, Uri mediaUri) {
 		try {
 			Cursor cursor = contentResolver.query(mediaUri,
-					new String[] { MediaTableSchemaBase.DATA }, null, null, null);
+					new String[] { MediaTableSchemaBase.DATA }, null, null,
+					null);
 			if (cursor.getCount() != 1) {
 				logger.error("::getPath - media not found");
 				return null;
