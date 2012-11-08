@@ -7,18 +7,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <build>${basedir}/build</build>
-    <dist>${basedir}/dist</dist>
-
     <vandy.release.url>http://ammo.isis.vanderbilt.edu:8081/nexus/content/repositories/Vanderbilt/</vandy.release.url>
     <vandy.snapshot.url>http://ammo.isis.vanderbilt.edu:8081/nexus/content/repositories/vanderbilt-snapshot/</vandy.snapshot.url>
-
   </properties>
 
   <groupId>edu.vu.isis</groupId>
   <artifactId>dash-parent</artifactId>
   <packaging>pom</packaging>
-  <version>1.6.4</version>
+  <version>1.7.0-SNAPSHOT</version>
   <name>dash parent project</name>
 
   <scm>
@@ -34,14 +30,50 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 
   <distributionManagement>
     <repository>
-      <id>vanderbilt-release-repository</id>
+      <id>vanderbilt-release</id>
       <url>${vandy.release.url}</url>
     </repository>
     <snapshotRepository>
-      <id>vanderbilt-snapshot-repository</id>
+      <id>vanderbilt-snapshot</id>
       <url>${vandy.snapshot.url}</url>
     </snapshotRepository>
   </distributionManagement>
+
+  <repositories>
+    <repository>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+        <checksumPolicy>fail</checksumPolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>warn</checksumPolicy>
+      </snapshots>
+      <id>vanderbilt-release</id>
+      <url>${vandy.release.url}</url>
+      <name>Dash release</name>
+      <layout>default</layout>
+    </repository>
+
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>warn</checksumPolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+        <checksumPolicy>fail</checksumPolicy>
+      </snapshots>
+      <id>vanderbilt-snapshot</id>
+      <url>${vandy.snapshot.url}</url>
+      <name>Dash snapshot</name>
+      <layout>default</layout>
+    </repository>
+  </repositories>
 
   <dependencyManagement>
     <dependencies>

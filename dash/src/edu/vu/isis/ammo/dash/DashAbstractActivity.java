@@ -500,7 +500,7 @@ public abstract class DashAbstractActivity extends Activity {
 					.log("DashAbstractActivity - posted event to AmmoCore with Uri: "
 							+ incidentUri);
 		} catch (RemoteException ex) {
-			logger.error("post incident failed {}", ex.getStackTrace());
+			logger.error("post incident failed", ex);
 		}
 		if (model.getCurrentMediaUri() != null) {
 			try {
@@ -510,7 +510,7 @@ public abstract class DashAbstractActivity extends Activity {
 						.log("DashAbstractActivity - posted media to AmmoCore with Uri: "
 								+ model.getCurrentMediaUri());
 			} catch (RemoteException ex) {
-				logger.error("post media failed {}", ex.getStackTrace());
+				logger.error("post media failed", ex);
 			}
 		}
 		if (model.getTemplateData() != null) {
