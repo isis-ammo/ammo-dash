@@ -78,12 +78,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <dependency>
         <groupId>com.github.tony19</groupId>
         <artifactId>logback-android-core</artifactId>
-        <version>1.0.7-1</version>
+        <version>1.0.7-2-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>com.github.tony19</groupId>
         <artifactId>logback-android-classic</artifactId>
-        <version>1.0.7-1</version>
+        <version>1.0.7-2-SNAPSHOT</version>
       </dependency>
 
       <dependency>
@@ -212,6 +212,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                   <goals>
                     <goal>generate-sources</goal>
                     <goal>proguard</goal>
+                    <goal>manifest-update</goal>
                   </goals>
                 </pluginExecutionFilter>
                 <action>
