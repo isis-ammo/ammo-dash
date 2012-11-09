@@ -246,7 +246,7 @@ public class LocationView implements GuiField {
 		}
 		Location location = locMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		if (location != null) {
-			setLocationFromGPS(location);
+			setLocation(location);
 		}
 	}
 
