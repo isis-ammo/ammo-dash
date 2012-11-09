@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 import edu.vu.isis.ammo.INetPrefKeys;
 import edu.vu.isis.ammo.IntentNames;
 import edu.vu.isis.ammo.api.AmmoPreference;
@@ -401,6 +402,8 @@ public abstract class DashAbstractActivity extends Activity {
 			removeData(getContentResolver(), model.getCurrentMediaUri());
 		}
 		model.setCurrentMediaUri(null);
+		model.setThumbnail(null);
+		model.setImageUri(null);
 		updateButtons();
 	}
 
@@ -484,6 +487,10 @@ public abstract class DashAbstractActivity extends Activity {
 	 * method).
 	 */
 	private void save() {
+		if(model.isInvalid()) {
+			Util.makeToast(this, "Dash report is empty. Not posting.");
+			return;
+		}
 		toModel();
 		final ContentResolver resolver = getContentResolver();
 

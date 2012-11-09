@@ -201,6 +201,7 @@ public class Dash extends DashAbstractActivity {
 		super.clearAll();
 		descriptionText.setText("");
 		manualLocation = false;
+		locationView.updateLocation();
 	}
 	
 	@Override
