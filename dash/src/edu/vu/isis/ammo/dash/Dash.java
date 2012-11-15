@@ -93,6 +93,9 @@ public class Dash extends DashAbstractActivity {
 			@Override
 			public void onClick(View v) {
 				updateTime(System.currentTimeMillis());
+				
+				// TA-1957: Request for refresh button to also update the current location
+				locationView.updateLocation();
 			}
 		});
 		
@@ -201,6 +204,7 @@ public class Dash extends DashAbstractActivity {
 		super.clearAll();
 		descriptionText.setText("");
 		manualLocation = false;
+		locationView.updateLocation();
 	}
 	
 	@Override
