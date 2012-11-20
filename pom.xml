@@ -53,6 +53,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>edu.vu.isis.ammo.plugins</groupId>
+          <artifactId>ammogen-maven-plugin</artifactId>
+          <version>1.7.0-SNAPSHOT</version>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>

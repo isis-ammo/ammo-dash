@@ -18,21 +18,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <packaging>jar</packaging>
   <name>dash support library</name>
 
-
   <dependencies>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <scope>compile</scope>
-      <type>jar</type>
-    </dependency>
-
     <dependency>
       <groupId>com.google.android</groupId>
       <artifactId>android</artifactId>
@@ -52,43 +38,26 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 
     <plugins>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
+        <groupId>edu.vu.isis.ammo.plugins</groupId>
+        <artifactId>ammogen-maven-plugin</artifactId>
         <executions>
           <execution>
             <id>generate-schema</id>
             <phase>generate-sources</phase>
             <goals>
-              <goal>java</goal>
+              <goal>generate</goal>
             </goals>
             <configuration>
-              <includeProjectDependencies>false</includeProjectDependencies>
-              <includePluginDependencies>true</includePluginDependencies>
-              <executableDependency>
-                <groupId>edu.vu.isis</groupId>
-                <artifactId>ammogen</artifactId>
-              </executableDependency>
-
-              <mainClass>edu.vu.isis.ammo.generator.AmmoGenerator</mainClass>
-              <arguments>
-                <argument>template=content-provider-schema</argument>
-                <argument>skeleton=false</argument>
-                <argument>mkdir=true</argument>
-                <argument>schema=true</argument>
-                <argument>provider=false</argument>
-                <argument>contract=${basedir}/../contract/incident.xml</argument>
-                <argument>output=${basedir}/target/generated-sources/ammogen</argument>
-              </arguments>
+                <template>content-provider-schema</template>
+                <skeleton>false</skeleton>
+                <mkdir>true</mkdir>
+                <schema>true</schema>
+                <provider>false</provider>
+                <contract>${basedir}/../contract/incident.xml</contract>
+                <outputDir>${basedir}/target/generated-sources/ammogen</outputDir>
             </configuration>
           </execution>
         </executions>
-        <dependencies>
-          <dependency>
-            <groupId>edu.vu.isis</groupId>
-            <artifactId>ammogen</artifactId>
-            <version>1.7.0-SNAPSHOT</version>
-          </dependency>
-        </dependencies>
       </plugin>
 
       <plugin>
