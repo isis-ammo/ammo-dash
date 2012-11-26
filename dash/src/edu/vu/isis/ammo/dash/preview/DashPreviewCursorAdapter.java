@@ -26,8 +26,6 @@ import android.widget.TextView;
 import edu.vu.isis.ammo.dash.LocationTextView;
 import edu.vu.isis.ammo.dash.R;
 import edu.vu.isis.ammo.dash.Util;
-import edu.vu.isis.ammo.dash.provider.IncidentSchema;
-import edu.vu.isis.ammo.dash.provider.IncidentSchema.EventTableSchema;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
 import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.EventTableSchemaBase;
 import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.MediaTableSchemaBase;
