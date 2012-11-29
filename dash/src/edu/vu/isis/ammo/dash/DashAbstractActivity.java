@@ -487,11 +487,11 @@ public abstract class DashAbstractActivity extends Activity {
 	 * method).
 	 */
 	private void save() {
+		toModel();
 		if(model.isInvalid()) {
 			Util.makeToast(this, "Dash report is empty. Not posting.");
 			return;
 		}
-		toModel();
 		final ContentResolver resolver = getContentResolver();
 
 		final Uri incidentUri = resolver.insert(EventTableSchemaBase.CONTENT_URI,
