@@ -58,7 +58,34 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
           <artifactId>ammogen-maven-plugin</artifactId>
           <version>1.7.0-RC4</version>
         </plugin>
-      </plugins>
+
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+          <lifecycleMappingMetadata>
+            <pluginExecutions>
+
+                <pluginExecution>
+                <pluginExecutionFilter>
+                  <groupId>edu.vu.isis.ammo.plugins</groupId>
+                  <artifactId>ammogen-maven-plugin</artifactId>
+                  <versionRange>[1.0,)</versionRange>
+                  <goals>
+                    <goal>generate</goal>
+                  </goals>
+                </pluginExecutionFilter>
+                <action>
+                  <ignore />
+                </action>
+              </pluginExecution>
+            </pluginExecutions>
+          </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+
+       </plugins>
     </pluginManagement>
   </build>
 
