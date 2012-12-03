@@ -54,6 +54,7 @@ public class LocationView implements GuiField {
 	private static final String ZOOM_LEVEL_EXTRA = "zoomLevel";
 	private static final String LAT_EXTRA = "LAT";
 	private static final String LON_EXTRA = "LON";
+	private static final String NO_LOC_MESSAGE = "No location available";
 	
 	
 
@@ -95,7 +96,7 @@ public class LocationView implements GuiField {
 		if (eNode != null) {
 			parseXml(eNode);
 		} else {
-			editText.setText("31NAA6602100000");	
+			editText.setText(NO_LOC_MESSAGE);	
 		}
 		
 		ImageButton mapPickerButton = (ImageButton)viewGroup.findViewById(R.id.location_view_map_picker_button);
@@ -177,11 +178,11 @@ public class LocationView implements GuiField {
 	}
 	
 	public void setLocation(Location location) {
-		// Only set the location if it isn't null.
-		if (location != null) {
-			this.location = location;
+		this.location = location;
+		if(location != null) {
 			editText.setText(Util.toMGRSString(location));
-			WorkflowLogger.log("LocationView - setLocation with lat: " + location.getLatitude() + " long:" + location.getLongitude());
+		} else {
+			editText.setText(NO_LOC_MESSAGE);
 		}
 	}
 	

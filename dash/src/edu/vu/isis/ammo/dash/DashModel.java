@@ -97,9 +97,10 @@ public class DashModel {
 	public Location getLocation() {
 		if (model.containsKey(EventTableSchemaBase.LATITUDE)
 				&& model.containsKey(EventTableSchemaBase.LONGITUDE)) {
-			return Util.buildLocation(
-					model.getAsDouble(EventTableSchemaBase.LATITUDE),
-					model.getAsDouble(EventTableSchemaBase.LONGITUDE));
+			Double lat = model.getAsDouble(EventTableSchemaBase.LATITUDE);
+			Double lon = model.getAsDouble(EventTableSchemaBase.LONGITUDE);
+			if(lat == null || lon == null) return null;
+			return Util.buildLocation(lat, lon);
 		}
 		return null;
 	}
@@ -121,6 +122,9 @@ public class DashModel {
 
 			model.put(EventTableSchemaBase.LATITUDE, lat.doubleValue());
 			model.put(EventTableSchemaBase.LONGITUDE, lon.doubleValue());
+		} else {
+			model.put(EventTableSchemaBase.LATITUDE, (Double) null);
+			model.put(EventTableSchemaBase.LONGITUDE, (Double) null);
 		}
 	}
 
