@@ -97,31 +97,32 @@ public class DashModel {
 	public Location getLocation() {
 		if (model.containsKey(EventTableSchemaBase.LATITUDE)
 				&& model.containsKey(EventTableSchemaBase.LONGITUDE)) {
-			Double lat = model.getAsDouble(EventTableSchemaBase.LATITUDE);
-			Double lon = model.getAsDouble(EventTableSchemaBase.LONGITUDE);
-			if(lat == null || lon == null) return null;
-			return Util.buildLocation(lat, lon);
+			Integer lat_i = model.getAsInteger(EventTableSchemaBase.LATITUDE);
+			Integer lon_i = model.getAsInteger(EventTableSchemaBase.LONGITUDE);
+			if(lat_i == null || lon_i == null) return null;
+			double lat_d = Util.scaleIntCoordinate(lat_i);
+			double lon_d = Util.scaleIntCoordinate(lon_i);
+			return Util.buildLocation(lat_d, lon_d);
 		}
 		return null;
 	}
 
 	public void setLocation(Location location) {
 		if (location != null) {
-			// 10/29/12: (TA-4377)
-			// Round coordinates to 4 decimal places to make the data displayed
-			// on the device the same as what is displayed on BLOX
+		    // Round location values to 6 decimal places to match
+		    // what is displayed on BLOX
 
 			BigDecimal lat = new BigDecimal(location.getLatitude());
-			lat = lat.setScale(4, BigDecimal.ROUND_HALF_UP);
+			lat = lat.setScale(6, BigDecimal.ROUND_HALF_UP);
 
 			BigDecimal lon = new BigDecimal(location.getLongitude());
-			lon = lon.setScale(4, BigDecimal.ROUND_HALF_UP);
+			lon = lon.setScale(6, BigDecimal.ROUND_HALF_UP);
 
 			logger.info("Rounded lat and lon to {},{}", lat.toPlainString(),
 					lon.toPlainString());
 
-			model.put(EventTableSchemaBase.LATITUDE, lat.doubleValue());
-			model.put(EventTableSchemaBase.LONGITUDE, lon.doubleValue());
+			model.put(EventTableSchemaBase.LATITUDE, Util.scaleDoubleCoordinate(lat.doubleValue()));
+			model.put(EventTableSchemaBase.LONGITUDE, Util.scaleDoubleCoordinate(lon.doubleValue()));
 		} else {
 			model.put(EventTableSchemaBase.LATITUDE, (Double) null);
 			model.put(EventTableSchemaBase.LONGITUDE, (Double) null);
