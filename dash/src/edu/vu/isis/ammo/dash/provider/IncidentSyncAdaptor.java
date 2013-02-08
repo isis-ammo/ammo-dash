@@ -51,6 +51,7 @@ import android.provider.SyncStateContract.Constants;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
+import edu.vu.isis.ammo.dash.Util;
 import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.CategoryTableSchemaBase;
 import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.EventTableSchemaBase;
 import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.MediaTableSchemaBase;
@@ -827,8 +828,8 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 			iw.setCategoryId(cursor.getString(cursor.getColumnIndex(EventTableSchemaBase.CATEGORY_ID)));  
 			iw.setTitle(cursor.getString(cursor.getColumnIndex(EventTableSchemaBase.TITLE)));  
 			iw.setDescription(cursor.getString(cursor.getColumnIndex(EventTableSchemaBase.DESCRIPTION)));  
-			iw.setLongitude(cursor.getDouble(cursor.getColumnIndex(EventTableSchemaBase.LONGITUDE)));  
-			iw.setLatitude(cursor.getDouble(cursor.getColumnIndex(EventTableSchemaBase.LATITUDE)));  
+			iw.setLongitude(Util.scaleIntCoordinate(cursor.getInt(cursor.getColumnIndex(EventTableSchemaBase.LONGITUDE))));  
+			iw.setLatitude(Util.scaleIntCoordinate(cursor.getInt(cursor.getColumnIndex(EventTableSchemaBase.LATITUDE))));  
 			iw.setCreatedDate(cursor.getLong(cursor.getColumnIndex(EventTableSchemaBase.CREATED_DATE)));  
 			iw.setModifiedDate(cursor.getLong(cursor.getColumnIndex(EventTableSchemaBase.MODIFIED_DATE)));  
 			iw.setCid(cursor.getString(cursor.getColumnIndex(EventTableSchemaBase.CID)));  

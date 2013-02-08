@@ -55,9 +55,9 @@
      </field>
      <field type="TEXT" name="description" default="">
      </field>
-     <field type="REAL" name="longitude" default="0.0">
+     <field type="INTEGER" name="longitude" default="0.0">
      </field>
-     <field type="REAL" name="latitude" default="0.0">
+     <field type="INTEGER" name="latitude" default="0.0">
      </field>
      <field type="TIMESTAMP" name="created date" default="now">
      </field>

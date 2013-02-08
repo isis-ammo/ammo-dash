@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -112,10 +113,20 @@ public class AmmoTemplateManagerActivity extends DashAbstractActivity {
 		super.toModel();
 		model.setDescription(templateView.getTemplateDisplayName());
 		model.setTemplateData(toJson(templateView.getData()));
-
+		
+		Location loc = null;
 		if (templateView.locationView != null) {
-			model.setLocation(templateView.locationView.getLocation());
+			loc = templateView.locationView.getLocation();
+		} else {
+			// Use the location of the device 
+			// (Otherwise a lat,lon of (0,0) is reported, which is undesirable)
+			LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+			if(lm != null) {
+				loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			}
 		}
+		
+		model.setLocation(loc);
 
 	}
 
