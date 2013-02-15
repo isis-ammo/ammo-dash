@@ -8,7 +8,6 @@
        The event can have more than one set of media.
        The media will only be associated with one event.
      </description>
-     <mode type="SERIAL" name="serial"> </mode>
 
      <field type="TEXT" name="event id" default="">
         Points to the event to which this belongs.
@@ -30,9 +29,6 @@
      <description>
        Each incident will have a single event.
      </description>
-     <mode type="SERIAL" name="serial">
-         <child relation="media" fk="event id"/>
-     </mode>
 
      <field type="TEXT" name="uuid" default="">
      </field>
@@ -121,7 +117,6 @@
        It is unlikely that there will be an android application which will do
        anything but read these items.
      </description>
-     <mode type="SERIAL" name="serial"> </mode>
 
      <field key="mc" type="TEXT" name="main category" default="" sort="1">
      </field>
