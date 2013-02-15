@@ -54,9 +54,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>edu.vu.isis.ammo.plugins</groupId>
-          <artifactId>ammogen-maven-plugin</artifactId>
-          <version>1.7.0</version>
+          <groupId>edu.vanderbilt.isis.druid</groupId>
+          <artifactId>druid-maven-plugin</artifactId>
+          <version>2.0.0</version>
         </plugin>
 
         <plugin>
@@ -69,9 +69,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 
                 <pluginExecution>
                 <pluginExecutionFilter>
-                  <groupId>edu.vu.isis.ammo.plugins</groupId>
-                  <artifactId>ammogen-maven-plugin</artifactId>
-                  <versionRange>[1.0,)</versionRange>
+                  <groupId>edu.vanderbilt.isis.druid</groupId>
+                  <artifactId>druid-maven-plugin</artifactId>
+                  <versionRange>[2.0,)</versionRange>
                   <goals>
                     <goal>generate</goal>
                   </goals>

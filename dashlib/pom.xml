@@ -37,26 +37,27 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <finalName>${project.artifactId}</finalName>
 
     <plugins>
+
       <plugin>
-        <groupId>edu.vu.isis.ammo.plugins</groupId>
-        <artifactId>ammogen-maven-plugin</artifactId>
+        <groupId>edu.vanderbilt.isis.druid</groupId>
+        <artifactId>druid-maven-plugin</artifactId>
+        <version>2.0.0</version>
         <executions>
+
           <execution>
-            <id>generate-schema</id>
+            <id>generate-android-provider-shema-files</id>
             <phase>generate-sources</phase>
             <goals>
               <goal>generate</goal>
             </goals>
             <configuration>
-                <template>content-provider-schema</template>
-                <skeleton>false</skeleton>
-                <mkdir>true</mkdir>
-                <schema>true</schema>
-                <provider>false</provider>
-                <contract>${basedir}/../contract/incident.xml</contract>
-                <outputDir>${basedir}/target/generated-sources/ammogen</outputDir>
+              <templateFile>template-v1/SchemaBaseTemplate.stg</templateFile>
+              <artifactCoords>edu.vanderbilt.isis.druid:druid-template:2.0.0</artifactCoords>
+              <contractFile>${basedir}/../contract/incident.xml</contractFile>
+              <baseOutputDirectory>${basedir}/target/generated-sources/druid</baseOutputDirectory>
             </configuration>
           </execution>
+
         </executions>
       </plugin>
 
@@ -73,7 +74,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             </goals>
             <configuration>
               <sources>
-                <source>${basedir}/target/generated-sources/ammogen</source>
+                <source>${basedir}/target/generated-sources/druid/src</source>
               </sources>
             </configuration>
           </execution>

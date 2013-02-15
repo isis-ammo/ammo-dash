@@ -21,8 +21,8 @@
      <field type="TIMESTAMP" name="modified date" default="now" sort="1">
      </field>
 
-     <key>
-        <ref field="event id"/>
+     <key name="update">
+        <field ref="event id"/>
      </key>
   </relation>
 
@@ -94,8 +94,8 @@
             the gateway plugin.
         </description>
     </field>
-     <key>
-        <ref field="uuid"/>
+     <key name="update">
+        <field ref="uuid"/>
      </key>
   </relation>
 
