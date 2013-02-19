@@ -29,12 +29,8 @@ import edu.vu.isis.ammo.api.AmmoRequest;
 import edu.vu.isis.ammo.api.IAmmoRequest;
 import edu.vu.isis.ammo.api.type.Limit;
 import edu.vu.isis.ammo.api.type.Query;
+import edu.vu.isis.ammo.dash.incident.provider.IncidentContentDescriptor;
 import edu.vu.isis.ammo.dash.preferences.DashPreferences;
-import edu.vu.isis.ammo.dash.provider.IncidentSchema.EventTableSchema;
-import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
-import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase;
-import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.EventTableSchemaBase;
-import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.MediaTableSchemaBase;
 
 /**
  * Does this obviate the need for
@@ -62,7 +58,7 @@ public class AnnounceReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		this.ad = AmmoRequest.newBuilder(context, this);
 		final String action = intent.getAction();
-		WorkflowLogger.log("Announce Receiver - got an intent with action: " + action);
+		logger.debug("Announce Receiver - got an intent with action: {}", action);
 		if (IntentNames.AMMO_READY.endsWith(action)) {
 			logger.info("Announce Receiver: Got an Intent");
 			this.makeDashSubscriptions(context);
@@ -79,22 +75,22 @@ public class AnnounceReceiver extends BroadcastReceiver {
                    .getInstance(context)
                    .getString(INetPrefKeys.CORE_OPERATOR_ID, 
                               INetPrefKeys.DEFAULT_CORE_OPERATOR_ID);
-		WorkflowLogger.log("Announce Receiver - making Dash subscriptions");
+		WorkflowLogger.SELECT.debug("Announce Receiver - making Dash subscriptions");
 
 		try {
-			this.ad.provider(EventTableSchemaBase.CONTENT_URI).topic(EventTableSchemaBase.CONTENT_TOPIC).subscribe();
-			this.ad.provider(MediaTableSchemaBase.CONTENT_URI).topic(MediaTableSchemaBase.CONTENT_TOPIC).subscribe();
-			this.ad.provider(EventTableSchemaBase.CONTENT_URI).topic(EventTableSchemaBase.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
-			this.ad.provider(MediaTableSchemaBase.CONTENT_URI).topic(MediaTableSchemaBase.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
+			this.ad.provider(IncidentContentDescriptor.Event.CONTENT_URI).topic(IncidentContentDescriptor.Event.CONTENT_TOPIC).subscribe();
+			this.ad.provider(IncidentContentDescriptor.Media.CONTENT_URI).topic(IncidentContentDescriptor.Media.CONTENT_TOPIC).subscribe();
+			this.ad.provider(IncidentContentDescriptor.Event.CONTENT_URI).topic(IncidentContentDescriptor.Event.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
+			this.ad.provider(IncidentContentDescriptor.Media.CONTENT_URI).topic(IncidentContentDescriptor.Media.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
 		} catch (RemoteException ex) {
 			logger.error("could not connect to ammo", ex);
 		}
 	}
 
 	public void pullRecentReports(Context context) {
-		WorkflowLogger.log("Announce Receiver - pulling recent reports");
-		this.pullIncidentContent(context, EventTableSchemaBase.CONTENT_URI, EventTableSchemaBase.CONTENT_TOPIC, BaseColumns._ID, EventTableSchemaBase._RECEIVED_DATE);
-		this.pullIncidentContent(context, MediaTableSchemaBase.CONTENT_URI, MediaTableSchemaBase.CONTENT_TOPIC, BaseColumns._ID, MediaTableSchemaBase._RECEIVED_DATE);
+		WorkflowLogger.SELECT.debug("Announce Receiver - pulling recent reports");
+		this.pullIncidentContent(context, IncidentContentDescriptor.Event.CONTENT_URI, IncidentContentDescriptor.Event.CONTENT_TOPIC, BaseColumns._ID, IncidentContentDescriptor.Event.Cols._RECEIVED_DATE);
+		this.pullIncidentContent(context, IncidentContentDescriptor.Media.CONTENT_URI, IncidentContentDescriptor.Media.CONTENT_TOPIC, BaseColumns._ID, IncidentContentDescriptor.Media.Cols._RECEIVED_DATE);
 	}
 
 	/**
@@ -115,15 +111,16 @@ public class AnnounceReceiver extends BroadcastReceiver {
 		final ContentResolver cr = context.getContentResolver();
 		final String[] projection = { idField, receivedDateField };
 		final String selection = 
-		    new StringBuilder().
-		            append('"').
-		            append(IncidentSchemaBase.EventTableSchemaBase._DISPOSITION).
-		            append('"').
-		            append(" LIKE ").
-		            append('\'').
-		            append(IncidentSchemaBase.Disposition.REMOTE).
-		            append('%').
-		            append('\'').toString();
+		    new StringBuilder()
+		            .append('"')
+		            .append(IncidentContentDescriptor.Event.Cols._DISPOSITION)
+		            .append('"')
+		            .append(" LIKE ")
+		            .append('\'')
+		            .append(IncidentContentDescriptor.Disposition.REMOTE)
+		            .append('%')
+		            .append('\'')
+		            .toString();
 		final String order = receivedDateField + " DESC";
 		final Cursor cur = cr.query(contentUri, projection, selection, null, order);
     
@@ -163,7 +160,7 @@ public class AnnounceReceiver extends BroadcastReceiver {
 			final IAmmoRequest pull = ad.provider(contentUri).topic(contentTopic).limit(new Limit(dashLimitCount))
 			// .expire( new new TimeStamp(Calendar.HOUR, 1, 0.0)
 					.select(new Query(query)).retrieve();
-			WorkflowLogger.log("AnnounceReceiver - pulling incident content with pull request: " + pull.toString() + " query: " + query);
+			WorkflowLogger.SELECT.debug("AnnounceReceiver - pulling incident content with pull request: " + pull.toString() + " query: " + query);
 			logger.trace("the query {} {}", pull, query);
 		} catch (RemoteException ex) {
 			logger.warn("ammo not available");
@@ -172,7 +169,7 @@ public class AnnounceReceiver extends BroadcastReceiver {
 			return;
 		}
 
-		WorkflowLogger.log("AnnounceReceiver - pull succeeded with uri: " + contentUri);
+		WorkflowLogger.SELECT.debug("AnnounceReceiver - pull succeeded with uri: " + contentUri);
 		logger.debug("pull succeeded with uri: " + contentUri.toString());
 		if (cur != null) {
 			cur.close();

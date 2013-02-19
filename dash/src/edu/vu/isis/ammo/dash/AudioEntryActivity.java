@@ -36,8 +36,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.vu.isis.ammo.dash.dialogs.IDialogHelper;
-import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
-import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.MediaTableSchemaBase;
+import edu.vu.isis.ammo.dash.incident.provider.IncidentContentDescriptor;
 
 /**
  * Activity that is launched when a user wants to add an audio clip to a report. This activity
@@ -86,7 +85,7 @@ public class AudioEntryActivity extends Activity implements OnClickListener, OnI
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		WorkflowLogger.log("AudioEntryActivity - onCreate called");
+		WorkflowLogger.SELECT.debug("AudioEntryActivity - onCreate called");
 		setupView();
 		eventId = getIntent().getStringExtra(INCIDENT_UUID);
 		
@@ -210,7 +209,7 @@ public class AudioEntryActivity extends Activity implements OnClickListener, OnI
 		
 		
 		recorder.start();
-		WorkflowLogger.log("AudioEntryActivity - started recording audio");
+		WorkflowLogger.SELECT.debug("AudioEntryActivity - started recording audio");
 		Toast.makeText(this, "Now recording...", Toast.LENGTH_SHORT).show();
 		isRecording = true;
 
@@ -232,7 +231,7 @@ public class AudioEntryActivity extends Activity implements OnClickListener, OnI
 			currentFileRecording.delete();
 			isRecording = false;
 			Toast.makeText(this, "Recording cancelled", Toast.LENGTH_LONG).show();
-			WorkflowLogger.log("AudioEntryActivity - cancelled recording audio");
+			WorkflowLogger.SELECT.debug("AudioEntryActivity - cancelled recording audio");
 		}
 		setResult(Activity.RESULT_CANCELED);
 		finish();
@@ -243,8 +242,8 @@ public class AudioEntryActivity extends Activity implements OnClickListener, OnI
 	private void stopRecording() {
 		if (isRecording) {
 			recorder.stop();
-			WorkflowLogger.log("AudioEntryActivity - stopped recording");
-			WorkflowLogger.log("AudioEntryActivity - writing audio to file: " + currentFileRecording.getAbsolutePath());
+			WorkflowLogger.SELECT.debug("AudioEntryActivity - stopped recording");
+			WorkflowLogger.SELECT.debug("AudioEntryActivity - writing audio to file: {}", currentFileRecording.getAbsolutePath());
 			isRecording = false;
 			Uri uri = insertAudioEntryIntoIncidentProvider();
 			timerHandler.removeCallbacks(updateTimerTask);
@@ -268,12 +267,12 @@ public class AudioEntryActivity extends Activity implements OnClickListener, OnI
 		// Store the fileUri in the content provider.
 		ContentResolver cr = getContentResolver();
 		ContentValues cv = new ContentValues();
-		cv.put(MediaTableSchemaBase.EVENT_ID, eventId);
-		cv.put(MediaTableSchemaBase.DATA_TYPE, MediaTableSchema.AUDIO_DATA_TYPE);
-		cv.put(MediaTableSchemaBase.DATA, currentFileRecording.getAbsolutePath());
-		mediaUri = cr.insert(MediaTableSchemaBase.CONTENT_URI, cv);
+		cv.put(IncidentContentDescriptor.Media.Cols.EVENT_ID, eventId);
+		cv.put(IncidentContentDescriptor.Media.Cols.DATA_TYPE, IncidentContentDescriptor.MediaConstants.DataTypeEnum.AUDIO.code);
+		cv.put(IncidentContentDescriptor.Media.Cols.DATA, currentFileRecording.getAbsolutePath());
+		mediaUri = cr.insert(IncidentContentDescriptor.Media.CONTENT_URI, cv);
 		logger.debug( "Inserted " + currentFileRecording.getAbsolutePath() + " into " + mediaUri.toString());
-		WorkflowLogger.log("AudioEntryActivity - inserted audio with uri: " + mediaUri);
+		logger.info("AudioEntryActivity - inserted audio with uri: {}", mediaUri);
 		Toast.makeText(this, "Audio recording saved!", Toast.LENGTH_SHORT).show();
 		return mediaUri;
 	}

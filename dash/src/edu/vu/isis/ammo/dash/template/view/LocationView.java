@@ -28,7 +28,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import edu.vu.isis.ammo.dash.Dash;
 import edu.vu.isis.ammo.dash.DashAbstractActivity;
 import edu.vu.isis.ammo.dash.R;
 import edu.vu.isis.ammo.dash.Util;
@@ -212,7 +211,7 @@ public class LocationView implements GuiField {
 		intent.putExtra(AmmoTemplateManagerActivity.LOCATION_FIELD_ID_EXTRA, getId());
 		
 		try {
-			WorkflowLogger.log("LocationView - starting MapPicker activity");
+			WorkflowLogger.SELECT.debug("LocationView - starting MapPicker activity");
 			activity.startActivityForResult(intent, DashAbstractActivity.MAP_TYPE);
 		}
 		catch(ActivityNotFoundException e) {

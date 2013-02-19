@@ -69,7 +69,7 @@ public class Dash extends DashAbstractActivity {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			WorkflowLogger.log("Dash - Exception: Unable To Sleep 5 Seconds After Launch: " + e.getMessage() );
+			WorkflowLogger.SELECT.debug("Dash - Exception: Unable To Sleep 5 Seconds After Launch: " + e.getMessage() );
 		}
 		 transcribeText = (TextView)findViewById(R.id.transcriptionText);
 		 */
@@ -84,7 +84,7 @@ public class Dash extends DashAbstractActivity {
 	@Override
 	protected void setupView() {
 		super.setupView();
-		WorkflowLogger.log("Dash - setting up freeform Dash");
+		WorkflowLogger.SELECT.debug("Dash - setting up freeform Dash");
 		timeText = (EditText)findViewById(R.id.time_text);
 		ImageButton timeButton = (ImageButton)findViewById(R.id.timeButton);
 		timeButton.setOnClickListener(new OnClickListener() {
@@ -128,13 +128,13 @@ public class Dash extends DashAbstractActivity {
 				           //  transcribePic.setImageResource(R.drawable.trascription_button);
 					     //trascribeContainer.setImageResource(R.drawable.trascription_end_button);
     			              }catch(Exception e){
-					     WorkflowLogger.log("Dash - Exception: Starting Transcription: " + e.getMessage() );
+					     WorkflowLogger.SELECT.debug("Dash - Exception: Starting Transcription: " + e.getMessage() );
 			              }
 				      try {					   
 					     transcribeText.setText("Speak");
 					     Thread.sleep(1000);
 				      } catch (InterruptedException e) {				
-					     WorkflowLogger.log("Dash - Exception: Unable To Sleep 1 Second After Starting: " + e.getMessage() );
+					     WorkflowLogger.SELECT.debug("Dash - Exception: Unable To Sleep 1 Second After Starting: " + e.getMessage() );
 				      }
 				}
 				else
@@ -163,7 +163,7 @@ public class Dash extends DashAbstractActivity {
 						
 						//trascribeContainer.setImageResource(R.drawable.trascription_button);
 					}catch(Exception e){
-						WorkflowLogger.log("Dash - Exception: Stopping Transcription: " + e.getMessage() );
+						WorkflowLogger.SELECT.debug("Dash - Exception: Stopping Transcription: " + e.getMessage() );
 				    }
 				//	try {
 
@@ -175,7 +175,7 @@ public class Dash extends DashAbstractActivity {
 				//	      Thread.sleep(5000);
 //dialog.
 				//	} catch (InterruptedException e) {				
-				//	      WorkflowLogger.log("Dash - Exception: Unable To Sleep 5 Seconds After Stopping: " + e.getMessage() );
+				//	      WorkflowLogger.SELECT.debug("Dash - Exception: Unable To Sleep 5 Seconds After Stopping: " + e.getMessage() );
 				//	}
 				//	dialog.dismiss();
 					transcribeText.setText("Dictate");
@@ -272,7 +272,7 @@ public class Dash extends DashAbstractActivity {
 	 */
 	private void updateTime(long time) {
 		super.time = time;
-		WorkflowLogger.log("Dash - updated Dash event timestamp to time: " + time);
+		WorkflowLogger.SELECT.debug("Dash - updated Dash event timestamp to time: " + time);
 		model.setTime(time);
 		timeText.setText(Util.formatTime(time));
 	}

@@ -37,16 +37,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 import edu.vu.isis.ammo.INetPrefKeys;
 import edu.vu.isis.ammo.IntentNames;
 import edu.vu.isis.ammo.api.AmmoPreference;
 import edu.vu.isis.ammo.api.AmmoRequest;
 import edu.vu.isis.ammo.dash.dialogs.PreviewDialog;
+import edu.vu.isis.ammo.dash.incident.provider.IncidentContentDescriptor;
 import edu.vu.isis.ammo.dash.preferences.DashPreferences;
 import edu.vu.isis.ammo.dash.preview.DashPreview;
-import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
-import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.EventTableSchemaBase;
 
 /**
  * Based on discussion with Mari March 2011.
@@ -114,7 +112,7 @@ public abstract class DashAbstractActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(getContentViewResourceId());
-		WorkflowLogger.log("DashAbstractActivity - onCreate");
+		WorkflowLogger.SELECT.debug("DashAbstractActivity - onCreate");
 		logger.info("we think we're getting this one...DashAbstractActivity - onCreate");
 		
 		// Log.i("DashWorkflow", "DashAbstractActivity - onCreate");
@@ -288,7 +286,7 @@ public abstract class DashAbstractActivity extends Activity {
 					// handled by the pre-existing media logic.
 					fileUri = Uri.parse("file://" + traqFilepath);
 					WorkflowLogger
-							.log("DashAbstractActivity - received fileUri from Traq camera: "
+							.SELECT.debug("DashAbstractActivity - received fileUri from Traq camera: "
 									+ fileUri.toString());
 					parseExifData(traqFilepath);
 				}
@@ -302,7 +300,7 @@ public abstract class DashAbstractActivity extends Activity {
 				model.setCurrentMediaType(VIDEO_TYPE);
 				model.setCurrentMediaUri(MediaActivityManager
 						.storeInContentProvider(id,
-								MediaTableSchema.VIDEO_DATA_TYPE, traqFilepath,
+								IncidentContentDescriptor.MediaConstants.DataTypeEnum.VIDEO.code, traqFilepath,
 								getContentResolver()));
 			} else {
 				model.setThumbnail(MediaActivityManager.getThumbnail(fileUri));
@@ -323,7 +321,7 @@ public abstract class DashAbstractActivity extends Activity {
 				success = false;
 			} else {
 				WorkflowLogger
-						.log("DashAbstractActivity - received media table Uri from audio recorder with Uri: "
+						.SELECT.debug("DashAbstractActivity - received media table Uri from audio recorder with Uri: "
 								+ model.getCurrentMediaUri());
 			}
 			break;
@@ -446,7 +444,7 @@ public abstract class DashAbstractActivity extends Activity {
 
 	private void launchCameraActivity() {
 		WorkflowLogger
-				.log("DashAbstractActivity - attempting to start camera activity...");
+				.SELECT.debug("DashAbstractActivity - attempting to start camera activity...");
 		model.setImageUri(MediaActivityManager.createPhotoUri(this));
 		if (model.getPhotoUri() == null) {
 			logger.error("::launchCameraActivity:  No photo URI.");
@@ -456,7 +454,7 @@ public abstract class DashAbstractActivity extends Activity {
 		}
 		try {
 			WorkflowLogger
-					.log("DashAbstractActivity - starting camera activity");
+					.SELECT.debug("DashAbstractActivity - starting camera activity");
 			startActivityForResult(
 					MediaActivityManager.createPictureIntent(this, id,
 							model.getPhotoUri()), IMAGE_TYPE);
@@ -469,7 +467,7 @@ public abstract class DashAbstractActivity extends Activity {
 	private void launchAudioActivity() {
 		try {
 			WorkflowLogger
-					.log("DashAbstractActivity - starting audio recorder activity");
+					.SELECT.debug("DashAbstractActivity - starting audio recorder activity");
 			startActivityForResult(
 					MediaActivityManager.createAudioIntent(this, id),
 					AUDIO_TYPE);
@@ -494,17 +492,17 @@ public abstract class DashAbstractActivity extends Activity {
 		}
 		final ContentResolver resolver = getContentResolver();
 
-		final Uri incidentUri = resolver.insert(EventTableSchemaBase.CONTENT_URI,
+		final Uri incidentUri = resolver.insert(IncidentContentDescriptor.Media.CONTENT_URI,
 				model.getContentValues());
 		WorkflowLogger
-				.log("DashAbstractActivity - inserted Dash event into EventTable with Uri: "
+				.SELECT.debug("DashAbstractActivity - inserted Dash event into EventTable with Uri: "
 						+ incidentUri);
 		// Post the event for dispatch.
 
 		try {
 			this.ab.provider(incidentUri).topicFromProvider().post();
 			WorkflowLogger
-					.log("DashAbstractActivity - posted event to AmmoCore with Uri: "
+					.SELECT.debug("DashAbstractActivity - posted event to AmmoCore with Uri: "
 							+ incidentUri);
 		} catch (RemoteException ex) {
 			logger.error("post incident failed", ex);
@@ -514,7 +512,7 @@ public abstract class DashAbstractActivity extends Activity {
 				this.ab.provider(model.getCurrentMediaUri())
 						.topicFromProvider().post();
 				WorkflowLogger
-						.log("DashAbstractActivity - posted media to AmmoCore with Uri: "
+						.SELECT.debug("DashAbstractActivity - posted media to AmmoCore with Uri: "
 								+ model.getCurrentMediaUri());
 			} catch (RemoteException ex) {
 				logger.error("post media failed", ex);
@@ -528,7 +526,7 @@ public abstract class DashAbstractActivity extends Activity {
 				try {
 					this.ab.provider(templateUri).topicFromProvider().post();
 					WorkflowLogger
-							.log("DashAbstractActivity - posted template to AmmoCore with Uri: "
+							.SELECT.debug("DashAbstractActivity - posted template to AmmoCore with Uri: "
 									+ templateUri);
 				} catch (RemoteException ex) {
 					logger.error("post template failed {}", ex.getStackTrace());
@@ -578,7 +576,7 @@ public abstract class DashAbstractActivity extends Activity {
 			logger.error("could not remove uri: " + uri);
 			return false;
 		} else {
-			WorkflowLogger.log("DashAbstractActivity - removed data with Uri: "
+			WorkflowLogger.SELECT.debug("DashAbstractActivity - removed data with Uri: "
 					+ uri);
 		}
 		return true;

@@ -20,9 +20,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
+import edu.vu.isis.ammo.dash.incident.provider.IncidentContentDescriptor;
 import edu.vu.isis.ammo.dash.preferences.ContactsUtil;
-import edu.vu.isis.ammo.dash.provider.IncidentSchema.EventTableSchema;
-import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.EventTableSchemaBase;
 
 /**
  * Model object used as a wrapper for all data associated with a Dash report.
@@ -62,19 +61,19 @@ public class DashModel {
 	}
 
 	public String getId() {
-		return model.getAsString(EventTableSchemaBase.UUID);
+		return model.getAsString(IncidentContentDescriptor.Event.Cols.UUID);
 	}
 
 	public void setId(String id) {
-		model.put(EventTableSchemaBase.UUID, id);
+		model.put(IncidentContentDescriptor.Event.Cols.UUID, id);
 	}
 
 	public String getOriginator() {
-		return model.getAsString(EventTableSchemaBase.ORIGINATOR);
+		return model.getAsString(IncidentContentDescriptor.Event.Cols.ORIGINATOR);
 	}
 
 	public void setOriginator(String originator) {
-		model.put(EventTableSchemaBase.ORIGINATOR, originator);
+		model.put(IncidentContentDescriptor.Event.Cols.ORIGINATOR, originator);
 	}
 
 	public String getDescription() {
@@ -86,19 +85,19 @@ public class DashModel {
 	}
 
 	public Long getTime() {
-		return model.getAsLong(EventTableSchemaBase.MODIFIED_DATE);
+		return model.getAsLong(IncidentContentDescriptor.Event.Cols.MODIFIED_DATE);
 	}
 
 	public void setTime(Long time) {
-		model.put(EventTableSchemaBase.CREATED_DATE, time);
-		model.put(EventTableSchemaBase.MODIFIED_DATE, time);
+		model.put(IncidentContentDescriptor.Event.Cols.CREATED_DATE, time);
+		model.put(IncidentContentDescriptor.Event.Cols.MODIFIED_DATE, time);
 	}
 
 	public Location getLocation() {
-		if (model.containsKey(EventTableSchemaBase.LATITUDE)
-				&& model.containsKey(EventTableSchemaBase.LONGITUDE)) {
-			Integer lat_i = model.getAsInteger(EventTableSchemaBase.LATITUDE);
-			Integer lon_i = model.getAsInteger(EventTableSchemaBase.LONGITUDE);
+		if (model.containsKey(IncidentContentDescriptor.Event.Cols.LATITUDE)
+				&& model.containsKey(IncidentContentDescriptor.Event.Cols.LONGITUDE)) {
+			Integer lat_i = model.getAsInteger(IncidentContentDescriptor.Event.Cols.LATITUDE);
+			Integer lon_i = model.getAsInteger(IncidentContentDescriptor.Event.Cols.LONGITUDE);
 			if(lat_i == null || lon_i == null) return null;
 			double lat_d = Util.scaleIntCoordinate(lat_i);
 			double lon_d = Util.scaleIntCoordinate(lon_i);
@@ -121,11 +120,11 @@ public class DashModel {
 			logger.info("Rounded lat and lon to {},{}", lat.toPlainString(),
 					lon.toPlainString());
 
-			model.put(EventTableSchemaBase.LATITUDE, Util.scaleDoubleCoordinate(lat.doubleValue()));
-			model.put(EventTableSchemaBase.LONGITUDE, Util.scaleDoubleCoordinate(lon.doubleValue()));
+			model.put(IncidentContentDescriptor.Event.Cols.LATITUDE, Util.scaleDoubleCoordinate(lat.doubleValue()));
+			model.put(IncidentContentDescriptor.Event.Cols.LONGITUDE, Util.scaleDoubleCoordinate(lon.doubleValue()));
 		} else {
-			model.put(EventTableSchemaBase.LATITUDE, (Double) null);
-			model.put(EventTableSchemaBase.LONGITUDE, (Double) null);
+			model.put(IncidentContentDescriptor.Event.Cols.LATITUDE, (Double) null);
+			model.put(IncidentContentDescriptor.Event.Cols.LONGITUDE, (Double) null);
 		}
 	}
 
@@ -185,20 +184,20 @@ public class DashModel {
 	//
 
 	private void setAdditionalFields() {
-		model.put(EventTableSchemaBase.UNIT, ContactsUtil.getUnit(context));
-		model.put(EventTableSchemaBase.STATUS, EventTableSchema.STATUS_SENT);
-		model.put(EventTableSchemaBase.DESCRIPTION, description);
+		model.put(IncidentContentDescriptor.Event.Cols.UNIT, ContactsUtil.getUnit(context));
+		model.put(IncidentContentDescriptor.Event.Cols.STATUS, IncidentContentDescriptor.EventConstants.STATUS_SENT);
+		model.put(IncidentContentDescriptor.Event.Cols.DESCRIPTION, description);
 
 		// For a "dash", these are intentionally blank
-		model.put(EventTableSchemaBase.CATEGORY_ID, "");
-		model.put(EventTableSchemaBase.DEST_GROUP_TYPE, "");
-		model.put(EventTableSchemaBase.DEST_GROUP_NAME, "");
-		model.put(EventTableSchemaBase.TITLE, "");
-		model.put(EventTableSchemaBase.DISPLAY_NAME, "<no title>");
+		model.put(IncidentContentDescriptor.Event.Cols.CATEGORY_ID, "");
+		model.put(IncidentContentDescriptor.Event.Cols.DEST_GROUP_TYPE, "");
+		model.put(IncidentContentDescriptor.Event.Cols.DEST_GROUP_NAME, "");
+		model.put(IncidentContentDescriptor.Event.Cols.TITLE, "");
+		model.put(IncidentContentDescriptor.Event.Cols.DISPLAY_NAME, "<no title>");
 
-		model.put(EventTableSchemaBase.MEDIA_COUNT,
+		model.put(IncidentContentDescriptor.Event.Cols.MEDIA_COUNT,
 				Util.getMediaCount(currentMediaUri, templateData));
-		model.put(EventTableSchemaBase.SIZE, Util.getSize(BASE_DASH_SIZE,
+		model.put(IncidentContentDescriptor.Event.Cols.SIZE, Util.getSize(BASE_DASH_SIZE,
 				context, currentMediaUri, templateData) / 1000.);
 	}
 

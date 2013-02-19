@@ -27,9 +27,7 @@ import android.widget.TextView;
 import edu.vu.isis.ammo.dash.LocationTextView;
 import edu.vu.isis.ammo.dash.R;
 import edu.vu.isis.ammo.dash.Util;
-import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
-import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.EventTableSchemaBase;
-import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.MediaTableSchemaBase;
+import edu.vu.isis.ammo.dash.incident.provider.IncidentContentDescriptor;
 
 /**
  * Not multithreaded. For non-concurrent use. This adapter is used by
@@ -69,11 +67,11 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
     // Move the cursor to the position passed and return that row's data type.
     // If position is -1, move the cursor to the current focused position.
     public String getDataTypeForEventId(int pos, boolean template) {
-        return getMediaString(pos, MediaTableSchemaBase.DATA_TYPE, getTemplateSelection(template));
+        return getMediaString(pos, IncidentContentDescriptor.Media.Cols.DATA_TYPE, getTemplateSelection(template));
     }
 
     public String getDataForEventId(int pos, boolean template) {
-        return getMediaString(pos, MediaTableSchemaBase.DATA, getTemplateSelection(template));
+        return getMediaString(pos, IncidentContentDescriptor.Media.Cols.DATA, getTemplateSelection(template));
     }
 
     private String getMediaString(int pos, String columnName, String selection) {
@@ -81,14 +79,14 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
         eventCursor.moveToPosition(pos);
 
         // Determine what type of data is at that position.
-        String uuid = eventCursor.getString(eventCursor.getColumnIndex(EventTableSchemaBase.UUID));
+        String uuid = eventCursor.getString(eventCursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.UUID));
 
         if (selection == null) {
             selection = "TRUE";
         }
-        selection += " AND " + MediaTableSchemaBase.EVENT_ID + "=?";
+        selection += " AND " + IncidentContentDescriptor.Media.Cols.EVENT_ID + "=?";
 
-        Cursor c = mContext.getContentResolver().query(MediaTableSchemaBase.CONTENT_URI, null,
+        Cursor c = mContext.getContentResolver().query(IncidentContentDescriptor.Media.CONTENT_URI, null,
                 selection, new String[] {
                     uuid
                 }, null);
@@ -112,8 +110,8 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
 
     private static String getTemplateSelection(boolean template) {
         String operation = template ? "=" : "!=";
-        return MediaTableSchemaBase.DATA_TYPE + operation + "'"
-                + MediaTableSchema.TEMPLATE_DATA_TYPE + "'";
+        return IncidentContentDescriptor.Media.Cols.DATA_TYPE + operation + "'"
+                + IncidentContentDescriptor.MediaConstants.DataTypeEnum.TEMPLATE.code + "'";
     }
 
     // ===========================================================
@@ -163,7 +161,7 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
      */
     public void bindCommentToView(View v, Context context, Cursor eventCursor) {
         String comment = eventCursor.getString(eventCursor
-                .getColumnIndex(EventTableSchemaBase.DESCRIPTION));
+                .getColumnIndex(IncidentContentDescriptor.Event.Cols.DESCRIPTION));
         TextView tvDesc = (TextView) (v.findViewById(R.id.report_browser_cell_report_comment));
         tvDesc.setText(comment);
     }
@@ -177,7 +175,7 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
      */
     public void bindAuthorToView(View v, Context context, Cursor eventCursor) {
         String author = eventCursor.getString(eventCursor
-                .getColumnIndex(EventTableSchemaBase.ORIGINATOR));
+                .getColumnIndex(IncidentContentDescriptor.Event.Cols.ORIGINATOR));
         TextView tvAuthor = (TextView) (v.findViewById(R.id.report_browser_cell_report_author));
         tvAuthor.setText(author);
     }
@@ -193,7 +191,7 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
         // Get a cursor to the local event table from the distributor cursor.
         ContentResolver cr = context.getContentResolver();
         int mediaCount = eventCursor.getInt(eventCursor
-                .getColumnIndex(EventTableSchemaBase.MEDIA_COUNT));
+                .getColumnIndex(IncidentContentDescriptor.Event.Cols.MEDIA_COUNT));
         ImageView iv = (ImageView) v.findViewById(R.id.report_browser_cell_media_icon);
         if (mediaCount == 0) {
             // Set the ImageView to empty each time. I think the ListView does
@@ -206,9 +204,9 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
         }
 
         String incidentUUID = eventCursor.getString(eventCursor
-                .getColumnIndex(EventTableSchemaBase.UUID));
-        String mediaSelection = MediaTableSchemaBase.EVENT_ID + "='" + incidentUUID + "'";
-        Cursor mediaCursor = cr.query(MediaTableSchemaBase.CONTENT_URI, null, mediaSelection, null,
+                .getColumnIndex(IncidentContentDescriptor.Event.Cols.UUID));
+        String mediaSelection = IncidentContentDescriptor.Media.Cols.EVENT_ID + "='" + incidentUUID + "'";
+        Cursor mediaCursor = cr.query(IncidentContentDescriptor.Media.CONTENT_URI, null, mediaSelection, null,
                 null);
 
         // If the media for this event hasn't been received (i.e. We have a
@@ -224,20 +222,20 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
             // iterate over the cursor.
             mediaCursor.moveToFirst();
             String dataType = mediaCursor.getString(mediaCursor
-                    .getColumnIndex(MediaTableSchemaBase.DATA_TYPE));
+                    .getColumnIndex(IncidentContentDescriptor.Media.Cols.DATA_TYPE));
             String filePath = mediaCursor.getString(mediaCursor
-                    .getColumnIndex(MediaTableSchemaBase.DATA));
+                    .getColumnIndex(IncidentContentDescriptor.Media.Cols.DATA));
             boolean mediaExists = new File(filePath).exists();
 
             // Set the icon. If the media file isn't on the SD card, display a
             // different drawable.
-            if (dataType.equals(MediaTableSchema.AUDIO_DATA_TYPE)) {
+            if (IncidentContentDescriptor.MediaConstants.DataTypeEnum.AUDIO.equals(dataType)) {
                 resId = mediaExists ? R.drawable.button_audio : R.drawable.button_audio_missing;
-            } else if (dataType.equals(MediaTableSchema.IMAGE_DATA_TYPE)) {
+            } else if (IncidentContentDescriptor.MediaConstants.DataTypeEnum.IMAGE.equals(dataType)) {
                 resId = mediaExists ? R.drawable.button_camera : R.drawable.button_camera_missing;
-            } else if (dataType.equals(MediaTableSchema.VIDEO_DATA_TYPE)) {
+            } else if (IncidentContentDescriptor.MediaConstants.DataTypeEnum.VIDEO.equals(dataType)) {
                 resId = mediaExists ? R.drawable.button_video : R.drawable.button_video_missing;
-            } else if (dataType.equals(MediaTableSchema.TEMPLATE_DATA_TYPE)) {
+            } else if (IncidentContentDescriptor.MediaConstants.DataTypeEnum.TEMPLATE.equals(dataType)) {
                 resId = mediaExists ? R.drawable.button_template
                         : R.drawable.button_template_missing;
             }
@@ -253,7 +251,7 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
         // Get the created date from the cursor and format it for display in the
         // cell.
         long createdDate = eventCursor.getLong(eventCursor
-                .getColumnIndex(EventTableSchemaBase.CREATED_DATE));
+                .getColumnIndex(IncidentContentDescriptor.Event.Cols.CREATED_DATE));
         tv.setText(Util.formatTime(createdDate));
     }
 
@@ -276,9 +274,9 @@ public class DashPreviewCursorAdapter extends SimpleCursorAdapter {
 
         if (isMGRSCoordinateType) {
             double lat = Util.scaleIntCoordinate(eventCursor.getInt(eventCursor
-                    .getColumnIndex(EventTableSchemaBase.LATITUDE)));
+                    .getColumnIndex(IncidentContentDescriptor.Event.Cols.LATITUDE)));
             double lon = Util.scaleIntCoordinate(eventCursor.getInt(eventCursor
-                    .getColumnIndex(EventTableSchemaBase.LONGITUDE)));
+                    .getColumnIndex(IncidentContentDescriptor.Event.Cols.LONGITUDE)));
             ltvMGRS.setFormattedTextFromLocation(Util.buildLocation(lat, lon));
 
             if (ltvLat != null && ltvLon != null) {

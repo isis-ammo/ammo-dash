@@ -34,7 +34,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import edu.vu.isis.ammo.dash.Dash;
 import edu.vu.isis.ammo.dash.DashAbstractActivity;
 import edu.vu.isis.ammo.dash.R;
 import edu.vu.isis.ammo.dash.WorkflowLogger;
@@ -71,7 +70,7 @@ public class AmmoTemplateManagerActivity extends DashAbstractActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		WorkflowLogger.log("AmmoTemplateManagerActivity - onCreate");
+		WorkflowLogger.SELECT.debug("AmmoTemplateManagerActivity - onCreate");
 	}
 
 	@Override
@@ -156,7 +155,7 @@ public class AmmoTemplateManagerActivity extends DashAbstractActivity {
 	@Override
 	protected void setupView() {
 		super.setupView();
-		WorkflowLogger.log("AmmoTemplateManagerActivity - setting up view");
+		WorkflowLogger.SELECT.debug("AmmoTemplateManagerActivity - setting up view");
 		findViewById(R.id.saveButton).setVisibility(getEditVisibility());
 		findViewById(R.id.cameraButton).setVisibility(getEditVisibility());
 		findViewById(R.id.audioButton).setVisibility(getEditVisibility());

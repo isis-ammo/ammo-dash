@@ -19,9 +19,6 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class WorkflowLogger {
-	public static final Logger logger = LoggerFactory.getLogger("class.Workflow");
-		
-	public static void log(String message) {
-		logger.debug(message);
-	}
+	public static final Logger SELECT = LoggerFactory.getLogger("class.Workflow");
+	
 }

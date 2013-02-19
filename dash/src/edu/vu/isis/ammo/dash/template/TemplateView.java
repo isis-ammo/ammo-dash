@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.widget.TableLayout;
 import android.widget.Toast;
-import edu.vu.isis.ammo.dash.Dash;
 import edu.vu.isis.ammo.dash.DashAbstractActivity;
 import edu.vu.isis.ammo.dash.Util;
 import edu.vu.isis.ammo.dash.WorkflowLogger;
@@ -66,7 +65,7 @@ public class TemplateView extends TableLayout {
 	public boolean loadTemplate(String templateFilename, Location location) {
 		AmmoTemplateManagerActivity.checkFiles(activity);
 		File templateFile = new File(DashAbstractActivity.TEMPLATE_DIR, templateFilename);
-		WorkflowLogger.log("TemplateView - loading template with name: " + templateFile);
+		WorkflowLogger.SELECT.debug("TemplateView - loading template with name: {}", templateFile);
 		StringBuilder templateDisplayNameHolder = new StringBuilder();
 		guiFields = AmmoParser.parseXMLForFileIntoView(activity, templateFile, this, templateDisplayNameHolder, location);
 		templateDisplayName = templateDisplayNameHolder.toString();
@@ -98,7 +97,7 @@ public class TemplateView extends TableLayout {
 			}
 		}
 		
-		WorkflowLogger.log("TemplateView - finished loading template files");
+		WorkflowLogger.SELECT.debug("TemplateView - finished loading template files");
 		
 		return true;
 	}
