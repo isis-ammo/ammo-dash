@@ -82,7 +82,7 @@
         </receiver>
 
         <!-- Providers -->
-        <provider android:authorities="edu.vu.isis.ammo.dash.provider.incidentprovider" android:name="edu.vu.isis.ammo.dash.provider.IncidentProvider">
+        <provider android:authorities="edu.vu.isis.ammo.dash.incident.provider" android:name="edu.vu.isis.ammo.dash.incident.provider.IncidentProvider">
         </provider>
 
         <provider android:authorities="edu.vu.isis.ammo.dash.LauiContentProvider" android:name="edu.vu.isis.logger.lib.LauiContentProvider"/>

@@ -75,7 +75,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             </goals>
             <configuration>
               <sources>
-                <source>${basedir}/target/generated-sources/druid/src</source>
+                <source>${basedir}/target/generated-sources/druid/src/main/java</source>
               </sources>
             </configuration>
           </execution>

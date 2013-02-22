@@ -107,6 +107,23 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             </configuration>
           </execution>
 
+<!--
+          <execution>
+            <id>generate-old-provider</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <mode><isAmmo/></mode>
+              <templateKey>ammo-v1</templateKey>
+              <artifactCoords>edu.vanderbilt.isis.druid:druid-template:2.0.0</artifactCoords>
+              <contractFile>${basedir}/../contract/incident.xml</contractFile>
+              <baseOutputDirectory>${basedir}/target/generated-sources/ammov1</baseOutputDirectory>
+            </configuration>
+          </execution>
+-->
+
         </executions>
       </plugin>
 
