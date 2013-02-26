@@ -31,7 +31,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import edu.vu.isis.ammo.dash.incident.provider.IncidentContentDescriptor;
+import edu.vu.isis.ammo.dash.incident.provider.IncidentSchema;
 import edu.vu.isis.ammo.dash.template.AmmoTemplateManagerActivity;
 
 /**
@@ -141,17 +141,17 @@ public class MediaActivityManager {
 		}
 
 		// Store the fileUri in the content provider.
-		return storeInContentProvider(id, IncidentContentDescriptor.MediaConstants.DataTypeEnum.IMAGE.code,
+		return storeInContentProvider(id, IncidentSchema.MediaConstants.DataTypeEnum.IMAGE.code,
 				filePath, contentResolver);
 	}
 
 	public static Uri storeInContentProvider(String id, String dataType,
 			String filePath, ContentResolver resolver) {
 		ContentValues cv = new ContentValues();
-		cv.put(IncidentContentDescriptor.Media.Cols.EVENT_ID, id);
-		cv.put(IncidentContentDescriptor.Media.Cols.DATA_TYPE, dataType);
-		cv.put(IncidentContentDescriptor.Media.Cols.DATA, filePath);
-		Uri uri = resolver.insert(IncidentContentDescriptor.Media.CONTENT_URI, cv);
+		cv.put(IncidentSchema.Media.Cols.EVENT_ID, id);
+		cv.put(IncidentSchema.Media.Cols.DATA_TYPE, dataType);
+		cv.put(IncidentSchema.Media.Cols.DATA, filePath);
+		Uri uri = resolver.insert(IncidentSchema.Media.CONTENT_URI, cv);
 		logger.debug("Camera activity returned. Inserted {} into {}", filePath,
 				uri.toString());
 
@@ -253,11 +253,11 @@ public class MediaActivityManager {
 
 			// Insert media entry.
 			ContentValues cv = new ContentValues();
-			cv.put(IncidentContentDescriptor.Media.Cols.EVENT_ID, id);
-			cv.put(IncidentContentDescriptor.Media.Cols.DATA_TYPE,
-			        IncidentContentDescriptor.MediaConstants.DataTypeEnum.TEMPLATE.code);
-			cv.put(IncidentContentDescriptor.Media.Cols.DATA, currentFile.getCanonicalPath());
-			Uri uri = contentResolver.insert(IncidentContentDescriptor.Media.CONTENT_URI,
+			cv.put(IncidentSchema.Media.Cols.EVENT_ID, id);
+			cv.put(IncidentSchema.Media.Cols.DATA_TYPE,
+			        IncidentSchema.MediaConstants.DataTypeEnum.TEMPLATE.code);
+			cv.put(IncidentSchema.Media.Cols.DATA, currentFile.getCanonicalPath());
+			Uri uri = contentResolver.insert(IncidentSchema.Media.CONTENT_URI,
 					cv);
 			logger.debug("Inserted " + currentFile.getCanonicalPath()
 					+ " into " + uri.toString());
@@ -272,7 +272,7 @@ public class MediaActivityManager {
 	public static String getPath(ContentResolver contentResolver, Uri mediaUri) {
 		try {
 			Cursor cursor = contentResolver.query(mediaUri,
-					new String[] { IncidentContentDescriptor.Media.Cols.DATA }, null, null,
+					new String[] { IncidentSchema.Media.Cols.DATA }, null, null,
 					null);
 			if (cursor.getCount() != 1) {
 				logger.error("::getPath - media not found");

@@ -20,7 +20,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
-import edu.vu.isis.ammo.dash.incident.provider.IncidentContentDescriptor;
+import edu.vu.isis.ammo.dash.incident.provider.IncidentSchema;
 import edu.vu.isis.ammo.dash.preferences.ContactsUtil;
 
 /**
@@ -61,19 +61,19 @@ public class DashModel {
 	}
 
 	public String getId() {
-		return model.getAsString(IncidentContentDescriptor.Event.Cols.UUID);
+		return model.getAsString(IncidentSchema.Event.Cols.UUID);
 	}
 
 	public void setId(String id) {
-		model.put(IncidentContentDescriptor.Event.Cols.UUID, id);
+		model.put(IncidentSchema.Event.Cols.UUID, id);
 	}
 
 	public String getOriginator() {
-		return model.getAsString(IncidentContentDescriptor.Event.Cols.ORIGINATOR);
+		return model.getAsString(IncidentSchema.Event.Cols.ORIGINATOR);
 	}
 
 	public void setOriginator(String originator) {
-		model.put(IncidentContentDescriptor.Event.Cols.ORIGINATOR, originator);
+		model.put(IncidentSchema.Event.Cols.ORIGINATOR, originator);
 	}
 
 	public String getDescription() {
@@ -85,19 +85,19 @@ public class DashModel {
 	}
 
 	public Long getTime() {
-		return model.getAsLong(IncidentContentDescriptor.Event.Cols.MODIFIED_DATE);
+		return model.getAsLong(IncidentSchema.Event.Cols.MODIFIED_DATE);
 	}
 
 	public void setTime(Long time) {
-		model.put(IncidentContentDescriptor.Event.Cols.CREATED_DATE, time);
-		model.put(IncidentContentDescriptor.Event.Cols.MODIFIED_DATE, time);
+		model.put(IncidentSchema.Event.Cols.CREATED_DATE, time);
+		model.put(IncidentSchema.Event.Cols.MODIFIED_DATE, time);
 	}
 
 	public Location getLocation() {
-		if (model.containsKey(IncidentContentDescriptor.Event.Cols.LATITUDE)
-				&& model.containsKey(IncidentContentDescriptor.Event.Cols.LONGITUDE)) {
-			Integer lat_i = model.getAsInteger(IncidentContentDescriptor.Event.Cols.LATITUDE);
-			Integer lon_i = model.getAsInteger(IncidentContentDescriptor.Event.Cols.LONGITUDE);
+		if (model.containsKey(IncidentSchema.Event.Cols.LATITUDE)
+				&& model.containsKey(IncidentSchema.Event.Cols.LONGITUDE)) {
+			Integer lat_i = model.getAsInteger(IncidentSchema.Event.Cols.LATITUDE);
+			Integer lon_i = model.getAsInteger(IncidentSchema.Event.Cols.LONGITUDE);
 			if(lat_i == null || lon_i == null) return null;
 			double lat_d = Util.scaleIntCoordinate(lat_i);
 			double lon_d = Util.scaleIntCoordinate(lon_i);
@@ -120,11 +120,11 @@ public class DashModel {
 			logger.info("Rounded lat and lon to {},{}", lat.toPlainString(),
 					lon.toPlainString());
 
-			model.put(IncidentContentDescriptor.Event.Cols.LATITUDE, Util.scaleDoubleCoordinate(lat.doubleValue()));
-			model.put(IncidentContentDescriptor.Event.Cols.LONGITUDE, Util.scaleDoubleCoordinate(lon.doubleValue()));
+			model.put(IncidentSchema.Event.Cols.LATITUDE, Util.scaleDoubleCoordinate(lat.doubleValue()));
+			model.put(IncidentSchema.Event.Cols.LONGITUDE, Util.scaleDoubleCoordinate(lon.doubleValue()));
 		} else {
-			model.put(IncidentContentDescriptor.Event.Cols.LATITUDE, (Double) null);
-			model.put(IncidentContentDescriptor.Event.Cols.LONGITUDE, (Double) null);
+			model.put(IncidentSchema.Event.Cols.LATITUDE, (Double) null);
+			model.put(IncidentSchema.Event.Cols.LONGITUDE, (Double) null);
 		}
 	}
 
@@ -184,20 +184,20 @@ public class DashModel {
 	//
 
 	private void setAdditionalFields() {
-		model.put(IncidentContentDescriptor.Event.Cols.UNIT, ContactsUtil.getUnit(context));
-		model.put(IncidentContentDescriptor.Event.Cols.STATUS, IncidentContentDescriptor.EventConstants.STATUS_SENT);
-		model.put(IncidentContentDescriptor.Event.Cols.DESCRIPTION, description);
+		model.put(IncidentSchema.Event.Cols.UNIT, ContactsUtil.getUnit(context));
+		model.put(IncidentSchema.Event.Cols.STATUS, IncidentSchema.EventConstants.STATUS_SENT);
+		model.put(IncidentSchema.Event.Cols.DESCRIPTION, description);
 
 		// For a "dash", these are intentionally blank
-		model.put(IncidentContentDescriptor.Event.Cols.CATEGORY_ID, "");
-		model.put(IncidentContentDescriptor.Event.Cols.DEST_GROUP_TYPE, "");
-		model.put(IncidentContentDescriptor.Event.Cols.DEST_GROUP_NAME, "");
-		model.put(IncidentContentDescriptor.Event.Cols.TITLE, "");
-		model.put(IncidentContentDescriptor.Event.Cols.DISPLAY_NAME, "<no title>");
+		model.put(IncidentSchema.Event.Cols.CATEGORY_ID, "");
+		model.put(IncidentSchema.Event.Cols.DEST_GROUP_TYPE, "");
+		model.put(IncidentSchema.Event.Cols.DEST_GROUP_NAME, "");
+		model.put(IncidentSchema.Event.Cols.TITLE, "");
+		model.put(IncidentSchema.Event.Cols.DISPLAY_NAME, "<no title>");
 
-		model.put(IncidentContentDescriptor.Event.Cols.MEDIA_COUNT,
+		model.put(IncidentSchema.Event.Cols.MEDIA_COUNT,
 				Util.getMediaCount(currentMediaUri, templateData));
-		model.put(IncidentContentDescriptor.Event.Cols.SIZE, Util.getSize(BASE_DASH_SIZE,
+		model.put(IncidentSchema.Event.Cols.SIZE, Util.getSize(BASE_DASH_SIZE,
 				context, currentMediaUri, templateData) / 1000.);
 	}
 

@@ -28,7 +28,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.widget.Toast;
-import edu.vu.isis.ammo.dash.incident.provider.IncidentContentDescriptor;
+import edu.vu.isis.ammo.dash.incident.provider.IncidentSchema;
 import edu.vu.isis.ammo.dash.preferences.DashPreferences;
 import edu.vu.isis.ammo.util.CoordinateConversion;
 
@@ -221,7 +221,7 @@ public class Util {
         if (uri == null) {
             return 0;
         }
-        String filePath = getString(contentResolver, uri, IncidentContentDescriptor.Media.Cols.DATA);
+        String filePath = getString(contentResolver, uri, IncidentSchema.Media.Cols.DATA);
         if (filePath == null) {
             return 0;
         }

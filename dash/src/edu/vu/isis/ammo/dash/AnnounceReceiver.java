@@ -29,7 +29,7 @@ import edu.vu.isis.ammo.api.AmmoRequest;
 import edu.vu.isis.ammo.api.IAmmoRequest;
 import edu.vu.isis.ammo.api.type.Limit;
 import edu.vu.isis.ammo.api.type.Query;
-import edu.vu.isis.ammo.dash.incident.provider.IncidentContentDescriptor;
+import edu.vu.isis.ammo.dash.incident.provider.IncidentSchema;
 import edu.vu.isis.ammo.dash.preferences.DashPreferences;
 
 /**
@@ -78,10 +78,10 @@ public class AnnounceReceiver extends BroadcastReceiver {
 		WorkflowLogger.SELECT.debug("Announce Receiver - making Dash subscriptions");
 
 		try {
-			this.ad.provider(IncidentContentDescriptor.Event.CONTENT_URI).topic(IncidentContentDescriptor.Event.CONTENT_TOPIC).subscribe();
-			this.ad.provider(IncidentContentDescriptor.Media.CONTENT_URI).topic(IncidentContentDescriptor.Media.CONTENT_TOPIC).subscribe();
-			this.ad.provider(IncidentContentDescriptor.Event.CONTENT_URI).topic(IncidentContentDescriptor.Event.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
-			this.ad.provider(IncidentContentDescriptor.Media.CONTENT_URI).topic(IncidentContentDescriptor.Media.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
+			this.ad.provider(IncidentSchema.Event.CONTENT_URI).topic(IncidentSchema.Event.CONTENT_TOPIC).subscribe();
+			this.ad.provider(IncidentSchema.Media.CONTENT_URI).topic(IncidentSchema.Media.CONTENT_TOPIC).subscribe();
+			this.ad.provider(IncidentSchema.Event.CONTENT_URI).topic(IncidentSchema.Event.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
+			this.ad.provider(IncidentSchema.Media.CONTENT_URI).topic(IncidentSchema.Media.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
 		} catch (RemoteException ex) {
 			logger.error("could not connect to ammo", ex);
 		}
@@ -89,8 +89,8 @@ public class AnnounceReceiver extends BroadcastReceiver {
 
 	public void pullRecentReports(Context context) {
 		WorkflowLogger.SELECT.debug("Announce Receiver - pulling recent reports");
-		this.pullIncidentContent(context, IncidentContentDescriptor.Event.CONTENT_URI, IncidentContentDescriptor.Event.CONTENT_TOPIC, BaseColumns._ID, IncidentContentDescriptor.Event.Cols._RECEIVED_DATE);
-		this.pullIncidentContent(context, IncidentContentDescriptor.Media.CONTENT_URI, IncidentContentDescriptor.Media.CONTENT_TOPIC, BaseColumns._ID, IncidentContentDescriptor.Media.Cols._RECEIVED_DATE);
+		this.pullIncidentContent(context, IncidentSchema.Event.CONTENT_URI, IncidentSchema.Event.CONTENT_TOPIC, BaseColumns._ID, IncidentSchema.Event.Cols._RECEIVED_DATE);
+		this.pullIncidentContent(context, IncidentSchema.Media.CONTENT_URI, IncidentSchema.Media.CONTENT_TOPIC, BaseColumns._ID, IncidentSchema.Media.Cols._RECEIVED_DATE);
 	}
 
 	/**
@@ -113,11 +113,11 @@ public class AnnounceReceiver extends BroadcastReceiver {
 		final String selection = 
 		    new StringBuilder()
 		            .append('"')
-		            .append(IncidentContentDescriptor.Event.Cols._DISPOSITION)
+		            .append(IncidentSchema.Event.Cols._DISPOSITION)
 		            .append('"')
 		            .append(" LIKE ")
 		            .append('\'')
-		            .append(IncidentContentDescriptor.Disposition.REMOTE)
+		            .append(IncidentSchema.Disposition.REMOTE)
 		            .append('%')
 		            .append('\'')
 		            .toString();

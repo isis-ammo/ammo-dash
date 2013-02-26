@@ -41,7 +41,7 @@ import edu.vu.isis.ammo.dash.R;
 import edu.vu.isis.ammo.dash.Util;
 import edu.vu.isis.ammo.dash.WorkflowLogger;
 import edu.vu.isis.ammo.dash.dialogs.PreviewDialog;
-import edu.vu.isis.ammo.dash.incident.provider.IncidentContentDescriptor;
+import edu.vu.isis.ammo.dash.incident.provider.IncidentSchema;
 import edu.vu.isis.ammo.dash.template.AmmoTemplateManagerActivity;
 
 /**
@@ -144,17 +144,17 @@ public class DashPreview extends ListActivity {
     protected void purgeAllDashes() {
         ContentResolver cr = this.getContentResolver();
         // Remove events first.
-        int numEventsDeleted = cr.delete(IncidentContentDescriptor.Event.CONTENT_URI, null, null);
+        int numEventsDeleted = cr.delete(IncidentSchema.Event.CONTENT_URI, null, null);
 
         // Remove media referenced in the table.
         String[] mediaProjection = {
-            IncidentContentDescriptor.Media.Cols.DATA
+            IncidentSchema.Media.Cols.DATA
         };
-        Cursor mediaCursor = cr.query(IncidentContentDescriptor.Media.CONTENT_URI, mediaProjection,
+        Cursor mediaCursor = cr.query(IncidentSchema.Media.CONTENT_URI, mediaProjection,
                 null, null, null);
         while (mediaCursor.moveToNext()) {
             String filePath = mediaCursor.getString(mediaCursor
-                    .getColumnIndex(IncidentContentDescriptor.Media.Cols.DATA));
+                    .getColumnIndex(IncidentSchema.Media.Cols.DATA));
             File file = new File(filePath);
             boolean didDeleteSuccessfully = file.delete();
             if (!didDeleteSuccessfully) {
@@ -164,7 +164,7 @@ public class DashPreview extends ListActivity {
 
         // Remove the media table contents itself.
         int numMediaRowsDeleted = cr
-                .delete(IncidentContentDescriptor.Media.CONTENT_URI, null, null);
+                .delete(IncidentSchema.Media.CONTENT_URI, null, null);
 
         // Notify the user the delete has occurred and refresh the table.
         Toast.makeText(
@@ -266,15 +266,15 @@ public class DashPreview extends ListActivity {
             Toast.makeText(this, name + " not" + " available", Toast.LENGTH_SHORT).show();
             return true;
         }
-        if (IncidentContentDescriptor.MediaConstants.DataTypeEnum.TEXT.equals(dataType)) {
+        if (IncidentSchema.MediaConstants.DataTypeEnum.TEXT.equals(dataType)) {
             previewIntDataType = DashAbstractActivity.TEXT_TYPE;
-        } else if (IncidentContentDescriptor.MediaConstants.DataTypeEnum.AUDIO.equals(dataType)) {
+        } else if (IncidentSchema.MediaConstants.DataTypeEnum.AUDIO.equals(dataType)) {
             previewIntDataType = DashAbstractActivity.AUDIO_TYPE;
-        } else if (IncidentContentDescriptor.MediaConstants.DataTypeEnum.IMAGE.equals(dataType)) {
+        } else if (IncidentSchema.MediaConstants.DataTypeEnum.IMAGE.equals(dataType)) {
             previewIntDataType = DashAbstractActivity.IMAGE_TYPE;
-        } else if (IncidentContentDescriptor.MediaConstants.DataTypeEnum.VIDEO.equals(dataType)) {
+        } else if (IncidentSchema.MediaConstants.DataTypeEnum.VIDEO.equals(dataType)) {
             previewIntDataType = DashAbstractActivity.VIDEO_TYPE;
-        } else if (IncidentContentDescriptor.MediaConstants.DataTypeEnum.TEMPLATE.equals(dataType)) {
+        } else if (IncidentSchema.MediaConstants.DataTypeEnum.TEMPLATE.equals(dataType)) {
             // Get the string from data path.
             File file = new File(previewDataPath);
             String jsonData = null;
@@ -316,10 +316,10 @@ public class DashPreview extends ListActivity {
     }
 
     private void setupListView() {
-        String selection = IncidentContentDescriptor.Event.Cols.STATUS + " != "
-                + IncidentContentDescriptor.EventConstants.STATUS_DRAFT;
-        String sortOrder = IncidentContentDescriptor.Event.Cols.CREATED_DATE + " DESC";
-        mCursor = this.managedQuery(IncidentContentDescriptor.Event.CONTENT_URI, null, selection,
+        String selection = IncidentSchema.Event.Cols.STATUS + " != "
+                + IncidentSchema.EventConstants.STATUS_DRAFT;
+        String sortOrder = IncidentSchema.Event.Cols.CREATED_DATE + " DESC";
+        mCursor = this.managedQuery(IncidentSchema.Event.CONTENT_URI, null, selection,
                 null, sortOrder);
 
         if (mCursor.getCount() == 0) {

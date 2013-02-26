@@ -42,7 +42,7 @@ import edu.vu.isis.ammo.IntentNames;
 import edu.vu.isis.ammo.api.AmmoPreference;
 import edu.vu.isis.ammo.api.AmmoRequest;
 import edu.vu.isis.ammo.dash.dialogs.PreviewDialog;
-import edu.vu.isis.ammo.dash.incident.provider.IncidentContentDescriptor;
+import edu.vu.isis.ammo.dash.incident.provider.IncidentSchema;
 import edu.vu.isis.ammo.dash.preferences.DashPreferences;
 import edu.vu.isis.ammo.dash.preview.DashPreview;
 
@@ -300,7 +300,7 @@ public abstract class DashAbstractActivity extends Activity {
 				model.setCurrentMediaType(VIDEO_TYPE);
 				model.setCurrentMediaUri(MediaActivityManager
 						.storeInContentProvider(id,
-								IncidentContentDescriptor.MediaConstants.DataTypeEnum.VIDEO.code, traqFilepath,
+								IncidentSchema.MediaConstants.DataTypeEnum.VIDEO.code, traqFilepath,
 								getContentResolver()));
 			} else {
 				model.setThumbnail(MediaActivityManager.getThumbnail(fileUri));
@@ -492,7 +492,7 @@ public abstract class DashAbstractActivity extends Activity {
 		}
 		final ContentResolver resolver = getContentResolver();
 
-		final Uri incidentUri = resolver.insert(IncidentContentDescriptor.Media.CONTENT_URI,
+		final Uri incidentUri = resolver.insert(IncidentSchema.Media.CONTENT_URI,
 				model.getContentValues());
 		WorkflowLogger
 				.SELECT.debug("DashAbstractActivity - inserted Dash event into EventTable with Uri: "

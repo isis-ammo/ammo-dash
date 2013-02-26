@@ -52,7 +52,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
 import edu.vu.isis.ammo.dash.Util;
-import edu.vu.isis.ammo.dash.incident.provider.IncidentContentDescriptor;
+import edu.vu.isis.ammo.dash.incident.provider.IncidentSchema;
 
 /**
  * SyncAdapter implementation for syncing sample SyncAdapter contacts to the
@@ -103,13 +103,13 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 
 		columns = new HashMap<String, String>();
 		columns.put(BaseColumns._ID, BaseColumns._ID);
-		columns.put(IncidentContentDescriptor.Media.Cols.EVENT_ID, "\""+IncidentContentDescriptor.Media.Cols.EVENT_ID+"\""); 
-		columns.put(IncidentContentDescriptor.Media.Cols.DATA_TYPE, "\""+IncidentContentDescriptor.Media.Cols.DATA_TYPE+"\"");
-		columns.put(IncidentContentDescriptor.Media.Cols.DATA, "\""+IncidentContentDescriptor.Media.Cols.DATA+"\""); 
-		columns.put(IncidentContentDescriptor.Media.Cols.CREATED_DATE, "\""+IncidentContentDescriptor.Media.Cols.CREATED_DATE+"\""); 
-		columns.put(IncidentContentDescriptor.Media.Cols.MODIFIED_DATE, "\""+IncidentContentDescriptor.Media.Cols.MODIFIED_DATE+"\""); 
-		columns.put(IncidentContentDescriptor.Media.Cols._RECEIVED_DATE, "\""+IncidentContentDescriptor.Media.Cols._RECEIVED_DATE+"\"");
-		columns.put(IncidentContentDescriptor.Media.Cols._DISPOSITION, "\""+IncidentContentDescriptor.Media.Cols._DISPOSITION+"\"");
+		columns.put(IncidentSchema.Media.Cols.EVENT_ID, "\""+IncidentSchema.Media.Cols.EVENT_ID+"\""); 
+		columns.put(IncidentSchema.Media.Cols.DATA_TYPE, "\""+IncidentSchema.Media.Cols.DATA_TYPE+"\"");
+		columns.put(IncidentSchema.Media.Cols.DATA, "\""+IncidentSchema.Media.Cols.DATA+"\""); 
+		columns.put(IncidentSchema.Media.Cols.CREATED_DATE, "\""+IncidentSchema.Media.Cols.CREATED_DATE+"\""); 
+		columns.put(IncidentSchema.Media.Cols.MODIFIED_DATE, "\""+IncidentSchema.Media.Cols.MODIFIED_DATE+"\""); 
+		columns.put(IncidentSchema.Media.Cols._RECEIVED_DATE, "\""+IncidentSchema.Media.Cols._RECEIVED_DATE+"\"");
+		columns.put(IncidentSchema.Media.Cols._DISPOSITION, "\""+IncidentSchema.Media.Cols._DISPOSITION+"\"");
 
 		mediaProjectionMap = columns;
 
@@ -118,26 +118,26 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 
 		columns = new HashMap<String, String>();
 		columns.put(BaseColumns._ID, BaseColumns._ID);
-		columns.put(IncidentContentDescriptor.Event.Cols.UUID, "\""+IncidentContentDescriptor.Event.Cols.UUID+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.MEDIA_COUNT, "\""+IncidentContentDescriptor.Event.Cols.MEDIA_COUNT+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.ORIGINATOR, "\""+IncidentContentDescriptor.Event.Cols.ORIGINATOR+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.DISPLAY_NAME, "\""+IncidentContentDescriptor.Event.Cols.DISPLAY_NAME+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.CATEGORY_ID, "\""+IncidentContentDescriptor.Event.Cols.CATEGORY_ID+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.TITLE, "\""+IncidentContentDescriptor.Event.Cols.TITLE+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.DESCRIPTION, "\""+IncidentContentDescriptor.Event.Cols.DESCRIPTION+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.LONGITUDE, "\""+IncidentContentDescriptor.Event.Cols.LONGITUDE+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.LATITUDE, "\""+IncidentContentDescriptor.Event.Cols.LATITUDE+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.CREATED_DATE, "\""+IncidentContentDescriptor.Event.Cols.CREATED_DATE+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.MODIFIED_DATE, "\""+IncidentContentDescriptor.Event.Cols.MODIFIED_DATE+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.CID, "\""+IncidentContentDescriptor.Event.Cols.CID+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.CATEGORY, "\""+IncidentContentDescriptor.Event.Cols.CATEGORY+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.UNIT, "\""+IncidentContentDescriptor.Event.Cols.UNIT+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.SIZE, "\""+IncidentContentDescriptor.Event.Cols.SIZE+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.DEST_GROUP_TYPE, "\""+IncidentContentDescriptor.Event.Cols.DEST_GROUP_TYPE+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.DEST_GROUP_NAME, "\""+IncidentContentDescriptor.Event.Cols.DEST_GROUP_NAME+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols.STATUS, "\""+IncidentContentDescriptor.Event.Cols.STATUS+"\""); 
-		columns.put(IncidentContentDescriptor.Event.Cols._RECEIVED_DATE, "\""+IncidentContentDescriptor.Event.Cols._RECEIVED_DATE+"\"");
-		columns.put(IncidentContentDescriptor.Event.Cols._DISPOSITION, "\""+IncidentContentDescriptor.Event.Cols._DISPOSITION+"\"");
+		columns.put(IncidentSchema.Event.Cols.UUID, "\""+IncidentSchema.Event.Cols.UUID+"\""); 
+		columns.put(IncidentSchema.Event.Cols.MEDIA_COUNT, "\""+IncidentSchema.Event.Cols.MEDIA_COUNT+"\""); 
+		columns.put(IncidentSchema.Event.Cols.ORIGINATOR, "\""+IncidentSchema.Event.Cols.ORIGINATOR+"\""); 
+		columns.put(IncidentSchema.Event.Cols.DISPLAY_NAME, "\""+IncidentSchema.Event.Cols.DISPLAY_NAME+"\""); 
+		columns.put(IncidentSchema.Event.Cols.CATEGORY_ID, "\""+IncidentSchema.Event.Cols.CATEGORY_ID+"\""); 
+		columns.put(IncidentSchema.Event.Cols.TITLE, "\""+IncidentSchema.Event.Cols.TITLE+"\""); 
+		columns.put(IncidentSchema.Event.Cols.DESCRIPTION, "\""+IncidentSchema.Event.Cols.DESCRIPTION+"\""); 
+		columns.put(IncidentSchema.Event.Cols.LONGITUDE, "\""+IncidentSchema.Event.Cols.LONGITUDE+"\""); 
+		columns.put(IncidentSchema.Event.Cols.LATITUDE, "\""+IncidentSchema.Event.Cols.LATITUDE+"\""); 
+		columns.put(IncidentSchema.Event.Cols.CREATED_DATE, "\""+IncidentSchema.Event.Cols.CREATED_DATE+"\""); 
+		columns.put(IncidentSchema.Event.Cols.MODIFIED_DATE, "\""+IncidentSchema.Event.Cols.MODIFIED_DATE+"\""); 
+		columns.put(IncidentSchema.Event.Cols.CID, "\""+IncidentSchema.Event.Cols.CID+"\""); 
+		columns.put(IncidentSchema.Event.Cols.CATEGORY, "\""+IncidentSchema.Event.Cols.CATEGORY+"\""); 
+		columns.put(IncidentSchema.Event.Cols.UNIT, "\""+IncidentSchema.Event.Cols.UNIT+"\""); 
+		columns.put(IncidentSchema.Event.Cols.SIZE, "\""+IncidentSchema.Event.Cols.SIZE+"\""); 
+		columns.put(IncidentSchema.Event.Cols.DEST_GROUP_TYPE, "\""+IncidentSchema.Event.Cols.DEST_GROUP_TYPE+"\""); 
+		columns.put(IncidentSchema.Event.Cols.DEST_GROUP_NAME, "\""+IncidentSchema.Event.Cols.DEST_GROUP_NAME+"\""); 
+		columns.put(IncidentSchema.Event.Cols.STATUS, "\""+IncidentSchema.Event.Cols.STATUS+"\""); 
+		columns.put(IncidentSchema.Event.Cols._RECEIVED_DATE, "\""+IncidentSchema.Event.Cols._RECEIVED_DATE+"\"");
+		columns.put(IncidentSchema.Event.Cols._DISPOSITION, "\""+IncidentSchema.Event.Cols._DISPOSITION+"\"");
 
 		eventProjectionMap = columns;
 
@@ -146,13 +146,13 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 
 		columns = new HashMap<String, String>();
 		columns.put(BaseColumns._ID, BaseColumns._ID);
-		columns.put(IncidentContentDescriptor.Category.Cols.MAIN_CATEGORY, "\""+IncidentContentDescriptor.Category.Cols.MAIN_CATEGORY+"\""); 
-		columns.put(IncidentContentDescriptor.Category.Cols.SUB_CATEGORY, "\""+IncidentContentDescriptor.Category.Cols.SUB_CATEGORY+"\""); 
-		columns.put(IncidentContentDescriptor.Category.Cols.TIGR_ID, "\""+IncidentContentDescriptor.Category.Cols.TIGR_ID+"\""); 
-		columns.put(IncidentContentDescriptor.Category.Cols.ICON_TYPE, "\""+IncidentContentDescriptor.Category.Cols.ICON_TYPE+"\"");
-		columns.put(IncidentContentDescriptor.Category.Cols.ICON, "\""+IncidentContentDescriptor.Category.Cols.ICON+"\""); 
-		columns.put(IncidentContentDescriptor.Category.Cols._RECEIVED_DATE, "\""+IncidentContentDescriptor.Category.Cols._RECEIVED_DATE+"\"");
-		columns.put(IncidentContentDescriptor.Category.Cols._DISPOSITION, "\""+IncidentContentDescriptor.Category.Cols._DISPOSITION+"\"");
+		columns.put(IncidentSchema.Category.Cols.MAIN_CATEGORY, "\""+IncidentSchema.Category.Cols.MAIN_CATEGORY+"\""); 
+		columns.put(IncidentSchema.Category.Cols.SUB_CATEGORY, "\""+IncidentSchema.Category.Cols.SUB_CATEGORY+"\""); 
+		columns.put(IncidentSchema.Category.Cols.TIGR_ID, "\""+IncidentSchema.Category.Cols.TIGR_ID+"\""); 
+		columns.put(IncidentSchema.Category.Cols.ICON_TYPE, "\""+IncidentSchema.Category.Cols.ICON_TYPE+"\"");
+		columns.put(IncidentSchema.Category.Cols.ICON, "\""+IncidentSchema.Category.Cols.ICON+"\""); 
+		columns.put(IncidentSchema.Category.Cols._RECEIVED_DATE, "\""+IncidentSchema.Category.Cols._RECEIVED_DATE+"\"");
+		columns.put(IncidentSchema.Category.Cols._DISPOSITION, "\""+IncidentSchema.Category.Cols._DISPOSITION+"\"");
 
 		categoryProjectionMap = columns;
 
@@ -505,13 +505,13 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 	 */
 	protected ContentValues mediaComposeValues(MediaWrapper wrap) {
 		ContentValues cv = new ContentValues();
-		cv.put(IncidentContentDescriptor.Media.Cols.EVENT_ID, wrap.getEventId()); 
-		cv.put(IncidentContentDescriptor.Media.Cols.DATA, wrap.getData());
-		cv.put(IncidentContentDescriptor.Media.Cols.DATA_TYPE, wrap.getDataType()); 
-		cv.put(IncidentContentDescriptor.Media.Cols.CREATED_DATE, wrap.getCreatedDate()); 
-		cv.put(IncidentContentDescriptor.Media.Cols.MODIFIED_DATE, wrap.getModifiedDate()); 
-		cv.put(IncidentContentDescriptor.Media.Cols._RECEIVED_DATE, wrap.get_ReceivedDate());
-		cv.put(IncidentContentDescriptor.Media.Cols._DISPOSITION, wrap.get_Disposition());
+		cv.put(IncidentSchema.Media.Cols.EVENT_ID, wrap.getEventId()); 
+		cv.put(IncidentSchema.Media.Cols.DATA, wrap.getData());
+		cv.put(IncidentSchema.Media.Cols.DATA_TYPE, wrap.getDataType()); 
+		cv.put(IncidentSchema.Media.Cols.CREATED_DATE, wrap.getCreatedDate()); 
+		cv.put(IncidentSchema.Media.Cols.MODIFIED_DATE, wrap.getModifiedDate()); 
+		cv.put(IncidentSchema.Media.Cols._RECEIVED_DATE, wrap.get_ReceivedDate());
+		cv.put(IncidentSchema.Media.Cols._DISPOSITION, wrap.get_Disposition());
 		return cv;   
 	}
 
@@ -536,26 +536,26 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 	 */
 	protected ContentValues eventComposeValues(EventWrapper wrap) {
 		ContentValues cv = new ContentValues();
-		cv.put(IncidentContentDescriptor.Event.Cols.UUID, wrap.getUuid()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.MEDIA_COUNT, wrap.getMediaCount()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.ORIGINATOR, wrap.getOriginator()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.DISPLAY_NAME, wrap.getDisplayName()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.CATEGORY_ID, wrap.getCategoryId()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.TITLE, wrap.getTitle()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.DESCRIPTION, wrap.getDescription()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.LONGITUDE, wrap.getLongitude()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.LATITUDE, wrap.getLatitude()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.CREATED_DATE, wrap.getCreatedDate()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.MODIFIED_DATE, wrap.getModifiedDate()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.CID, wrap.getCid()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.CATEGORY, wrap.getCategory()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.UNIT, wrap.getUnit()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.SIZE, wrap.getSize()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.DEST_GROUP_TYPE, wrap.getDestGroupType()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.DEST_GROUP_NAME, wrap.getDestGroupName()); 
-		cv.put(IncidentContentDescriptor.Event.Cols.STATUS, wrap.getStatus()); 
-		cv.put(IncidentContentDescriptor.Event.Cols._RECEIVED_DATE, wrap.get_ReceivedDate());
-		cv.put(IncidentContentDescriptor.Event.Cols._DISPOSITION, wrap.get_Disposition());
+		cv.put(IncidentSchema.Event.Cols.UUID, wrap.getUuid()); 
+		cv.put(IncidentSchema.Event.Cols.MEDIA_COUNT, wrap.getMediaCount()); 
+		cv.put(IncidentSchema.Event.Cols.ORIGINATOR, wrap.getOriginator()); 
+		cv.put(IncidentSchema.Event.Cols.DISPLAY_NAME, wrap.getDisplayName()); 
+		cv.put(IncidentSchema.Event.Cols.CATEGORY_ID, wrap.getCategoryId()); 
+		cv.put(IncidentSchema.Event.Cols.TITLE, wrap.getTitle()); 
+		cv.put(IncidentSchema.Event.Cols.DESCRIPTION, wrap.getDescription()); 
+		cv.put(IncidentSchema.Event.Cols.LONGITUDE, wrap.getLongitude()); 
+		cv.put(IncidentSchema.Event.Cols.LATITUDE, wrap.getLatitude()); 
+		cv.put(IncidentSchema.Event.Cols.CREATED_DATE, wrap.getCreatedDate()); 
+		cv.put(IncidentSchema.Event.Cols.MODIFIED_DATE, wrap.getModifiedDate()); 
+		cv.put(IncidentSchema.Event.Cols.CID, wrap.getCid()); 
+		cv.put(IncidentSchema.Event.Cols.CATEGORY, wrap.getCategory()); 
+		cv.put(IncidentSchema.Event.Cols.UNIT, wrap.getUnit()); 
+		cv.put(IncidentSchema.Event.Cols.SIZE, wrap.getSize()); 
+		cv.put(IncidentSchema.Event.Cols.DEST_GROUP_TYPE, wrap.getDestGroupType()); 
+		cv.put(IncidentSchema.Event.Cols.DEST_GROUP_NAME, wrap.getDestGroupName()); 
+		cv.put(IncidentSchema.Event.Cols.STATUS, wrap.getStatus()); 
+		cv.put(IncidentSchema.Event.Cols._RECEIVED_DATE, wrap.get_ReceivedDate());
+		cv.put(IncidentSchema.Event.Cols._DISPOSITION, wrap.get_Disposition());
 		return cv;   
 	}
 
@@ -580,13 +580,13 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 	 */
 	protected ContentValues categoryComposeValues(CategoryWrapper wrap) {
 		ContentValues cv = new ContentValues();
-		cv.put(IncidentContentDescriptor.Category.Cols.MAIN_CATEGORY, wrap.getMainCategory()); 
-		cv.put(IncidentContentDescriptor.Category.Cols.SUB_CATEGORY, wrap.getSubCategory()); 
-		cv.put(IncidentContentDescriptor.Category.Cols.TIGR_ID, wrap.getTigrId()); 
-		cv.put(IncidentContentDescriptor.Category.Cols.ICON, wrap.getIcon());
-		cv.put(IncidentContentDescriptor.Category.Cols.ICON_TYPE, wrap.getIconType()); 
-		cv.put(IncidentContentDescriptor.Category.Cols._RECEIVED_DATE, wrap.get_ReceivedDate());
-		cv.put(IncidentContentDescriptor.Category.Cols._DISPOSITION, wrap.get_Disposition());
+		cv.put(IncidentSchema.Category.Cols.MAIN_CATEGORY, wrap.getMainCategory()); 
+		cv.put(IncidentSchema.Category.Cols.SUB_CATEGORY, wrap.getSubCategory()); 
+		cv.put(IncidentSchema.Category.Cols.TIGR_ID, wrap.getTigrId()); 
+		cv.put(IncidentSchema.Category.Cols.ICON, wrap.getIcon());
+		cv.put(IncidentSchema.Category.Cols.ICON_TYPE, wrap.getIconType()); 
+		cv.put(IncidentSchema.Category.Cols._RECEIVED_DATE, wrap.get_ReceivedDate());
+		cv.put(IncidentSchema.Category.Cols._DISPOSITION, wrap.get_Disposition());
 		return cv;   
 	}
 
@@ -739,13 +739,13 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 
 		for (boolean more = cursor.moveToFirst(); more; more = cursor.moveToNext()) {
 			MediaWrapper iw = new MediaWrapper();
-			iw.setEventId(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Media.Cols.EVENT_ID)));  
-			iw.setDataType(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Media.Cols.DATA_TYPE))); 
-			iw.setData(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Media.Cols.DATA)));  
-			iw.setCreatedDate(cursor.getLong(cursor.getColumnIndex(IncidentContentDescriptor.Media.Cols.CREATED_DATE)));  
-			iw.setModifiedDate(cursor.getLong(cursor.getColumnIndex(IncidentContentDescriptor.Media.Cols.MODIFIED_DATE)));  
-			iw.set_ReceivedDate(cursor.getLong(cursor.getColumnIndex(IncidentContentDescriptor.Media.Cols._RECEIVED_DATE))); 
-			iw.set_Disposition(cursor.getInt(cursor.getColumnIndex(IncidentContentDescriptor.Media.Cols._DISPOSITION))); 
+			iw.setEventId(cursor.getString(cursor.getColumnIndex(IncidentSchema.Media.Cols.EVENT_ID)));  
+			iw.setDataType(cursor.getString(cursor.getColumnIndex(IncidentSchema.Media.Cols.DATA_TYPE))); 
+			iw.setData(cursor.getString(cursor.getColumnIndex(IncidentSchema.Media.Cols.DATA)));  
+			iw.setCreatedDate(cursor.getLong(cursor.getColumnIndex(IncidentSchema.Media.Cols.CREATED_DATE)));  
+			iw.setModifiedDate(cursor.getLong(cursor.getColumnIndex(IncidentSchema.Media.Cols.MODIFIED_DATE)));  
+			iw.set_ReceivedDate(cursor.getLong(cursor.getColumnIndex(IncidentSchema.Media.Cols._RECEIVED_DATE))); 
+			iw.set_Disposition(cursor.getInt(cursor.getColumnIndex(IncidentSchema.Media.Cols._DISPOSITION))); 
 
 			Gson gson = new Gson();
 
@@ -819,26 +819,26 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 
 		for (boolean more = cursor.moveToFirst(); more; more = cursor.moveToNext()) {
 			EventWrapper iw = new EventWrapper();
-			iw.setUuid(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.UUID)));  
-			iw.setMediaCount(cursor.getInt(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.MEDIA_COUNT)));  
-			iw.setOriginator(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.ORIGINATOR)));  
-			iw.setDisplayName(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.DISPLAY_NAME)));  
-			iw.setCategoryId(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.CATEGORY_ID)));  
-			iw.setTitle(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.TITLE)));  
-			iw.setDescription(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.DESCRIPTION)));  
-			iw.setLongitude(Util.scaleIntCoordinate(cursor.getInt(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.LONGITUDE))));  
-			iw.setLatitude(Util.scaleIntCoordinate(cursor.getInt(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.LATITUDE))));  
-			iw.setCreatedDate(cursor.getLong(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.CREATED_DATE)));  
-			iw.setModifiedDate(cursor.getLong(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.MODIFIED_DATE)));  
-			iw.setCid(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.CID)));  
-			iw.setCategory(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.CATEGORY)));  
-			iw.setUnit(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.UNIT)));  
-			iw.setSize(cursor.getLong(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.SIZE)));  
-			iw.setDestGroupType(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.DEST_GROUP_TYPE)));  
-			iw.setDestGroupName(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.DEST_GROUP_NAME)));  
-			iw.setStatus(cursor.getInt(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols.STATUS)));  
-			iw.set_ReceivedDate(cursor.getLong(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols._RECEIVED_DATE))); 
-			iw.set_Disposition(cursor.getInt(cursor.getColumnIndex(IncidentContentDescriptor.Event.Cols._DISPOSITION))); 
+			iw.setUuid(cursor.getString(cursor.getColumnIndex(IncidentSchema.Event.Cols.UUID)));  
+			iw.setMediaCount(cursor.getInt(cursor.getColumnIndex(IncidentSchema.Event.Cols.MEDIA_COUNT)));  
+			iw.setOriginator(cursor.getString(cursor.getColumnIndex(IncidentSchema.Event.Cols.ORIGINATOR)));  
+			iw.setDisplayName(cursor.getString(cursor.getColumnIndex(IncidentSchema.Event.Cols.DISPLAY_NAME)));  
+			iw.setCategoryId(cursor.getString(cursor.getColumnIndex(IncidentSchema.Event.Cols.CATEGORY_ID)));  
+			iw.setTitle(cursor.getString(cursor.getColumnIndex(IncidentSchema.Event.Cols.TITLE)));  
+			iw.setDescription(cursor.getString(cursor.getColumnIndex(IncidentSchema.Event.Cols.DESCRIPTION)));  
+			iw.setLongitude(Util.scaleIntCoordinate(cursor.getInt(cursor.getColumnIndex(IncidentSchema.Event.Cols.LONGITUDE))));  
+			iw.setLatitude(Util.scaleIntCoordinate(cursor.getInt(cursor.getColumnIndex(IncidentSchema.Event.Cols.LATITUDE))));  
+			iw.setCreatedDate(cursor.getLong(cursor.getColumnIndex(IncidentSchema.Event.Cols.CREATED_DATE)));  
+			iw.setModifiedDate(cursor.getLong(cursor.getColumnIndex(IncidentSchema.Event.Cols.MODIFIED_DATE)));  
+			iw.setCid(cursor.getString(cursor.getColumnIndex(IncidentSchema.Event.Cols.CID)));  
+			iw.setCategory(cursor.getString(cursor.getColumnIndex(IncidentSchema.Event.Cols.CATEGORY)));  
+			iw.setUnit(cursor.getString(cursor.getColumnIndex(IncidentSchema.Event.Cols.UNIT)));  
+			iw.setSize(cursor.getLong(cursor.getColumnIndex(IncidentSchema.Event.Cols.SIZE)));  
+			iw.setDestGroupType(cursor.getString(cursor.getColumnIndex(IncidentSchema.Event.Cols.DEST_GROUP_TYPE)));  
+			iw.setDestGroupName(cursor.getString(cursor.getColumnIndex(IncidentSchema.Event.Cols.DEST_GROUP_NAME)));  
+			iw.setStatus(cursor.getInt(cursor.getColumnIndex(IncidentSchema.Event.Cols.STATUS)));  
+			iw.set_ReceivedDate(cursor.getLong(cursor.getColumnIndex(IncidentSchema.Event.Cols._RECEIVED_DATE))); 
+			iw.set_Disposition(cursor.getInt(cursor.getColumnIndex(IncidentSchema.Event.Cols._DISPOSITION))); 
 
 			Gson gson = new Gson();
 
@@ -900,13 +900,13 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 
 		for (boolean more = cursor.moveToFirst(); more; more = cursor.moveToNext()) {
 			CategoryWrapper iw = new CategoryWrapper();
-			iw.setMainCategory(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Category.Cols.MAIN_CATEGORY)));  
-			iw.setSubCategory(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Category.Cols.SUB_CATEGORY)));  
-			iw.setTigrId(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Category.Cols.TIGR_ID)));  
-			iw.setIconType(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Category.Cols.ICON_TYPE))); 
-			iw.setIcon(cursor.getString(cursor.getColumnIndex(IncidentContentDescriptor.Category.Cols.ICON)));  
-			iw.set_ReceivedDate(cursor.getLong(cursor.getColumnIndex(IncidentContentDescriptor.Category.Cols._RECEIVED_DATE))); 
-			iw.set_Disposition(cursor.getInt(cursor.getColumnIndex(IncidentContentDescriptor.Category.Cols._DISPOSITION))); 
+			iw.setMainCategory(cursor.getString(cursor.getColumnIndex(IncidentSchema.Category.Cols.MAIN_CATEGORY)));  
+			iw.setSubCategory(cursor.getString(cursor.getColumnIndex(IncidentSchema.Category.Cols.SUB_CATEGORY)));  
+			iw.setTigrId(cursor.getString(cursor.getColumnIndex(IncidentSchema.Category.Cols.TIGR_ID)));  
+			iw.setIconType(cursor.getString(cursor.getColumnIndex(IncidentSchema.Category.Cols.ICON_TYPE))); 
+			iw.setIcon(cursor.getString(cursor.getColumnIndex(IncidentSchema.Category.Cols.ICON)));  
+			iw.set_ReceivedDate(cursor.getLong(cursor.getColumnIndex(IncidentSchema.Category.Cols._RECEIVED_DATE))); 
+			iw.set_Disposition(cursor.getInt(cursor.getColumnIndex(IncidentSchema.Category.Cols._DISPOSITION))); 
 
 			Gson gson = new Gson();
 
@@ -993,7 +993,7 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 
 			ContentValues cv = mediaComposeValues(wrap);
 			// Put the current system time into the received column for relative time pulls.
-			cv.put(IncidentContentDescriptor.Media.Cols._RECEIVED_DATE, System.currentTimeMillis());
+			cv.put(IncidentSchema.Media.Cols._RECEIVED_DATE, System.currentTimeMillis());
 			// String whereClause = mediaSelectKeyClause(wrap);
 
 			//         if (whereClause != null) {
@@ -1018,17 +1018,17 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 			//long rowId = db.insert(Tables.MEDIA_TBL, 
 			//         IncidentContentDescriptor.Media.Cols.EVENT_ID,
 			//         cv);
-			Uri rowUri = getContext().getContentResolver().insert(IncidentContentDescriptor.Media.CONTENT_URI, cv);
+			Uri rowUri = getContext().getContentResolver().insert(IncidentSchema.Media.CONTENT_URI, cv);
 			long rowId = Long.valueOf(rowUri.getLastPathSegment()).longValue();
 
-			getContext().getContentResolver().notifyChange(IncidentContentDescriptor.Media.CONTENT_URI, null); 
+			getContext().getContentResolver().notifyChange(IncidentSchema.Media.CONTENT_URI, null); 
 			return rowId;
 		}
 
 		@Override
 		public long payload(long rowId, String label, byte[] buf) {
 			ContentResolver cr = getContext().getContentResolver();
-			Uri rowUri = ContentUris.withAppendedId(IncidentContentDescriptor.Media.CONTENT_URI, rowId);
+			Uri rowUri = ContentUris.withAppendedId(IncidentSchema.Media.CONTENT_URI, rowId);
 			Cursor cursor = cr.query(rowUri, null, null, null, null);
 			cursor.moveToFirst();
 			String filename = cursor.getString(cursor.getColumnIndex(label));  
@@ -1082,7 +1082,7 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 
 			ContentValues cv = eventComposeValues(wrap);
 			// Put the current system time into the received column for relative time pulls.
-			cv.put(IncidentContentDescriptor.Event.Cols._RECEIVED_DATE, System.currentTimeMillis());
+			cv.put(IncidentSchema.Event.Cols._RECEIVED_DATE, System.currentTimeMillis());
 			// String whereClause = eventSelectKeyClause(wrap);
 
 			//         if (whereClause != null) {
@@ -1107,17 +1107,17 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 			//long rowId = db.insert(Tables.EVENT_TBL, 
 			//         IncidentContentDescriptor.Event.Cols.UUID,
 			//         cv);
-			Uri rowUri = getContext().getContentResolver().insert(IncidentContentDescriptor.Event.CONTENT_URI, cv);
+			Uri rowUri = getContext().getContentResolver().insert(IncidentSchema.Event.CONTENT_URI, cv);
 			long rowId = Long.valueOf(rowUri.getLastPathSegment()).longValue();
 
-			getContext().getContentResolver().notifyChange(IncidentContentDescriptor.Event.CONTENT_URI, null); 
+			getContext().getContentResolver().notifyChange(IncidentSchema.Event.CONTENT_URI, null); 
 			return rowId;
 		}
 
 		@Override
 		public long payload(long rowId, String label, byte[] buf) {
 			ContentResolver cr = getContext().getContentResolver();
-			Uri rowUri = ContentUris.withAppendedId(IncidentContentDescriptor.Event.CONTENT_URI, rowId);
+			Uri rowUri = ContentUris.withAppendedId(IncidentSchema.Event.CONTENT_URI, rowId);
 			Cursor cursor = cr.query(rowUri, null, null, null, null);
 			cursor.moveToFirst();
 			String filename = cursor.getString(cursor.getColumnIndex(label));  
@@ -1171,7 +1171,7 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 
 			ContentValues cv = categoryComposeValues(wrap);
 			// Put the current system time into the received column for relative time pulls.
-			cv.put(IncidentContentDescriptor.Category.Cols._RECEIVED_DATE, System.currentTimeMillis());
+			cv.put(IncidentSchema.Category.Cols._RECEIVED_DATE, System.currentTimeMillis());
 			// String whereClause = categorySelectKeyClause(wrap);
 
 			//         if (whereClause != null) {
@@ -1196,17 +1196,17 @@ public class IncidentSyncAdaptor extends AbstractThreadedSyncAdapter {
 			//long rowId = db.insert(Tables.CATEGORY_TBL, 
 			//         IncidentContentDescriptor.Category.Cols.MAIN_CATEGORY,
 			//         cv);
-			Uri rowUri = getContext().getContentResolver().insert(IncidentContentDescriptor.Category.CONTENT_URI, cv);
+			Uri rowUri = getContext().getContentResolver().insert(IncidentSchema.Category.CONTENT_URI, cv);
 			long rowId = Long.valueOf(rowUri.getLastPathSegment()).longValue();
 
-			getContext().getContentResolver().notifyChange(IncidentContentDescriptor.Category.CONTENT_URI, null); 
+			getContext().getContentResolver().notifyChange(IncidentSchema.Category.CONTENT_URI, null); 
 			return rowId;
 		}
 
 		@Override
 		public long payload(long rowId, String label, byte[] buf) {
 			ContentResolver cr = getContext().getContentResolver();
-			Uri rowUri = ContentUris.withAppendedId(IncidentContentDescriptor.Category.CONTENT_URI, rowId);
+			Uri rowUri = ContentUris.withAppendedId(IncidentSchema.Category.CONTENT_URI, rowId);
 			Cursor cursor = cr.query(rowUri, null, null, null, null);
 			cursor.moveToFirst();
 			String filename = cursor.getString(cursor.getColumnIndex(label));  
