@@ -11,16 +11,6 @@ purpose whatsoever, and to have or authorize others to do so.
 
 package edu.vu.isis.ammo.dash;
 
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -28,9 +18,19 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.widget.Toast;
+
 import edu.vu.isis.ammo.dash.preferences.DashPreferences;
 import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.MediaTableSchemaBase;
 import edu.vu.isis.ammo.util.CoordinateConversion;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * Set of utility methods used throughout Dash for tasks like location
@@ -54,20 +54,10 @@ public class Util {
     }
 
     public static String toMGRSString(Location location) {
-        // 10/29/12: (TA-4377)
-        // Round coordinates to 4 decimal places to make the String displayed
-        // on the device the same as what is displayed on BLOX
-
         if (location == null)
             return "";
 
-        BigDecimal lat = new BigDecimal(location.getLatitude());
-        lat = lat.setScale(4, BigDecimal.ROUND_HALF_UP);
-
-        BigDecimal lon = new BigDecimal(location.getLongitude());
-        lon = lon.setScale(4, BigDecimal.ROUND_HALF_UP);
-
-        return new CoordinateConversion().latLon2MGRUTM(lat.doubleValue(), lon.doubleValue());
+        return new CoordinateConversion().latLon2MGRUTM(location.getLatitude(), location.getLongitude());
     }
 
     public static Location toLocation(String mgrs) {
