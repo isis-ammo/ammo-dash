@@ -55,6 +55,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
               <artifactCoords>edu.vanderbilt.isis.druid:druid-template:2.0.0</artifactCoords>
               <contractFile>${basedir}/../contract/incident.xml</contractFile>
               <baseOutputDirectory>${basedir}/target/generated-sources/druid</baseOutputDirectory>
+              <pathSet><src_main_java>src/main/java</src_main_java></pathSet>
             </configuration>
           </execution>
 
@@ -74,7 +75,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             </goals>
             <configuration>
               <sources>
-                <source>${basedir}/target/generated-sources/druid/src</source>
+                <source>${basedir}/target/generated-sources/druid/src/main/java</source>
               </sources>
             </configuration>
           </execution>
