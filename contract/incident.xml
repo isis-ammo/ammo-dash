@@ -23,6 +23,7 @@
      <key name="update">
         <field ref="event id"/>
      </key>
+
   </relation>
 
   <relation name="event">
@@ -90,9 +91,15 @@
             the gateway plugin.
         </description>
     </field>
+
      <key name="update">
         <field ref="uuid"/>
      </key>
+
+     <message encoding="terse">
+        <field ref="event id"/>
+        <field ref="latitude" type="REAL"/>
+     </message>
   </relation>
 
   <relation name="status">
