@@ -97,9 +97,14 @@
      </key>
 
      <message encoding="terse">
-        <field ref="event id"/>
-        <field ref="latitude" type="REAL"/>
+        <field ref="uuid" type="TEXT" />
+        <field ref="latitude" type="INTEGER" />
+        <field ref="longitude" type="INTEGER" />
+        <field ref="title" type="TEXT" />
+        <field ref="description" type="TEXT" />
+        <field ref="created date" type="TIMESTAMP">
      </message>
+
   </relation>
 
   <relation name="status">
