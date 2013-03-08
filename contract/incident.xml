@@ -102,7 +102,7 @@
         <field ref="longitude" type="INTEGER" />
         <field ref="title" type="TEXT" />
         <field ref="description" type="TEXT" />
-        <field ref="created date" type="TIMESTAMP">
+        <field ref="created date" type="TIMESTAMP" />
      </message>
 
   </relation>
