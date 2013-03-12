@@ -32,7 +32,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
-import edu.vu.isis.ammo.dash.provider.IncidentSchema.CategoryTableSchema;
 import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.CategoryTableSchemaBase;
 
 /**
@@ -179,9 +178,9 @@ public class IncidentProvider extends IncidentProviderBase {
 
 			return true;
 		} catch (ZipException ex) {
-			logger.error("could not open zip {}", ex.getStackTrace());
+			logger.error("could not open zip", ex);
 		} catch (IOException ex) {
-			logger.error("could not open {}", ex.getStackTrace());
+			logger.error("could not open", ex);
 		}
 		return false;
 	}
