@@ -26,6 +26,9 @@ import edu.vu.isis.ammo.util.CoordinateConversion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import transapps.gallery.GalleryAPI;
+import transapps.gallery.GalleryDao;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -254,5 +257,27 @@ public class Util {
                 cursor.close();
             }
         }
+    }
+    
+    public static void addToGallery(File file, String tag, String desc, String mimeType, Context context) {
+        GalleryAPI api = new GalleryAPI(context);  // "this" is a Context
+        GalleryDao dao = new GalleryDao("DASH",  // This value is a place holder when using updateDefault()
+                file.getAbsolutePath(),  // Since this image will be manged by gallery use the full path as it's ID.
+                tag,  // This is the string the user sees associated with images taken for Dash (also for filtering)- should identify Dash images as a class and NOT be unique.
+                file.lastModified(),
+                file.length(),
+                desc,  // Description of image
+                mimeType,
+                file.getAbsolutePath(),
+                null,  // med thumb- leave null and Gallery will handle.
+                null,  // small thumb-  leave null and Gallery will handle
+                file.getName(),  // Title
+                Integer.MAX_VALUE,  // latitude - the next five values will be extracted from EXIF if possible when set to MAX_VALUE or -1.0 for last.
+                Integer.MAX_VALUE,  // longitude
+                Integer.MAX_VALUE,  // altitude
+                Integer.MAX_VALUE,  // orientation
+                -1.0);
+        // Use insertDefault to allow Gallery to manage the image once added (i.e. you do not have a Gallery provider to manage the image).
+        api.insertDefault(dao);
     }
 }
