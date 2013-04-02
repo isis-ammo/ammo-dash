@@ -271,6 +271,7 @@ public class AudioEntryActivity extends Activity implements OnClickListener, OnI
 		cv.put(MediaTableSchemaBase.EVENT_ID, eventId);
 		cv.put(MediaTableSchemaBase.DATA_TYPE, MediaTableSchema.AUDIO_DATA_TYPE);
 		cv.put(MediaTableSchemaBase.DATA, currentFileRecording.getAbsolutePath());
+	    Util.addToGallery(currentFileRecording, "Dash Audio", "Audio taken for Dash", "audio/3gpp", this);
 		mediaUri = cr.insert(MediaTableSchemaBase.CONTENT_URI, cv);
 		logger.debug( "Inserted " + currentFileRecording.getAbsolutePath() + " into " + mediaUri.toString());
 		WorkflowLogger.log("AudioEntryActivity - inserted audio with uri: " + mediaUri);

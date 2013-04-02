@@ -17,11 +17,15 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import transapps.gallery.GalleryAPI;
+import transapps.gallery.GalleryDao;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -275,7 +279,7 @@ public abstract class DashAbstractActivity extends Activity {
 
 		boolean success = true;
 		switch (requestCode) {
-		case IMAGE_TYPE:
+		case IMAGE_TYPE: {
 			// Check whether the file is coming from the stock camera or TRAQ
 			// camera.
 			// Set the model's photo uri to whatever was passed in.
@@ -296,6 +300,7 @@ public abstract class DashAbstractActivity extends Activity {
 			}
 
 			model.setImageUri(fileUri);
+			File file = new File(fileUri.getPath());
 			if (traqFilepath != null && traqFilepath.endsWith("mp4")) {
 				model.setThumbnail(ThumbnailUtils.createVideoThumbnail(
 						traqFilepath, MediaStore.Video.Thumbnails.MICRO_KIND));
@@ -304,18 +309,21 @@ public abstract class DashAbstractActivity extends Activity {
 						.storeInContentProvider(id,
 								MediaTableSchema.VIDEO_DATA_TYPE, traqFilepath,
 								getContentResolver()));
+				Util.addToGallery(file, "Dash Video", "Video taken for Dash", "video/mp4", this);
 			} else {
 				model.setThumbnail(MediaActivityManager.getThumbnail(fileUri));
 				model.setCurrentMediaType(IMAGE_TYPE);
 				model.setCurrentMediaUri(MediaActivityManager.processPicture(
 						getContentResolver(), id, model.getThumbnail(), traqFilepath));
+				Util.addToGallery(file, "Dash Image", "Picture taken for Dash", "image/jpeg", this);
 			}
 
 			if (model.getCurrentMediaUri() == null) {
 				success = false;
 			}
 			break;
-		case AUDIO_TYPE:
+		}
+		case AUDIO_TYPE: {
 			model.setCurrentMediaUri(MediaActivityManager.processAudio(
 					getContentResolver(), data, id));
 			model.setCurrentMediaType(AUDIO_TYPE);
@@ -323,10 +331,12 @@ public abstract class DashAbstractActivity extends Activity {
 				success = false;
 			} else {
 				WorkflowLogger
-						.log("DashAbstractActivity - received media table Uri from audio recorder with Uri: "
-								+ model.getCurrentMediaUri());
+					.log("DashAbstractActivity - received media table Uri from audio recorder with Uri: "
+					        + model.getCurrentMediaUri());
 			}
+			
 			break;
+		}
 		}
 
 		updateButtons();
@@ -436,6 +446,7 @@ public abstract class DashAbstractActivity extends Activity {
 		}
 	}
 
+	
 	protected int getEditVisibility() {
 		return isOpenForEdit() ? View.VISIBLE : View.GONE;
 	}
