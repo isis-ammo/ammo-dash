@@ -107,6 +107,7 @@ public class IncidentProvider extends IncidentProviderBase {
 		return true;
 	}
 
+	
 	@Override
 	public boolean createDatabaseHelper() {
 		this.openHelper = new IncidentDatabaseHelper(getContext()) {
@@ -123,12 +124,19 @@ public class IncidentProvider extends IncidentProviderBase {
 	// ===========================================================
 
 	/**
+	 * /**
+     * In a previous version of dash, a set of icons were present which
+     * indicated the type of object for which the incident was being 
+     * created.  This capability is no longer used so the tigr-icons.zip
+     * file is no longer distributed.  This method is no longer used so it has a quick return.
+     * <p>
+     *
 	 * Extract the category information and update the Category table. It is
 	 * expected that the zip file containing this information be placed in the
 	 * file "/sdcard/tigr_icons.zip".
 	 * 
 	 */
-	public boolean unzipAndPopulateCategories(SQLiteDatabase db) {
+	public boolean unzipAndPopulateCategories(final SQLiteDatabase db) {
 		try {
 			// If the folder exists, blow it away and recreate it.
 			IncidentProviderBase.clearBlobCache("tigr", "png");
@@ -180,7 +188,7 @@ public class IncidentProvider extends IncidentProviderBase {
 		} catch (ZipException ex) {
 			logger.error("could not open zip", ex);
 		} catch (IOException ex) {
-			logger.error("could not open", ex);
+			logger.debug("could not open", ex);
 		}
 		return false;
 	}
