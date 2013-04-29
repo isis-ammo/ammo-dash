@@ -10,17 +10,6 @@ purpose whatsoever, and to have or authorize others to do so.
  */
 package edu.vu.isis.ammo.dash.template;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,11 +23,21 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import edu.vu.isis.ammo.dash.Dash;
 import edu.vu.isis.ammo.dash.DashAbstractActivity;
 import edu.vu.isis.ammo.dash.R;
 import edu.vu.isis.ammo.dash.WorkflowLogger;
 import edu.vu.isis.ammo.dash.template.model.Record;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Main activity for DashTemplate. This activity lets a user select a template
@@ -57,6 +56,7 @@ public class AmmoTemplateManagerActivity extends DashAbstractActivity {
 	private long prevButtonTimestamp = 0;
 
 	private TemplateView templateView;
+	private boolean isTemplateLoaded = false;
 
 	public static final String TEMPLATE_EXTRA = "TEMPLATE";
 	public static final String JSON_DATA_EXTRA = "JSON_DATA";
@@ -106,6 +106,16 @@ public class AmmoTemplateManagerActivity extends DashAbstractActivity {
 	public void onSaveInstanceState(Bundle bundle) {
 		super.onSaveInstanceState(bundle);
 		bundle.putString(BUNDLE_DATA, toJson(templateView.getData()));
+	}
+	
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+	    super.onRetainNonConfigurationInstance();
+	    if (isTemplateLoaded) {
+    	    return toJson(templateView.getData());
+	    } else {
+	        return null;
+	    }
 	}
 
 	@Override
@@ -167,15 +177,23 @@ public class AmmoTemplateManagerActivity extends DashAbstractActivity {
 		final Location location = getIntent()
 				.getParcelableExtra(LOCATION_EXTRA);
 		String jsonData = getIntent().getStringExtra(JSON_DATA_EXTRA);
+		if (jsonData == null) {
+		    // Try to get json from a configuration change
+		    jsonData = (String) getLastNonConfigurationInstance();
+		}
 
 		if (jsonData != null && jsonData.length() != 0) {
 			if (!templateView.loadTemplateFromJson(jsonData, location)) {
 				finish();
+			} else {
+			    isTemplateLoaded = true;
 			}
 
 		} else if (templateFilename != null) {
 			if (!templateView.loadTemplate(templateFilename, location)) {
 				finish();
+			} else {
+			    isTemplateLoaded = true;
 			}
 		} else {
 
@@ -191,12 +209,14 @@ public class AmmoTemplateManagerActivity extends DashAbstractActivity {
 							if (!templateView.loadTemplate(templates[item],
 									location)) {
 								finish();
-							}
-							templateView.getData().setField(TEMPLATE_NAME_KEY,
+							} else {
+							    isTemplateLoaded = true;
+							    templateView.getData().setField(TEMPLATE_NAME_KEY,
 									templates[item]);
-							((TextView) findViewById(R.id.ammo_template_manager_label))
+							    ((TextView) findViewById(R.id.ammo_template_manager_label))
 									.setText(templateView
 											.getTemplateDisplayName());
+							}
 						}
 					});
 			builder.setOnCancelListener(new DialogInterface.OnCancelListener() {

@@ -49,7 +49,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:label="Dash Template" android:name=".template.AmmoTemplateManagerActivity" android:screenOrientation="portrait" android:taskAffinity="edu.vu.isis.ammo.dash.template">
+        <activity android:label="Dash Template" android:name=".template.AmmoTemplateManagerActivity" android:screenOrientation="unspecified" android:taskAffinity="edu.vu.isis.ammo.dash.template">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

@@ -10,22 +10,11 @@ purpose whatsoever, and to have or authorize others to do so.
  */
 package edu.vu.isis.ammo.dash;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import transapps.gallery.GalleryAPI;
-import transapps.gallery.GalleryDao;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -41,7 +30,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
+
 import edu.vu.isis.ammo.INetPrefKeys;
 import edu.vu.isis.ammo.IntentNames;
 import edu.vu.isis.ammo.api.AmmoPreference;
@@ -51,6 +40,13 @@ import edu.vu.isis.ammo.dash.preferences.DashPreferences;
 import edu.vu.isis.ammo.dash.preview.DashPreview;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
 import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.EventTableSchemaBase;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Based on discussion with Mari March 2011.
@@ -145,7 +141,7 @@ public abstract class DashAbstractActivity extends Activity {
 
 	@Override
 	public void onDestroy() {
-		this.ab.releaseInstance();
+	    if (this.ab != null) this.ab.releaseInstance();
 		super.onDestroy();
 	}
 
