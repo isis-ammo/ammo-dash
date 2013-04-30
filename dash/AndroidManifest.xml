@@ -70,6 +70,9 @@
                 <action android:name="AMMO_CONNECTED"/>
             </intent-filter>
             <intent-filter>
+                <action android:name="edu.vu.isis.ACTION_CONNECTION_STATUS_CHANGE"/>
+            </intent-filter>
+            <intent-filter>
                 <action android:name="AMMO_READY"/>
 
                 <category android:name="AMMO_RESET_CATEGORY"/>

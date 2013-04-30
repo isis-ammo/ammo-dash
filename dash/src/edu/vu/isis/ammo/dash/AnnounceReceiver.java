@@ -52,6 +52,10 @@ public class AnnounceReceiver extends BroadcastReceiver {
 	static final String CORE_OPERATOR_ID = "CORE_OPERATOR_ID";
 	static final String CORE_SUBSCRIPTION_DONE = "CORE_SUBSCRIPTION_DONE";
 
+
+  // need to get access to the NetChannel interface in AMMO ...
+  static final int CONNECTED = 21;
+
 	private AmmoRequest.Builder ad;
 
 	/**
@@ -70,9 +74,12 @@ public class AnnounceReceiver extends BroadcastReceiver {
 			logger.info("Announce Receiver: Got an Intent AMMO_CONNECTED");
 			this.pullRecentReports(context);
 		}
-		if (AmmoIntents.AMMO_ACTION_CONNECTION_STATUS_CHANGE.endsWith(action)) {
-			logger.info("Announce Receiver: Got an Intent AMMO_ACTION_CONNECTION_STATUS_CHANGE");
-			this.pullRecentReports(context);
+
+		if (AmmoIntents.AMMO_ACTION_CONNECTION_STATUS_CHANGE.endsWith(action) ) {
+      if (intent.getExtras().getInt(AmmoIntents.EXTRA_CONNECT_STATUS) == CONNECTED) {
+        logger.info("Announce Receiver: Got an Intent AMMO_ACTION_CONNECTION_STATUS_CHANGE");
+        this.pullRecentReports(context);
+      }
 		}
 		// this.ad.releaseInstance();
 	}
