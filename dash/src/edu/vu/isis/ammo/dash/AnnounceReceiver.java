@@ -24,14 +24,13 @@ import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import edu.vu.isis.ammo.INetPrefKeys;
 import edu.vu.isis.ammo.IntentNames;
+import edu.vu.isis.ammo.api.AmmoIntents;
 import edu.vu.isis.ammo.api.AmmoPreference;
 import edu.vu.isis.ammo.api.AmmoRequest;
 import edu.vu.isis.ammo.api.IAmmoRequest;
 import edu.vu.isis.ammo.api.type.Limit;
 import edu.vu.isis.ammo.api.type.Query;
 import edu.vu.isis.ammo.dash.preferences.DashPreferences;
-import edu.vu.isis.ammo.dash.provider.IncidentSchema.EventTableSchema;
-import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
 import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase;
 import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.EventTableSchemaBase;
 import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.MediaTableSchemaBase;
@@ -69,6 +68,10 @@ public class AnnounceReceiver extends BroadcastReceiver {
 		}
 		if (IntentNames.AMMO_CONNECTED.endsWith(action)) {
 			logger.info("Announce Receiver: Got an Intent AMMO_CONNECTED");
+			this.pullRecentReports(context);
+		}
+		if (AmmoIntents.AMMO_ACTION_CONNECTION_STATUS_CHANGE.endsWith(action)) {
+			logger.info("Announce Receiver: Got an Intent AMMO_ACTION_CONNECTION_STATUS_CHANGE");
 			this.pullRecentReports(context);
 		}
 		// this.ad.releaseInstance();
