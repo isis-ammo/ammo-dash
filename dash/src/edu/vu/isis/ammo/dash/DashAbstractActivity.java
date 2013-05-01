@@ -15,6 +15,7 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -40,6 +41,7 @@ import edu.vu.isis.ammo.dash.preferences.DashPreferences;
 import edu.vu.isis.ammo.dash.preview.DashPreview;
 import edu.vu.isis.ammo.dash.provider.IncidentSchema.MediaTableSchema;
 import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.EventTableSchemaBase;
+import edu.vu.isis.ammo.dash.provider.IncidentSchemaBase.MediaTableSchemaBase;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -137,7 +139,26 @@ public abstract class DashAbstractActivity extends Activity {
 		}
 
 		this.ab = AmmoRequest.newBuilder(this);
+		
+		makeDashSubscriptions (this);
 	}
+	
+	public void makeDashSubscriptions(Context context) {
+    final String userId = AmmoPreference
+                   .getInstance(context)
+                   .getString(INetPrefKeys.CORE_OPERATOR_ID, 
+                              INetPrefKeys.DEFAULT_CORE_OPERATOR_ID);
+    WorkflowLogger.log("Announce Receiver - making Dash subscriptions");
+
+    try {
+      this.ab.provider(EventTableSchemaBase.CONTENT_URI).topic(EventTableSchemaBase.CONTENT_TOPIC).subscribe();
+      this.ab.provider(MediaTableSchemaBase.CONTENT_URI).topic(MediaTableSchemaBase.CONTENT_TOPIC).subscribe();
+      this.ab.provider(EventTableSchemaBase.CONTENT_URI).topic(EventTableSchemaBase.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
+      this.ab.provider(MediaTableSchemaBase.CONTENT_URI).topic(MediaTableSchemaBase.CONTENT_TOPIC + "/" + IDash.MIME_TYPE_EXTENSION_TIGR_UID + "/" + userId).subscribe();
+    } catch (RemoteException ex) {
+      logger.error("could not connect to ammo", ex);
+    }
+  }
 
 	@Override
 	public void onDestroy() {
