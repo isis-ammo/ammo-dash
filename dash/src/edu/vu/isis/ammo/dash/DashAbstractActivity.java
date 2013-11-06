@@ -327,7 +327,9 @@ public abstract class DashAbstractActivity extends Activity {
 				}
 
 			}
-
+			//logger.error("uri = {}", fileUri);
+			//logger.error("uri getPath = {}", fileUri.getPath());
+		    
 			model.setImageUri(fileUri);
 			File file = new File(fileUri.getPath());
 			if (traqFilepath != null && traqFilepath.endsWith("mp4")) {
@@ -355,6 +357,9 @@ public abstract class DashAbstractActivity extends Activity {
 		  
 		case PICK_IMAGE_TYPE: {
 		    Uri _uri = data.getData();
+		    //logger.error("uri = {}", _uri.toString());
+		    //logger.error("uri getPath = {}" , _uri.getPath());
+		    
 		    if (_uri != null) {
 			model.setImageUri(_uri);
 			
@@ -365,11 +370,14 @@ public abstract class DashAbstractActivity extends Activity {
 			cursor.moveToFirst();
 			final String imageFilePath = cursor.getString(0);
 			cursor.close();
-			
+			//logger.error("imageFilePath = {}", imageFilePath);
+
+			Uri fileUri = Uri.parse("file://" + imageFilePath);
+
 			//model.setImageUri(_uri);
-			//File file = new File(imageFilePath);
-			File file = new File(_uri.getPath());
-			model.setThumbnail(MediaActivityManager.getThumbnail(_uri));
+			model.setImageUri(fileUri);
+			File file = new File(fileUri.getPath());
+			model.setThumbnail(MediaActivityManager.getThumbnail(fileUri));
 			model.setCurrentMediaType(IMAGE_TYPE);
 			model.setCurrentMediaUri(MediaActivityManager.processPicture(
 						getContentResolver(), id, model.getThumbnail(), imageFilePath));
