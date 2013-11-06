@@ -61,6 +61,29 @@
                         android:text="@string/camera" />
                 </LinearLayout>
 
+                <!-- Gallery Button -->
+
+                <LinearLayout
+                    android:id="@+id/galleryButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="40dip"
+                    android:background="@drawable/add_selector"
+                    android:focusable="true"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        style="@style/DashButton"
+                        android:src="@drawable/button_gallery" />
+
+                    <TextView
+                        style="@style/CenteredText"
+                        android:layout_width="wrap_content"
+                        android:text="@string/gallery" />
+                </LinearLayout>
+
+
+
                 <!-- Audio Button -->
 
                 <LinearLayout

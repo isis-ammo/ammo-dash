@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.database.Cursor;
 
 import edu.vu.isis.ammo.INetPrefKeys;
 import edu.vu.isis.ammo.IntentNames;
@@ -64,7 +65,7 @@ public abstract class DashAbstractActivity extends Activity {
 	protected DashModel model;
 
 	protected long time = System.currentTimeMillis();
-	protected View cameraContainer, audioContainer;
+    protected View cameraContainer, audioContainer, galleryContainer;
 	protected ImageView mediaPreview;
 	protected Button removeButton;
 	private boolean openForEdit = true;
@@ -100,6 +101,7 @@ public abstract class DashAbstractActivity extends Activity {
 	public static final int IMAGE_TYPE = 3;
 	public static final int VIDEO_TYPE = 4;
 	public static final int MAP_TYPE = 5;
+        private static final int PICK_IMAGE_TYPE = 6;
 
 	public static final String MODE = "mode";
 	public static final String OPEN_FOR_EDIT_EXTRA = "OPEN_FOR_EDIT";
@@ -224,6 +226,16 @@ public abstract class DashAbstractActivity extends Activity {
 			}
 		});
 
+		galleryContainer = findViewById(R.id.galleryButton);
+		galleryContainer.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (model.getCurrentMediaUri() == null) {
+					launchGalleryActivity();
+				}
+			}
+		});
+
 		audioContainer = findViewById(R.id.audioButton);
 		audioContainer.setOnClickListener(new OnClickListener() {
 			@Override
@@ -340,6 +352,33 @@ public abstract class DashAbstractActivity extends Activity {
 			}
 			break;
 		}
+		  
+		case PICK_IMAGE_TYPE: {
+		    Uri _uri = data.getData();
+		    if (_uri != null) {
+			model.setImageUri(_uri);
+			
+			// filename
+			Cursor cursor = getContentResolver().query( _uri,
+			      new String[] { android.provider.MediaStore.Images.ImageColumns.DATA },
+			      null, null, null );
+			cursor.moveToFirst();
+			final String imageFilePath = cursor.getString(0);
+			cursor.close();
+			
+			//model.setImageUri(_uri);
+			//File file = new File(imageFilePath);
+			File file = new File(_uri.getPath());
+			model.setThumbnail(MediaActivityManager.getThumbnail(_uri));
+			model.setCurrentMediaType(IMAGE_TYPE);
+			model.setCurrentMediaUri(MediaActivityManager.processPicture(
+						getContentResolver(), id, model.getThumbnail(), imageFilePath));
+			Util.addToGallery(file, "Dash Image", "Picture taken for Dash", "image/jpeg", this);
+		    }
+		    
+		    break;
+		}
+		 
 		case AUDIO_TYPE: {
 			model.setCurrentMediaUri(MediaActivityManager.processAudio(
 					getContentResolver(), data, id));
@@ -442,12 +481,16 @@ public abstract class DashAbstractActivity extends Activity {
 		if (model.getCurrentMediaUri() != null) {
 			// turn off buttons and enable the remove button
 			cameraContainer.setVisibility(View.GONE);
+			galleryContainer.setVisibility(View.GONE);
 			audioContainer.setVisibility(View.GONE);
 			removeButton.setVisibility(getEditVisibility());
 			mediaPreview.setVisibility(View.VISIBLE);
 			if (model.getCurrentMediaType() == IMAGE_TYPE) {
 				mediaPreview.setImageBitmap(model.getThumbnail());
 				removeButton.setText("Remove picture");
+				/*} else if (model.getCurrentMediaType() == PICK_IMAGE_TYPE) {
+				mediaPreview.setImageBitmap(model.getThumbnail());
+				removeButton.setText("Remove picture"); */
 			} else if (model.getCurrentMediaType() == VIDEO_TYPE) {
 				mediaPreview.setImageBitmap(model.getThumbnail());
 				removeButton.setText("Remove video");
@@ -457,6 +500,7 @@ public abstract class DashAbstractActivity extends Activity {
 			}
 		} else {
 			cameraContainer.setVisibility(getEditVisibility());
+			galleryContainer.setVisibility(getEditVisibility());
 			audioContainer.setVisibility(getEditVisibility());
 			removeButton.setVisibility(View.GONE);
 			mediaPreview.setVisibility(View.GONE);
@@ -492,6 +536,19 @@ public abstract class DashAbstractActivity extends Activity {
 			logger.error("::launchCameraActivity:  Activity not found.", e);
 			Util.makeToast(this, "Could not start Camera:  not found");
 		}
+	}
+
+	private void launchGalleryActivity() {
+	    try {
+		WorkflowLogger.log("DashAbstractActivity - starting gallery activity...");
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_TYPE);
+	    } catch (ActivityNotFoundException e) {
+		logger.error("::launchGalleryActivity:  Activity not found.", e);
+		Util.makeToast(this, "Could not start Gallery:  not found");
+	    }
 	}
 
 	private void launchAudioActivity() {

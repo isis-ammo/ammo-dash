@@ -55,6 +55,30 @@
 
             </LinearLayout>
 
+
+	    <!-- Gallery Button -->
+
+            <LinearLayout
+                android:id="@+id/galleryButton"
+                style="@style/VerticalLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_margin="10dip"
+                android:background="@drawable/add_selector"
+                android:focusable="true" >
+
+                <ImageView
+                    style="@style/DashButton"
+                    android:src="@drawable/button_gallery" />
+
+                <TextView
+                    style="@style/CenteredText"
+                    android:layout_width="wrap_content"
+                    android:text="@string/gallery" />
+
+            </LinearLayout>
+
+
+
             <!-- Audio Button -->
 
             <LinearLayout
