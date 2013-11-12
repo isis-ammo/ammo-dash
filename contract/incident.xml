@@ -98,6 +98,7 @@
 
      <message encoding="terse">
         <field ref="uuid" type="TEXT" />
+        <field ref="media count" type="INTEGER" />
         <field ref="latitude" type="INTEGER" />
         <field ref="longitude" type="INTEGER" />
         <field ref="title" type="TEXT" />
