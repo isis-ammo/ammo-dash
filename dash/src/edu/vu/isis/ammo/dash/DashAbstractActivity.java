@@ -13,10 +13,12 @@ package edu.vu.isis.ammo.dash;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.media.ThumbnailUtils;
@@ -31,6 +33,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.database.Cursor;
 
 import edu.vu.isis.ammo.INetPrefKeys;
@@ -114,6 +117,20 @@ public abstract class DashAbstractActivity extends Activity {
 
 	public AmmoRequest.Builder ab;
 
+    public static final String SATCOM_MEDIA_PROGRESS = "edu.vu.ammo.core.SATCOM_IMAGE_PROGRESS";
+
+    public class SatcomProgressReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive( Context context, Intent intent ) {
+            String text = intent.getStringExtra( Intent.EXTRA_TEXT );
+            Toast toast = Toast.makeText( context, text, Toast.LENGTH_SHORT );
+            toast.show();
+        }
+    }
+
+    private IntentFilter satcomFilter = new IntentFilter( SATCOM_MEDIA_PROGRESS );
+    private SatcomProgressReceiver satcomReceiver = new SatcomProgressReceiver();
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -174,6 +191,13 @@ public abstract class DashAbstractActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 		updateButtons();
+        registerReceiver( satcomReceiver, satcomFilter );
+	}
+
+	@Override
+	public void onPause() {
+        unregisterReceiver( satcomReceiver );
+		super.onPause();
 	}
 
 	@Override
